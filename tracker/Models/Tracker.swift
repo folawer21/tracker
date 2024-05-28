@@ -17,6 +17,5 @@ struct Tracker{
     let type: TrackerType
     let name: String
     let emoji: String
-    let timetable: String
-    
+    let timetable: Date
 }

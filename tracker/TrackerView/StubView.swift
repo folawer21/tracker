@@ -9,8 +9,9 @@ import UIKit
 
 final class StubView: UIView{
 
-    override init(frame: CGRect) {
+    init(frame: CGRect,title: String) {
         super.init(frame: frame)
+        textLabel.text = title
         addViews()
         activateConstraints()
     }
@@ -29,7 +30,6 @@ final class StubView: UIView{
 
     let textLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.text = "Что будем отслеживать?"
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.textAlignment = .center
