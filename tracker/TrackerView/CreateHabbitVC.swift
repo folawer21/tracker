@@ -6,13 +6,13 @@
 //
 
 import UIKit
-
+protocol CreateHabbitDelegateProtocol: AnyObject{
+    func getTimeTable() -> [String]
+}
 final class CreateHabbitVC: UIViewController{
-    let nameField: UITextField = UITextField()
     let cancelButton = UIButton()
     let createButton = UIButton()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -31,15 +31,16 @@ final class CreateHabbitVC: UIViewController{
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = UIColor(named: "RedForBottoms")?.cgColor
         cancelButton.setTitleColor(UIColor(named: "RedForBottoms"), for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         
         createButton.backgroundColor = .ypGray
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(.white, for: .normal)
         createButton.setTitle("Создать", for: .normal)
-        
-   
-        
+        createButton.isEnabled = false
+        createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor,constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -66,13 +67,37 @@ final class CreateHabbitVC: UIViewController{
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
     }
     
+    @objc private func createButtonTapped(){
+        guard let days = getTimetable() else {return}
+        guard let name = getName() else {return}
+        print(name,days)
+    }
+    
+    @objc private func cancelButtonTapped(){
+        dismiss(animated: true)
+    }
+    
+    private func getTimetable() -> [String]?{
+//        delegate?.getTimeTable()
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {return nil}
+        let days = cell.daysArr
+        return days
+    }
+    
+    private func getName() -> String?{
+        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell else {return nil}
+        guard let name = cell.getName() else {return nil}
+        return name
+    }
+    
 }
 
 extension CreateHabbitVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section{
         case 0:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath)
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
+            cell.textFieldDelegate = self
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as? ButtonCells else {return UICollectionViewCell()}
@@ -122,6 +147,17 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
 extension CreateHabbitVC:ButtonCellDelegateProtocol{
     func showTimeTable(vc: TimeTableVC){
         navigationController?.pushViewController(vc, animated: true)
+    }
+}
+extension CreateHabbitVC: TrackNameCellDelegateProtocol{
+    func updateCreateButtonState(isEnabled: Bool){
+        createButton.isEnabled = isEnabled
+        createButton.backgroundColor = isEnabled ? .black : .ypGray
+    }
+
+    
+    func textFieldDidChange(text: String) {
+        updateCreateButtonState(isEnabled: !text.isEmpty)
     }
 }
 

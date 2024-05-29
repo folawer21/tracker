@@ -20,8 +20,4 @@ final class TimetableCell: UITableViewCell{
     required init?(coder: NSCoder) {
         fatalError("init(coder) has not implemented")
     }
-    
-//    @objc private func switcherTapped(){
-//        
-//    }
 }

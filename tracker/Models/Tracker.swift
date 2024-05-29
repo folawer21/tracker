@@ -17,5 +17,18 @@ struct Tracker{
     let type: TrackerType
     let name: String
     let emoji: String
-    let timetable: Date
+    let color: UIColor
+    let createdAt: Date
+    let timetable: [WeekDay]
 }
+
+enum WeekDay: String{
+    case monday = "Пн"
+    case tuesday = "Вт"
+    case wednesday = "Ср"
+    case thursday = "Чт"
+    case friday = "Пт"
+    case saturday = "Сб"
+    case sunday = "Вс"
+}
+

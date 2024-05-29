@@ -40,6 +40,7 @@ protocol ButtonCellDelegateProtocol: AnyObject{
 
 final class ButtonCells: UICollectionViewCell {
     let tableView = UITableView()
+    var daysArr: [String] = []
     weak var delegate: ButtonCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -60,10 +61,11 @@ final class ButtonCells: UICollectionViewCell {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-        required init?(coder: NSCoder) {
-            super.init(coder: coder)
-            assertionFailure("Blin")
-        }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        assertionFailure("Blin")
+    }
+    
 }
 extension ButtonCells: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,8 +115,11 @@ extension ButtonCells:UITableViewDelegate {
 extension ButtonCells:TimeTableVcDelegateProtocol{
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
-        print(joinedDays)
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
         cell?.detailTextLabel?.text = joinedDays
+        daysArr = days
+    }
+    func getDaysArr() -> [String]{
+        return daysArr
     }
 }

@@ -25,6 +25,8 @@
 		3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA962C06A13A00317403 /* ButtonCells.swift */; };
 		3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */; };
 		3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */; };
+		3EA0AA9D2C07704800317403 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA9C2C07704800317403 /* Extension.swift */; };
+		3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA9E2C07846600317403 /* TrackCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		3EA0AA962C06A13A00317403 /* ButtonCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCells.swift; sourceTree = "<group>"; };
 		3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableVC.swift; sourceTree = "<group>"; };
 		3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableCell.swift; sourceTree = "<group>"; };
+		3EA0AA9C2C07704800317403 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		3EA0AA9E2C07846600317403 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,7 @@
 				3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */,
 				3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */,
 				3E97BF462BCE7FF600CF3A7F /* Info.plist */,
+				3EA0AA9C2C07704800317403 /* Extension.swift */,
 			);
 			path = tracker;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 				3EA0AA942C06978000317403 /* TrackNameCell.swift */,
 				3EA0AA962C06A13A00317403 /* ButtonCells.swift */,
 				3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */,
+				3EA0AA9E2C07846600317403 /* TrackCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -223,6 +229,8 @@
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
+				3EA0AA9D2C07704800317403 /* Extension.swift in Sources */,
+				3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */,
 				3EA0AA902C06932900317403 /* CreateHabbitVC.swift in Sources */,
 				3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */,
 				3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */,

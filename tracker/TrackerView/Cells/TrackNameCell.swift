@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol TrackNameCellDelegateProtocol: AnyObject{
+    func textFieldDidChange(text: String)
+}
+
 final class TrackNameCell: UICollectionViewCell{
     let textField = UITextField()
-    
+    weak var textFieldDelegate: TrackNameCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
         textField.placeholder = "Введите название трекера"
@@ -17,6 +21,8 @@ final class TrackNameCell: UICollectionViewCell{
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 16
         textField.backgroundColor = UIColor(named: "TextFieldColor")
+        textField.indent(size: 10)
+        textField.delegate = self
         contentView.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -29,4 +35,21 @@ final class TrackNameCell: UICollectionViewCell{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func getName() -> String?{
+        return textField.text
+    }
 }
+
+extension TrackNameCell: UITextFieldDelegate{
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if textField.text?.isEmpty == false{
+//        }
+//    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+         let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+         textFieldDelegate?.textFieldDidChange(text: newText)
+         return true
+     }
+}
+

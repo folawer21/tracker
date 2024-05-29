@@ -10,6 +10,7 @@ import UIKit
 
 protocol TimeTableVcDelegateProtocol: AnyObject{
     func setDays(days: [String])
+    func getDaysArr() -> [String]
 }
 
 final class TimeTableVC: UIViewController{
@@ -114,3 +115,5 @@ extension TimeTableVC: UITableViewDelegate{
         return tableView.bounds.height / 7
     }
 }
+
+
