@@ -23,6 +23,8 @@
 		3EA0AA922C06933600317403 /* CreateEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA912C06933600317403 /* CreateEventVC.swift */; };
 		3EA0AA952C06978000317403 /* TrackNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA942C06978000317403 /* TrackNameCell.swift */; };
 		3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA962C06A13A00317403 /* ButtonCells.swift */; };
+		3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */; };
+		3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		3EA0AA912C06933600317403 /* CreateEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventVC.swift; sourceTree = "<group>"; };
 		3EA0AA942C06978000317403 /* TrackNameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackNameCell.swift; sourceTree = "<group>"; };
 		3EA0AA962C06A13A00317403 /* ButtonCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCells.swift; sourceTree = "<group>"; };
+		3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableVC.swift; sourceTree = "<group>"; };
+		3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimetableCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 				3EA0AA8D2C0687C400317403 /* TrackerCreatingVC.swift */,
 				3EA0AA8F2C06932900317403 /* CreateHabbitVC.swift */,
 				3EA0AA912C06933600317403 /* CreateEventVC.swift */,
+				3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */,
 			);
 			path = TrackerView;
 			sourceTree = "<group>";
@@ -133,6 +138,7 @@
 			children = (
 				3EA0AA942C06978000317403 /* TrackNameCell.swift */,
 				3EA0AA962C06A13A00317403 /* ButtonCells.swift */,
+				3EA0AA9A2C06C1B500317403 /* TimetableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -212,7 +218,9 @@
 				3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */,
 				3E97BFA32BD0241600CF3A7F /* TrackerCategory.swift in Sources */,
 				3E97BF562BCE975700CF3A7F /* TrackerViewController.swift in Sources */,
+				3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */,
 				3E97BF512BCE8F6200CF3A7F /* MainTabBar.swift in Sources */,
+				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
 				3EA0AA902C06932900317403 /* CreateHabbitVC.swift in Sources */,

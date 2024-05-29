@@ -50,6 +50,7 @@ final class TrackerViewController: UIViewController{
         datePicker.preferredDatePickerStyle = .compact
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
+        navigationItem.searchController = UISearchController(searchResultsController: nil)
     }
     
 }
