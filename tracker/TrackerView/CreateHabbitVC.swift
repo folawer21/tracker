@@ -78,7 +78,7 @@ final class CreateHabbitVC: UIViewController{
         let type = TrackerType.habbit
         
         let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
-        let categoryName = "Тестовые"
+        let categoryName = "Какашки"
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
         

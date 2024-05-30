@@ -65,7 +65,9 @@ final class TrackerCreatingVC: UIViewController{
     }
     
     @objc private func showEventView(){
-        
+        let vc = CreateEventVC()
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func viewDidLoad() {
@@ -83,9 +85,8 @@ final class TrackerCreatingVC: UIViewController{
 }
 
 
-extension TrackerCreatingVC: CreateHabbitDelegateProtocol{
+extension TrackerCreatingVC: CreateHabbitDelegateProtocol & CreateEventDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
-        print("124312412412441241241")
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
     }
     
