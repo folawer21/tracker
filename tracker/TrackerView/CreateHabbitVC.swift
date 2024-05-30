@@ -7,11 +7,12 @@
 
 import UIKit
 protocol CreateHabbitDelegateProtocol: AnyObject{
-    func getTimeTable() -> [String]
+    func addNewTracker(tracker: Tracker,categoryName : String)
 }
 final class CreateHabbitVC: UIViewController{
     let cancelButton = UIButton()
     let createButton = UIButton()
+    weak var delegate: CreateHabbitDelegateProtocol?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,20 +69,39 @@ final class CreateHabbitVC: UIViewController{
     }
     
     @objc private func createButtonTapped(){
-        guard let days = getTimetable() else {return}
+        guard let timetable = getTimetable() else {return}
         guard let name = getName() else {return}
-        print(name,days)
+        let createdAt = Date()
+        let id = UUID()
+        let emoji = "💩"
+        let color = UIColor.green
+        let type = TrackerType.habbit
+        
+        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let categoryName = "Тестовые"
+        delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
+        dismiss(animated: true)
+        
     }
     
     @objc private func cancelButtonTapped(){
         dismiss(animated: true)
     }
+    private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
+        var result: [WeekDay] = []
+        guard let arr = arr else {return nil}
+        for i in 0..<arr.count{
+            guard let day = WeekDay(rawValue: arr[i]) else { break}
+            result.append(day)
+        }
+        return result
+    }
     
-    private func getTimetable() -> [String]?{
-//        delegate?.getTimeTable()
+    private func getTimetable() -> [WeekDay]?{
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {return nil}
         let days = cell.daysArr
-        return days
+        let enumDays = getEnumTimetable(arr: days)
+        return enumDays
     }
     
     private func getName() -> String?{

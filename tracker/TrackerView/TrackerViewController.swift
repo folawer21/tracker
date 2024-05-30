@@ -10,7 +10,7 @@ import UIKit
 final class TrackerViewController: UIViewController{
     
     
-    var categories: [TrackerCategory] = [TrackerCategory(title: "Тестовые", trackerList: [Tracker(id: UUID(), type: .habbit, name: "Пописать", emoji: "\u{1F496}", color: .black, createdAt: Date(timeIntervalSince1970: TimeInterval(124124)), timetable: [.monday,.friday]),Tracker(id: UUID(), type: .habbit, name: "Покакать", emoji: "💩", color: .brown, createdAt: Date(timeIntervalSince1970: TimeInterval(129124)), timetable: [.friday]),Tracker(id: UUID(), type: .habbit, name: "Покурить", emoji: "🚬", color: .yellow, createdAt: Date(timeIntervalSince1970: TimeInterval(120124)), timetable: [.saturday,.sunday])])]
+    var categories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
     let imageView = UIImageView()
@@ -75,6 +75,7 @@ final class TrackerViewController: UIViewController{
     @objc func addButtonTapped(){
         let vc = TrackerCreatingVC()
         let navVc = UINavigationController(rootViewController: vc)
+        vc.delegate = self
         navigationController?.present(navVc, animated: true)
     }
     
@@ -130,14 +131,44 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-        headerView.frame.origin.x = 12
-        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
-                                                         height: 18),
-                                                         withHorizontalFittingPriority: .required,
-                                                         verticalFittingPriority: .fittingSizeLevel)
-    }
+           return CGSize(width: collectionView.frame.width, height: 44) // Замените на ваш желаемый размер
+       }
 }
 
+
+extension TrackerViewController: TrackerCreatingDelegateProtocol{
+    func addNewTracker(tracker: Tracker, categoryName: String) {
+        if categories.contains(where: {$0.title == categoryName}){
+            guard var categoryIndex = categories.firstIndex(where: {$0.title == categoryName}) else {
+                print("[addNewTracker]: TrackerViewController - не удалось получить структуру")
+                return}
+            let category = categories[categoryIndex]
+            var temp = category.trackerList
+            temp.append(tracker)
+            let newCategory = TrackerCategory(title: categoryName, trackerList: temp)
+            categories.remove(at: categoryIndex)
+            categories.insert(newCategory, at: categoryIndex)
+            
+//            category = newCategory
+//            guard let index = categories.firstIndex(of: category) else { 
+//                print("[addNewTracker]: TrackerViewController - не удалось получить индекс")
+//                return }
+//            collectionView.performBatchUpdates{
+//                collectionView.insertItems(at: [IndexPath(row: newCategory.trackerList.count - 1, section: index)])
+//                }
+            collectionView.reloadData()
+        }else{
+            if categories.isEmpty{
+                removeStub()
+                buildWithTracks()
+            }
+            let category = TrackerCategory(title: categoryName, trackerList: [tracker])
+            categories.append(category)
+//            let index = IndexPath(row: 0, section: categories.count - 1)
+//            collectionView.performBatchUpdates{
+//                collectionView.insertItems(at: [index])
+//                }
+            collectionView.reloadData()
+        }
+    }
+}

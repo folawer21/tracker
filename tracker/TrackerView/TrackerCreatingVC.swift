@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol TrackerCreatingDelegateProtocol: AnyObject{
+    func addNewTracker(tracker: Tracker, categoryName: String)
+}
+
 final class TrackerCreatingVC: UIViewController{
     let habbitButton: UIButton = UIButton()
     let eventButton: UIButton = UIButton()
+    weak var delegate: TrackerCreatingDelegateProtocol?
     
     private func configHabbitButton(){
         habbitButton.backgroundColor = .black
@@ -55,6 +60,7 @@ final class TrackerCreatingVC: UIViewController{
     //MARK: Objc func
     @objc private func showHabbitView(){
         let vc = CreateHabbitVC()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -77,3 +83,10 @@ final class TrackerCreatingVC: UIViewController{
 }
 
 
+extension TrackerCreatingVC: CreateHabbitDelegateProtocol{
+    func addNewTracker(tracker: Tracker, categoryName: String) {
+        print("124312412412441241241")
+        delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
+    }
+    
+}
