@@ -9,15 +9,12 @@ import UIKit
 
 final class TrackCell: UICollectionViewCell{
     //Цветной блок
-//    let colorBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 90))
     let colorBlock = UIView()
     let emodji = UILabel()
     let emodjiBlock = UIView()
     let nameLabel = UILabel()
 
-    
     //Белый блок
-//    let infoBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 58))
     let infoBlock = UIView()
     var daysCount: Int = 0
     let daysLabel = UILabel()
@@ -38,11 +35,10 @@ final class TrackCell: UICollectionViewCell{
         applyConstraints()
         configButton()
         translateToFalse()
+        
         emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
         emodjiBlock.layer.cornerRadius = 12
         emodjiBlock.layer.masksToBounds = true
-        emodjiBlock.layer.cornerRadius = 68
-       
         
         colorBlock.layer.cornerRadius = 16
         infoBlock.backgroundColor = .white
@@ -52,10 +48,9 @@ final class TrackCell: UICollectionViewCell{
         daysLabel.font = .systemFont(ofSize: 12)
         
         nameLabel.textColor = .white
-        
+    
         emodji.font =  UIFont.systemFont(ofSize: 14)
         emodji.textAlignment = .center
-        
     }
     
     func translateToFalse(){
@@ -121,8 +116,6 @@ final class TrackCell: UICollectionViewCell{
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
-    
-    
     private func changeText(){
         let flag = daysCount % 10
         switch flag{
@@ -157,7 +150,3 @@ final class TrackCell: UICollectionViewCell{
         }
     }
 }
-
-
-//TODO: Исправить смайлика view
-
