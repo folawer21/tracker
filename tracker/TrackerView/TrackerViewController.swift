@@ -11,8 +11,10 @@ final class TrackerViewController: UIViewController{
     
     
     var categories: [TrackerCategory] = []
+    var filteredCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
+    let datePicker = UIDatePicker()
     let imageView = UIImageView()
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
@@ -88,7 +90,8 @@ final class TrackerViewController: UIViewController{
         addButton.tintColor = .black
         navigationItem.leftBarButtonItem = addButton
         
-        let datePicker = UIDatePicker()
+        
+        datePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
@@ -96,27 +99,103 @@ final class TrackerViewController: UIViewController{
         navigationItem.searchController = UISearchController(searchResultsController: nil)
     }
     
-  
+    @objc func datePickerChanged(){
+        updateFilteredCategories()
+    }
+    private func updateFilteredCategories(){
+        currentDate = datePicker.date
+        let isLater = currentDate > Date() ? true : false
+        enablePlusButtonChecking(flag: isLater)
+        let day = getDayOfWeek(from: currentDate)
+        let enumDay = dayenumFromDay(day: day)
+        filterTrackersByDays(day: enumDay)
+        collectionView.reloadData()
+    }
+    private func filterTrackersByDays(day: WeekDay){
+        filteredCategories.removeAll()
+        for i in 0..<categories.count{
+            let category = categories[i]
+            for j in 0..<category.trackerList.count{
+                let tracker = categories[i].trackerList[j]
+                if tracker.timetable.contains(where: {$0 == day}) {
+                    if filteredCategories.contains(where: {$0 == category}){
+                        guard let categoryIndex = filteredCategories.firstIndex(where: {$0 == category}) else {
+                            print("[filterTrackersByDays]: TrackerViewController - не удалось получить структуру")
+                            return}
+                        let category = filteredCategories[categoryIndex]
+                        var temp = category.trackerList
+                        temp.append(tracker)
+                        let newCategory = TrackerCategory(title: category.title, trackerList: temp)
+                        filteredCategories.remove(at: categoryIndex)
+                        filteredCategories.insert(newCategory, at: categoryIndex)
+                    }else{
+                        let newFilteredCategory = TrackerCategory(title: category.title, trackerList: [tracker])
+                        filteredCategories.append(newFilteredCategory)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func getDayOfWeek(from date: Date) -> String {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE"
+            let dayInWeek = dateFormatter.string(from: date)
+            return dayInWeek
+        }
+    private func dayenumFromDay(day: String) -> WeekDay{
+        switch day{
+            case "Monday":
+                return WeekDay.monday
+            case "Tuesday":
+                return WeekDay.tuesday
+            case "Wednesday":
+                return WeekDay.wednesday
+            case "Thursday":
+                return WeekDay.thursday
+            case "Friday":
+                return WeekDay.friday
+            case "Saturday":
+                return WeekDay.saturday
+            default:
+                return WeekDay.sunday
+        }
+    }
+    private func enablePlusButtonChecking(flag: Bool){
+        for i in 0..<filteredCategories.count{
+            for j in 0..<filteredCategories[i].trackerList.count{
+                let indexPath = IndexPath(row: j, section: i)
+                guard let cell = collectionView.cellForItem(at: indexPath) as? TrackCell else {
+                    print("[blockPlusButton] TrackerViewController не удалось получить ячейку")
+                    break}
+                if flag{
+                    cell.disableButton()
+                }else{
+                    cell.enableButton()
+                }
+            }
+        }
+    }
 }
 
 extension TrackerViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Track", for: indexPath) as? TrackCell else {return UICollectionViewCell()}
-        let tracker = categories[indexPath.section].trackerList[indexPath.row]
+        let tracker = filteredCategories[indexPath.section].trackerList[indexPath.row]
         cell.configCell(track: tracker)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories[section].trackerList.count
+        return filteredCategories[section].trackerList.count
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        categories.count
+        filteredCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
-        view.titleLabel.text = categories[indexPath.section].title
+        view.titleLabel.text = filteredCategories[indexPath.section].title
         return view
     }
 }
@@ -135,11 +214,10 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout{
        }
 }
 
-
 extension TrackerViewController: TrackerCreatingDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
         if categories.contains(where: {$0.title == categoryName}){
-            guard var categoryIndex = categories.firstIndex(where: {$0.title == categoryName}) else {
+            guard let categoryIndex = categories.firstIndex(where: {$0.title == categoryName}) else {
                 print("[addNewTracker]: TrackerViewController - не удалось получить структуру")
                 return}
             let category = categories[categoryIndex]
@@ -148,15 +226,7 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
             let newCategory = TrackerCategory(title: categoryName, trackerList: temp)
             categories.remove(at: categoryIndex)
             categories.insert(newCategory, at: categoryIndex)
-            
-//            category = newCategory
-//            guard let index = categories.firstIndex(of: category) else { 
-//                print("[addNewTracker]: TrackerViewController - не удалось получить индекс")
-//                return }
-//            collectionView.performBatchUpdates{
-//                collectionView.insertItems(at: [IndexPath(row: newCategory.trackerList.count - 1, section: index)])
-//                }
-            collectionView.reloadData()
+            updateFilteredCategories()
         }else{
             if categories.isEmpty{
                 removeStub()
@@ -164,11 +234,9 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
             }
             let category = TrackerCategory(title: categoryName, trackerList: [tracker])
             categories.append(category)
-//            let index = IndexPath(row: 0, section: categories.count - 1)
-//            collectionView.performBatchUpdates{
-//                collectionView.insertItems(at: [index])
-//                }
-            collectionView.reloadData()
+            updateFilteredCategories()
         }
     }
 }
+
+
