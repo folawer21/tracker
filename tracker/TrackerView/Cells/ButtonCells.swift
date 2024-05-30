@@ -17,7 +17,6 @@ final class ButtonCells: UICollectionViewCell {
     weak var delegate: ButtonCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
-//        self.backgroundColor = UIColor(named: "TextFieldColor")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "TextFieldColor")
         tableView.separatorStyle = .singleLine
@@ -57,8 +56,8 @@ extension ButtonCells: UITableViewDataSource{
             cell.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
             return cell
         }
-        
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         2
     }
@@ -74,8 +73,6 @@ extension ButtonCells:UITableViewDelegate {
             delegate?.showTimeTable(vc: vc)
         }
     }
-    
-
 }
 
 extension ButtonCells:TimeTableVcDelegateProtocol{

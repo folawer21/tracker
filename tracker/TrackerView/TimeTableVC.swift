@@ -115,5 +115,3 @@ extension TimeTableVC: UITableViewDelegate{
         return tableView.bounds.height / 7
     }
 }
-
-
