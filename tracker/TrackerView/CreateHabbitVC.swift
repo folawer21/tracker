@@ -64,6 +64,7 @@ final class CreateHabbitVC: UIViewController{
         
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
+        collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")
     }
     
     @objc private func createButtonTapped(){
@@ -122,13 +123,16 @@ extension CreateHabbitVC: UICollectionViewDataSource{
 //            cell.backgroundColor = UIColor(named: "TextFieldColor")
             cell.delegate = self
             return cell
+        case 2:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            return cell
         default:
             return UICollectionViewCell()
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -140,9 +144,10 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 1{
             return CGSize(width: collectionView.bounds.width, height: 150)
+        }else if indexPath.section == 2{
+            return CGSize(width: collectionView.bounds.width, height: 204)
         }else{
             return CGSize(width: collectionView.bounds.width, height: 75)
-
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

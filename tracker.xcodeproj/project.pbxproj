@@ -29,6 +29,7 @@
 		3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AA9E2C07846600317403 /* TrackCell.swift */; };
 		3EA0AAA12C07F48100317403 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA02C07F48100317403 /* SupplementaryView.swift */; };
 		3EA0AAA32C08E82900317403 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA22C08E82900317403 /* EventCell.swift */; };
+		3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA42C0934F200317403 /* EmojiCells.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		3EA0AA9E2C07846600317403 /* TrackCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackCell.swift; sourceTree = "<group>"; };
 		3EA0AAA02C07F48100317403 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		3EA0AAA22C08E82900317403 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		3EA0AAA42C0934F200317403 /* EmojiCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCells.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 				3EA0AA9E2C07846600317403 /* TrackCell.swift */,
 				3EA0AAA02C07F48100317403 /* SupplementaryView.swift */,
 				3EA0AAA22C08E82900317403 /* EventCell.swift */,
+				3EA0AAA42C0934F200317403 /* EmojiCells.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
+				3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */,
 				3EA0AA9D2C07704800317403 /* Extension.swift in Sources */,
 				3EA0AAA32C08E82900317403 /* EventCell.swift in Sources */,
 				3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */,
