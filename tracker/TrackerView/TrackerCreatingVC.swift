@@ -56,7 +56,6 @@ final class TrackerCreatingVC: UIViewController{
         ])
     }
     
-    
     //MARK: Objc func
     @objc private func showHabbitView(){
         let vc = CreateHabbitVC()
@@ -83,8 +82,6 @@ final class TrackerCreatingVC: UIViewController{
     }
     
 }
-
-
 extension TrackerCreatingVC: CreateHabbitDelegateProtocol & CreateEventDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)

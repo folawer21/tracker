@@ -103,7 +103,6 @@ extension CreateEventVC: UICollectionViewDataSource{
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as? EventCell else {return UICollectionViewCell()}
-//            cell.delegate = self
             return cell
         default:
             return UICollectionViewCell()

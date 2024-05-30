@@ -8,8 +8,6 @@
 import UIKit
 
 final class TrackerViewController: UIViewController{
-    
-    
     var categories: [TrackerCategory] = []
     var filteredCategories: [TrackerCategory] = []
     var completedTrackers: [TrackerRecord] = []

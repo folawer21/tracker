@@ -60,8 +60,6 @@ final class CreateHabbitVC: UIViewController{
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
             createButton.heightAnchor.constraint(equalToConstant: 60),
             createButton.widthAnchor.constraint(equalToConstant: 161)
-            
-        
         ])
         
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
@@ -129,9 +127,6 @@ extension CreateHabbitVC: UICollectionViewDataSource{
         }
     }
     
-    
-
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
@@ -174,8 +169,6 @@ extension CreateHabbitVC: TrackNameCellDelegateProtocol{
         createButton.isEnabled = isEnabled
         createButton.backgroundColor = isEnabled ? .black : .ypGray
     }
-
-    
     func textFieldDidChange(text: String) {
         updateCreateButtonState(isEnabled: !text.isEmpty)
     }

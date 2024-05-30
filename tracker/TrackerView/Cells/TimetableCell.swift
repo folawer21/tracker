@@ -13,7 +13,6 @@ final class TimetableCell: UITableViewCell{
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         switcher.isOn = false
         switcher.onTintColor = .ypBlue
-//        switcher.addTarget(self, action: #selector(switcherTapped), for: .touchUpInside)
         accessoryView = switcher
         self.textLabel?.font = .systemFont(ofSize: 17)
     }

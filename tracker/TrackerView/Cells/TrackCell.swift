@@ -1,9 +1,9 @@
-////
-////  TrackCell.swift
-////  tracker
-////
-////  Created by Александр  Сухинин on 29.05.2024.
-////
+//
+//  TrackCell.swift
+//  tracker
+//
+//  Created by Александр  Сухинин on 29.05.2024.
+//
 //
 import UIKit
 

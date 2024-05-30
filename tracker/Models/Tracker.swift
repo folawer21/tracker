@@ -4,7 +4,6 @@
 //
 //  Created by Александр  Сухинин on 17.04.2024.
 //
-
 import UIKit
 
 enum TrackerType{
@@ -31,4 +30,3 @@ enum WeekDay: String{
     case saturday = "Сб"
     case sunday = "Вс"
 }
-
