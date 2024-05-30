@@ -1,22 +1,24 @@
+////
+////  TrackCell.swift
+////  tracker
+////
+////  Created by Александр  Сухинин on 29.05.2024.
+////
 //
-//  TrackCell.swift
-//  tracker
-//
-//  Created by Александр  Сухинин on 29.05.2024.
-//
-
 import UIKit
 
 final class TrackCell: UICollectionViewCell{
     //Цветной блок
-    let colorBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 90))
+//    let colorBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 90))
+    let colorBlock = UIView()
     let emodji = UILabel()
     let emodjiBlock = UIView()
     let nameLabel = UILabel()
 
     
     //Белый блок
-    let infoBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 58))
+//    let infoBlock = UIView(frame: CGRect(x: 0, y: 0, width: 167, height: 58))
+    let infoBlock = UIView()
     var daysCount: Int = 0
     let daysLabel = UILabel()
     let plusButton = UIButton()
@@ -27,7 +29,7 @@ final class TrackCell: UICollectionViewCell{
         nameLabel.text = track.name
         daysLabel.text = "0 дней"
         colorBlock.backgroundColor = track.color
-        plusButton.backgroundColor = track.color
+        plusButton.tintColor = track.color
         configScreen()
        
     }
@@ -35,17 +37,37 @@ final class TrackCell: UICollectionViewCell{
         addSubViews()
         applyConstraints()
         configButton()
-        emodjiBlock.backgroundColor = .white
-        emodjiBlock.layer.opacity = 30
+        translateToFalse()
+        emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
+        emodjiBlock.layer.cornerRadius = 12
+        emodjiBlock.layer.masksToBounds = true
         emodjiBlock.layer.cornerRadius = 68
+       
         
         colorBlock.layer.cornerRadius = 16
         infoBlock.backgroundColor = .white
         
         daysLabel.numberOfLines = 2
-        daysLabel.textColor = .white
+        daysLabel.textColor = .black
         daysLabel.font = .systemFont(ofSize: 12)
+        
+        nameLabel.textColor = .white
+        
+        emodji.font =  UIFont.systemFont(ofSize: 14)
+        emodji.textAlignment = .center
+        
     }
+    
+    func translateToFalse(){
+        colorBlock.translatesAutoresizingMaskIntoConstraints = false
+        emodji.translatesAutoresizingMaskIntoConstraints = false
+        emodjiBlock.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        infoBlock.translatesAutoresizingMaskIntoConstraints = false
+        daysLabel.translatesAutoresizingMaskIntoConstraints = false
+        plusButton.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
     func addSubViews(){
         contentView.addSubview(colorBlock)
         contentView.addSubview(infoBlock)
@@ -71,7 +93,6 @@ final class TrackCell: UICollectionViewCell{
             emodjiBlock.topAnchor.constraint(equalTo: colorBlock.topAnchor, constant: 12),
             emodjiBlock.heightAnchor.constraint(equalToConstant: 24),
             emodjiBlock.widthAnchor.constraint(equalToConstant: 24),
-            emodjiBlock.bottomAnchor.constraint(equalTo: nameLabel.topAnchor,constant: -8),
             
             emodji.centerXAnchor.constraint(equalTo: emodjiBlock.centerXAnchor),
             emodji.centerYAnchor.constraint(equalTo: emodjiBlock.centerYAnchor),
@@ -84,12 +105,14 @@ final class TrackCell: UICollectionViewCell{
             daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 12),
             daysLabel.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -24),
             daysLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -8),
-            daysLabel.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 16)
+            daysLabel.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 16),
             
-            
-            
-        
-        
+            plusButton.leadingAnchor.constraint(equalTo: daysLabel.trailingAnchor, constant: 8),
+            plusButton.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 8),
+            plusButton.trailingAnchor.constraint(equalTo: infoBlock.trailingAnchor,constant: -12),
+            plusButton.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -16),
+            plusButton.widthAnchor.constraint(equalToConstant: 34),
+            plusButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
     
@@ -123,12 +146,18 @@ final class TrackCell: UICollectionViewCell{
             daysCount -= 1
             changeText()
             plusButton.setImage(UIImage(named: "plus"), for: .normal)
-            plusButton.layer.opacity = 100
+            buttonWasTapped = false
+            plusButton.layer.opacity = 1
         }else{
             daysCount += 1
             changeText()
             plusButton.setImage(UIImage(named: "Done"), for: .normal)
-            plusButton.layer.opacity = 30
+            plusButton.layer.opacity = 0.3
+            buttonWasTapped = true
         }
     }
 }
+
+
+//TODO: Исправить смайлика view
+

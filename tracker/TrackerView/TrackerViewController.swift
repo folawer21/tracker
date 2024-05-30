@@ -10,11 +10,11 @@ import UIKit
 final class TrackerViewController: UIViewController{
     
     
-    var categories: [TrackerCategory] = []
+    var categories: [TrackerCategory] = [TrackerCategory(title: "Тестовые", trackerList: [Tracker(id: UUID(), type: .habbit, name: "Пописать", emoji: "\u{1F496}", color: .black, createdAt: Date(timeIntervalSince1970: TimeInterval(124124)), timetable: [.monday,.friday]),Tracker(id: UUID(), type: .habbit, name: "Покакать", emoji: "💩", color: .brown, createdAt: Date(timeIntervalSince1970: TimeInterval(129124)), timetable: [.friday]),Tracker(id: UUID(), type: .habbit, name: "Покурить", emoji: "🚬", color: .yellow, createdAt: Date(timeIntervalSince1970: TimeInterval(120124)), timetable: [.saturday,.sunday])])]
     var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
     let imageView = UIImageView()
-    let collectionView = UICollectionView()
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
     
     private func buildWithStub(){
@@ -30,13 +30,16 @@ final class TrackerViewController: UIViewController{
         view.addSubview(collectionView)
         collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         NSLayoutConstraint.activate([
-            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            collectionView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
         collectionView.backgroundColor = .white
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(TrackCell.self, forCellWithReuseIdentifier: "Track")
+        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     private func removeStub(){
@@ -50,6 +53,7 @@ final class TrackerViewController: UIViewController{
     override func viewDidLoad() {
         buildNavBar()
         view.backgroundColor = .white
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +95,7 @@ final class TrackerViewController: UIViewController{
         navigationItem.searchController = UISearchController(searchResultsController: nil)
     }
     
+  
 }
 
 extension TrackerViewController: UICollectionViewDataSource{
@@ -98,6 +103,7 @@ extension TrackerViewController: UICollectionViewDataSource{
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Track", for: indexPath) as? TrackCell else {return UICollectionViewCell()}
         let tracker = categories[indexPath.section].trackerList[indexPath.row]
         cell.configCell(track: tracker)
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -106,4 +112,32 @@ extension TrackerViewController: UICollectionViewDataSource{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         categories.count
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+        view.titleLabel.text = categories[indexPath.section].title
+        return view
+    }
 }
+
+extension TrackerViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width / 2 - 3.5, height: 148)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 7
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
+        headerView.frame.origin.x = 12
+        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
+                                                         height: 18),
+                                                         withHorizontalFittingPriority: .required,
+                                                         verticalFittingPriority: .fittingSizeLevel)
+    }
+}
+
