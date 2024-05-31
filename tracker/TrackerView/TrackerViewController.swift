@@ -176,7 +176,6 @@ final class TrackerViewController: UIViewController{
                 if flag{
                     cell.disableButton()
                     cell.buttonDidntTapped()
-                    print("later")
                     return
                 }
                 let tracker = category.trackerList[j]
@@ -185,21 +184,17 @@ final class TrackerViewController: UIViewController{
                 for record in completedTrackers{
                     if record.id == id && record.timetable == currentDate{
                         cell.buttonAlreadyTapped()
-                        print("already")
                         return
                     }
                 }
-                print("justEnabled")
                 cell.enableButton()
                 cell.buttonDidntTapped()
-                print(currentDate)
             }
         }
     }
     
     func formatDate(date: Date) -> Date?{
         var components = calendar.dateComponents([.year,.month,.day], from: date)
-//        components.timeZone = TimeZone(abbreviation: "UTC")
         guard let year = components.year, let month = components.month, let day = components.day else{
             return nil
         }
@@ -207,7 +202,6 @@ final class TrackerViewController: UIViewController{
         newComponents.year = year
         newComponents.month = month
         newComponents.day = day
-//        newComponents.timeZone = TimeZone(abbreviation: "UTC")
         guard let newDate = calendar.date(from: newComponents) else {return nil}
         return newDate
     }
@@ -291,6 +285,5 @@ extension TrackerViewController: TrackCellDelegateProtocol{
         let date = currentDate
         let trackerRecord = TrackerRecord(id: id, timetable: date)
         completedTrackers.append(trackerRecord)
-        print(completedTrackers)
     }
 }

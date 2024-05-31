@@ -167,7 +167,7 @@ extension CreateHabbitVC:ButtonCellDelegateProtocol{
 extension CreateHabbitVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
-            print("[updateCreateButtonState] CreateHabbitVC unable to get cell")
+//            print("[updateCreateButtonState] CreateHabbitVC unable to get cell")
             return
         }
         cell.updateCreateButtonState(isEnabled: isEnabled)
