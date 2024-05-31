@@ -11,6 +11,7 @@ import UIKit
 protocol TimeTableVcDelegateProtocol: AnyObject{
     func setDays(days: [String])
     func getDaysArr() -> [String]
+    func timetableSetted(flag: Bool)
 }
 
 final class TimeTableVC: UIViewController{
@@ -22,6 +23,7 @@ final class TimeTableVC: UIViewController{
     
     @objc func doneButtonTapped(){
         delegate?.setDays(days: selectedDays)
+        delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)
 }
     

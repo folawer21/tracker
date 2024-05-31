@@ -141,7 +141,7 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         if section == 2 || section == 3{
-            return CGSize(width: collectionView.frame.width, height: 18) // Замените на ваш желаемый размер
+            return CGSize(width: collectionView.frame.width, height: 18)
             
         }else{
             return CGSize.zero
@@ -150,6 +150,15 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
 }
 
 extension CreateHabbitVC:ButtonCellDelegateProtocol{
+    func timetableSettedDelegate(flag: Bool) {
+        guard let name = getName() else {print("[timetableSettedDelegate] CreateHabbitVC unable to get name");return}
+        if !(name.isEmpty) && flag{
+            updateCreateButtonState(isEnabled: true)
+        }else{
+            updateCreateButtonState(isEnabled: false)
+        }
+    }
+    
     func showTimeTable(vc: TimeTableVC){
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -157,7 +166,6 @@ extension CreateHabbitVC:ButtonCellDelegateProtocol{
 
 extension CreateHabbitVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
-        //TODO: здесь добавить счетчик если 4 то разрешать нажатие пока ток по тексту
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
             print("[updateCreateButtonState] CreateHabbitVC unable to get cell")
             return
@@ -165,7 +173,11 @@ extension CreateHabbitVC: TrackNameCellDelegateProtocol{
         cell.updateCreateButtonState(isEnabled: isEnabled)
     }
     func textFieldDidChange(text: String) {
-        updateCreateButtonState(isEnabled: !text.isEmpty)
+        if !(text.isEmpty) && getTimetable() != nil{
+            updateCreateButtonState(isEnabled: true)
+        }else{
+            updateCreateButtonState(isEnabled: false)
+        }
     }
 }
 

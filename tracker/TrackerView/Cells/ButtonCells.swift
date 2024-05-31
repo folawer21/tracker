@@ -9,6 +9,7 @@ import UIKit
 
 protocol ButtonCellDelegateProtocol: AnyObject{
     func showTimeTable(vc: TimeTableVC)
+    func timetableSettedDelegate(flag: Bool)
 }
 
 final class ButtonCells: UICollectionViewCell {
@@ -76,6 +77,10 @@ extension ButtonCells:UITableViewDelegate {
 }
 
 extension ButtonCells:TimeTableVcDelegateProtocol{
+    func timetableSetted(flag: Bool) {
+        delegate?.timetableSettedDelegate(flag: flag)
+    }
+    
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))

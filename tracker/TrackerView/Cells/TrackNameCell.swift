@@ -42,7 +42,7 @@ final class TrackNameCell: UICollectionViewCell{
 
 extension TrackNameCell: UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-         let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? string
+         let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
          textFieldDelegate?.textFieldDidChange(text: newText)
          return true
      }
