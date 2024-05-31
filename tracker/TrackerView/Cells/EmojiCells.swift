@@ -9,39 +9,31 @@ import UIKit
 
 final class EmojiCell: UICollectionViewCell{
     let emoji: UILabel = UILabel()
-    let emojiBlock: UIView = UIView()
     func setupView(text: String){
-        contentView.addSubview(emojiBlock)
-        emojiBlock.addSubview(emoji)
-        
-        emojiBlock.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(emoji)
         emoji.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            emojiBlock.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            emojiBlock.topAnchor.constraint(equalTo: contentView.topAnchor),
-            emojiBlock.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            emojiBlock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            emoji.leadingAnchor.constraint(equalTo: emojiBlock.leadingAnchor),
-            emoji.topAnchor.constraint(equalTo: emojiBlock.topAnchor),
-            emoji.bottomAnchor.constraint(equalTo: emojiBlock.bottomAnchor),
-            emoji.trailingAnchor.constraint(equalTo: emojiBlock.trailingAnchor),
-            
+            emoji.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            emoji.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            emoji.heightAnchor.constraint(equalToConstant: 52),
+            emoji.widthAnchor.constraint(equalToConstant: 52)
         ])
         emoji.text = text
-        
-        emojiBlock.backgroundColor = UIColor(named: "EmojiBlock")
-        emojiBlock.layer.cornerRadius = 16
+        emoji.textAlignment = .center
+        emoji.font = .boldSystemFont(ofSize: 32)
+        emoji.backgroundColor = .white
+        emoji.layer.cornerRadius = 16
+        emoji.layer.masksToBounds = true
         hideBlock()
     }
     
     func showBlock(){
-        emojiBlock.isHidden = false
+        emoji.backgroundColor = UIColor(named: "EmojiBlock")
     }
     
     func hideBlock(){
-        emojiBlock.isHidden = true
+        emoji.backgroundColor = .white
     }
 }
 
@@ -60,10 +52,10 @@ final class EmojiCells: UICollectionViewCell{
         collectionView.register(EmojiCell.self, forCellWithReuseIdentifier: "emoji")
         contentView.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: topAnchor,constant: 24),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -24)
         ])
     }
 }
@@ -96,9 +88,12 @@ extension EmojiCells: UICollectionViewDelegateFlowLayout{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        5
+        0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        CGFloat.zero
     }
 }

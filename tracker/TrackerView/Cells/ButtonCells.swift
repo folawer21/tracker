@@ -72,7 +72,7 @@ extension ButtonCells:UITableViewDelegate {
             vc.delegate = self
             delegate?.showTimeTable(vc: vc)
         }
-    }
+    }      
 }
 
 extension ButtonCells:TimeTableVcDelegateProtocol{

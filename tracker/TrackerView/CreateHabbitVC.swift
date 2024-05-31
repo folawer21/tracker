@@ -65,6 +65,7 @@ final class CreateHabbitVC: UIViewController{
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
         collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")
+        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
     @objc private func createButtonTapped(){
@@ -120,11 +121,11 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as? ButtonCells else {return UICollectionViewCell()}
-//            cell.backgroundColor = UIColor(named: "TextFieldColor")
             cell.delegate = self
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            cell.setupView()
             return cell
         default:
             return UICollectionViewCell()
@@ -138,6 +139,8 @@ extension CreateHabbitVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
+    
+
 }
 
 extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
@@ -155,13 +158,31 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-         if section == 1{
-            let sectionInsets = UIEdgeInsets(top: 24, left: 0, bottom: 0, right: 0)
+        if section == 1{
+            let sectionInsets = UIEdgeInsets(top: 24, left: 0, bottom: 32, right: 0)
             return sectionInsets
+        }else if section == 2{
+            return UIEdgeInsets(top: 0    , left: 0, bottom: 0, right: 0)
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if indexPath.section == 2{
+            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+            view.titleLabel.text = "Emoji"
+            return view
+        }
+        return UICollectionReusableView()
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 2{
+            return CGSize(width: collectionView.frame.width, height: 18) // Замените на ваш желаемый размер
+            
+        }else{
+            return CGSize.zero
+        }
+    }
 }
 
 extension CreateHabbitVC:ButtonCellDelegateProtocol{
