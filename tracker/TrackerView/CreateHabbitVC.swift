@@ -23,71 +23,21 @@ final class CreateHabbitVC: UIViewController{
         collectionView.delegate = self
         collectionView.dataSource = self
         view.addSubview(collectionView)
-        view.addSubview(cancelButton)
-        view.addSubview(createButton)
-        cancelButton.backgroundColor = .white
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.layer.cornerRadius = 16
-        cancelButton.setTitle("Отменить", for: .normal)
-        cancelButton.layer.borderWidth = 1
-        cancelButton.layer.borderColor = UIColor(named: "RedForBottoms")?.cgColor
-        cancelButton.setTitleColor(UIColor(named: "RedForBottoms"), for: .normal)
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-        
-        createButton.backgroundColor = .ypGray
-        createButton.layer.cornerRadius = 16
-        createButton.translatesAutoresizingMaskIntoConstraints = false
-        createButton.setTitleColor(.white, for: .normal)
-        createButton.setTitle("Создать", for: .normal)
-        createButton.isEnabled = false
-        createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
-
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor,constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor,constant: -16),
-            
-            cancelButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 16),
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8),
-            cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            createButton.leadingAnchor.constraint(equalTo: cancelButton.trailingAnchor, constant: 8),
-            createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            createButton.topAnchor.constraint(equalTo: cancelButton.topAnchor),
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -20),
-            createButton.heightAnchor.constraint(equalToConstant: 60),
-            createButton.widthAnchor.constraint(equalToConstant: 161)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16)
         ])
         
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
         collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")
         collectionView.register(ColorCells.self, forCellWithReuseIdentifier: "ColorCells")
+        collectionView.register(CreateCancelButtonsCells.self, forCellWithReuseIdentifier: "CreateCancelButtons")
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
     
-    @objc private func createButtonTapped(){
-        guard let timetable = getTimetable() else {return}
-        guard let name = getName() else {return}
-        let createdAt = Date()
-        let id = UUID()
-        let emoji = "💩"
-        let color = UIColor.green
-        let type = TrackerType.habbit
-        
-        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
-        let categoryName = "Какашки"
-        delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
-        dismiss(animated: true)
-        
-    }
-    
-    @objc private func cancelButtonTapped(){
-        dismiss(animated: true)
-    }
     private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
         var result: [WeekDay] = []
         guard let arr = arr else {return nil}
@@ -132,20 +82,23 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
             cell.setupView()
             return cell
+        case 4:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {print(2131231); return UICollectionViewCell()}
+            cell.setupView()
+            cell.delegate = self
+            return cell
         default:
             return UICollectionViewCell()
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 4
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
-    
-
 }
 
 extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
@@ -154,6 +107,8 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
             return CGSize(width: collectionView.bounds.width, height: 150)
         }else if indexPath.section == 2 || indexPath.section == 3 {
             return CGSize(width: collectionView.bounds.width, height: 204)
+        }else if indexPath.section == 4{
+            return CGSize(width: collectionView.bounds.width, height: 60)
         }else{
             return CGSize(width: collectionView.bounds.width, height: 75)
         }
@@ -199,13 +154,38 @@ extension CreateHabbitVC:ButtonCellDelegateProtocol{
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+
 extension CreateHabbitVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
-        createButton.isEnabled = isEnabled
-        createButton.backgroundColor = isEnabled ? .black : .ypGray
+        //TODO: здесь добавить счетчик если 4 то разрешать нажатие пока ток по тексту
+        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
+            print("[updateCreateButtonState] CreateHabbitVC unable to get cell")
+            return
+        }
+        cell.updateCreateButtonState(isEnabled: isEnabled)
     }
     func textFieldDidChange(text: String) {
         updateCreateButtonState(isEnabled: !text.isEmpty)
     }
 }
 
+extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
+    func createButtonTappedDelegate(){
+        guard let timetable = getTimetable() else {return}
+        guard let name = getName() else {return}
+        let createdAt = Date()
+        let id = UUID()
+        let emoji = "💩"
+        let color = UIColor.green
+        let type = TrackerType.habbit
+        
+        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let categoryName = "Какашки"
+        delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
+        dismiss(animated: true)
+    }
+    
+    func cancelButtonTappedDelegate(){
+        dismiss(animated: true)
+    }
+}

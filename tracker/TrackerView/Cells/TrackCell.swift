@@ -7,6 +7,11 @@
 //
 import UIKit
 
+protocol TrackCellDelegateProtocol: AnyObject{
+    func deleteTrackerRecord(id: UUID)
+    func addTrackerRecord(id: UUID)
+}
+
 final class TrackCell: UICollectionViewCell{
     //Цветной блок
     let colorBlock = UIView()
@@ -21,7 +26,14 @@ final class TrackCell: UICollectionViewCell{
     let plusButton = UIButton()
     var buttonWasTapped = false
     
+    let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
+    let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
+    
+    var tracker: Tracker?
+    weak var delegate: TrackCellDelegateProtocol?
+    
     func configCell(track: Tracker){
+        tracker = track
         emodji.text = track.emoji
         nameLabel.text = track.name
         daysLabel.text = "0 дней"
@@ -35,7 +47,7 @@ final class TrackCell: UICollectionViewCell{
         applyConstraints()
         configButton()
         translateToFalse()
-        
+        changeText()
         emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
         emodjiBlock.layer.cornerRadius = 12
         emodjiBlock.layer.masksToBounds = true
@@ -51,6 +63,9 @@ final class TrackCell: UICollectionViewCell{
     
         emodji.font =  UIFont.systemFont(ofSize: 14)
         emodji.textAlignment = .center
+        
+        plusButton.setImage(plusImage, for: .normal)
+        plusButton.setImage(doneImage, for: .selected)
     }
     
     func translateToFalse(){
@@ -112,7 +127,8 @@ final class TrackCell: UICollectionViewCell{
     }
     
     func configButton(){
-        plusButton.setImage(UIImage(named: "plus"), for: .normal)
+
+        plusButton.setImage(plusImage, for: .normal)
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     }
     
@@ -128,25 +144,53 @@ final class TrackCell: UICollectionViewCell{
         }
     }
     
-    func disableButton(){
-        plusButton.isEnabled = false
+    func buttonAlreadyTapped(){
+        plusButton.setImage(doneImage, for: .selected)
+        plusButton.layer.opacity = 0.3
+        plusButton.isSelected = true
+        buttonWasTapped = true
     }
+    func buttonDidntTapped(){
+        plusButton.setImage(plusImage, for: .normal)
+        buttonWasTapped = false
+        plusButton.isSelected = false
+        plusButton.layer.opacity = 1
+    }
+    
     func enableButton(){
         plusButton.isEnabled = true
+
     }
+    
+    func disableButton(){
+        plusButton.isEnabled = false
+        
+    }
+   
+    
     @objc func buttonTapped(){
         if buttonWasTapped{
             daysCount -= 1
             changeText()
-            plusButton.setImage(UIImage(named: "plus"), for: .normal)
+            plusButton.isSelected = false
             buttonWasTapped = false
             plusButton.layer.opacity = 1
+            guard let id = tracker?.id else {
+                print("[buttonTapped] TrackCell - unable to get Id ")
+                return
+            }
+            delegate?.deleteTrackerRecord(id: id)
         }else{
             daysCount += 1
             changeText()
-            plusButton.setImage(UIImage(named: "Done"), for: .normal)
+            plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             buttonWasTapped = true
+            guard let id = tracker?.id else {
+                print("[buttonTapped] TrackCell - unable to get Id ")
+                return
+            }
+            delegate?.addTrackerRecord(id: id)
         }
     }
 }

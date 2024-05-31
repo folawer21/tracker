@@ -14,6 +14,7 @@ final class TrackerViewController: UIViewController{
     var currentDate: Date = Date()
     let datePicker = UIDatePicker()
     let imageView = UIImageView()
+    let calendar = Calendar.current
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
     
@@ -101,7 +102,12 @@ final class TrackerViewController: UIViewController{
         updateFilteredCategories()
     }
     private func updateFilteredCategories(){
-        currentDate = datePicker.date
+        let date = datePicker.date
+        guard let formattedDate = formatDate(date: date) else {
+            print("[updateFilteredCategories] TrackerViewController - unable to get Date")
+            return
+        }
+        currentDate = formattedDate
         let isLater = currentDate > Date() ? true : false
         enablePlusButtonChecking(flag: isLater)
         let day = getDayOfWeek(from: currentDate)
@@ -161,18 +167,49 @@ final class TrackerViewController: UIViewController{
     }
     private func enablePlusButtonChecking(flag: Bool){
         for i in 0..<filteredCategories.count{
-            for j in 0..<filteredCategories[i].trackerList.count{
+            let category = filteredCategories[i]
+            for j in 0..<category.trackerList.count{
                 let indexPath = IndexPath(row: j, section: i)
                 guard let cell = collectionView.cellForItem(at: indexPath) as? TrackCell else {
                     print("[blockPlusButton] TrackerViewController не удалось получить ячейку")
                     break}
                 if flag{
                     cell.disableButton()
-                }else{
-                    cell.enableButton()
+                    cell.buttonDidntTapped()
+                    print("later")
+                    return
                 }
+                let tracker = category.trackerList[j]
+                let id = tracker.id
+                
+                for record in completedTrackers{
+                    if record.id == id && record.timetable == currentDate{
+                        cell.buttonAlreadyTapped()
+                        print("already")
+                        return
+                    }
+                }
+                print("justEnabled")
+                cell.enableButton()
+                cell.buttonDidntTapped()
+                print(currentDate)
             }
         }
+    }
+    
+    func formatDate(date: Date) -> Date?{
+        var components = calendar.dateComponents([.year,.month,.day], from: date)
+//        components.timeZone = TimeZone(abbreviation: "UTC")
+        guard let year = components.year, let month = components.month, let day = components.day else{
+            return nil
+        }
+        var newComponents = DateComponents()
+        newComponents.year = year
+        newComponents.month = month
+        newComponents.day = day
+//        newComponents.timeZone = TimeZone(abbreviation: "UTC")
+        guard let newDate = calendar.date(from: newComponents) else {return nil}
+        return newDate
     }
 }
 
@@ -181,6 +218,7 @@ extension TrackerViewController: UICollectionViewDataSource{
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Track", for: indexPath) as? TrackCell else {return UICollectionViewCell()}
         let tracker = filteredCategories[indexPath.section].trackerList[indexPath.row]
         cell.configCell(track: tracker)
+        cell.delegate = self
         return cell
     }
     
@@ -238,3 +276,21 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
 }
 
 
+extension TrackerViewController: TrackCellDelegateProtocol{
+    func deleteTrackerRecord(id: UUID) {
+        guard let recordIndex = completedTrackers.firstIndex(where: {
+            $0.id == id
+        })else{
+            print("[deleteTrackerRecord] TrackerViewController - unable to get recordIndex ")
+            return
+        }
+        completedTrackers.remove(at: recordIndex)
+    }
+    
+    func addTrackerRecord(id: UUID) {
+        let date = currentDate
+        let trackerRecord = TrackerRecord(id: id, timetable: date)
+        completedTrackers.append(trackerRecord)
+        print(completedTrackers)
+    }
+}
