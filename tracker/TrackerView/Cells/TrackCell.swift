@@ -14,20 +14,20 @@ protocol TrackCellDelegateProtocol: AnyObject{
 
 final class TrackCell: UICollectionViewCell{
     //Цветной блок
-    let colorBlock = UIView()
-    let emodji = UILabel()
-    let emodjiBlock = UIView()
-    let nameLabel = UILabel()
+    private let colorBlock = UIView()
+    private let emodji = UILabel()
+    private let emodjiBlock = UIView()
+    private let nameLabel = UILabel()
 
     //Белый блок
-    let infoBlock = UIView()
+    private let infoBlock = UIView()
     var daysCount: Int = 0
     let daysLabel = UILabel()
     let plusButton = UIButton()
     var buttonWasTapped = false
     
-    let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
-    let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
+    private let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
+    private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
     
     var tracker: Tracker?
     weak var delegate: TrackCellDelegateProtocol?

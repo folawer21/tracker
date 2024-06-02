@@ -32,6 +32,10 @@
 		3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA42C0934F200317403 /* EmojiCells.swift */; };
 		3EA0AAA72C09FE3600317403 /* ColorCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA62C09FE3600317403 /* ColorCells.swift */; };
 		3EA0AAA92C0A24B600317403 /* CreateCancelButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AAA82C0A24B600317403 /* CreateCancelButtons.swift */; };
+		3EA0AAD12C0CB5C200317403 /* TrackerDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AACF2C0CB5C200317403 /* TrackerDataModel.xcdatamodeld */; };
+		3EA0AB022C0D3C2B00317403 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */; };
+		3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */; };
+		3EA0AB062C0D3C4700317403 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +66,10 @@
 		3EA0AAA42C0934F200317403 /* EmojiCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCells.swift; sourceTree = "<group>"; };
 		3EA0AAA62C09FE3600317403 /* ColorCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCells.swift; sourceTree = "<group>"; };
 		3EA0AAA82C0A24B600317403 /* CreateCancelButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCancelButtons.swift; sourceTree = "<group>"; };
+		3EA0AAD02C0CB5C200317403 /* TrackerDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackerDataModel.xcdatamodel; sourceTree = "<group>"; };
+		3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
+		3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,8 @@
 		3E97BF372BCE7FF500CF3A7F /* tracker */ = {
 			isa = PBXGroup;
 			children = (
+				3EA0AB002C0D3C1E00317403 /* Stores */,
+				3EA0AAFF2C0D3C1100317403 /* DataModels */,
 				3E97BF9F2BD021F000CF3A7F /* Models */,
 				3E97BF542BCE96A700CF3A7F /* TrackerView */,
 				3E97BF4F2BCE8F0400CF3A7F /* MainScreen */,
@@ -103,7 +113,7 @@
 				3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */,
 				3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */,
 				3E97BF462BCE7FF600CF3A7F /* Info.plist */,
-				3EA0AA9C2C07704800317403 /* Extension.swift */,
+				3EA0AAFE2C0D3BF700317403 /* Extensions */,
 			);
 			path = tracker;
 			sourceTree = "<group>";
@@ -162,6 +172,32 @@
 				3EA0AAA82C0A24B600317403 /* CreateCancelButtons.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		3EA0AAFE2C0D3BF700317403 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3EA0AA9C2C07704800317403 /* Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3EA0AAFF2C0D3C1100317403 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				3EA0AACF2C0CB5C200317403 /* TrackerDataModel.xcdatamodeld */,
+			);
+			path = DataModels;
+			sourceTree = "<group>";
+		};
+		3EA0AB002C0D3C1E00317403 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */,
+				3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */,
+				3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */,
+			);
+			path = Stores;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,17 +278,21 @@
 				3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */,
 				3EA0AAA12C07F48100317403 /* SupplementaryView.swift in Sources */,
 				3E97BF512BCE8F6200CF3A7F /* MainTabBar.swift in Sources */,
+				3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */,
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
 				3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */,
+				3EA0AAD12C0CB5C200317403 /* TrackerDataModel.xcdatamodeld in Sources */,
 				3EA0AA9D2C07704800317403 /* Extension.swift in Sources */,
+				3EA0AB022C0D3C2B00317403 /* TrackerStore.swift in Sources */,
 				3EA0AAA32C08E82900317403 /* EventCell.swift in Sources */,
 				3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */,
 				3EA0AA902C06932900317403 /* CreateHabbitVC.swift in Sources */,
 				3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */,
 				3EA0AAA72C09FE3600317403 /* ColorCells.swift in Sources */,
 				3EA0AAA92C0A24B600317403 /* CreateCancelButtons.swift in Sources */,
+				3EA0AB062C0D3C4700317403 /* TrackerRecordStore.swift in Sources */,
 				3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */,
 				3EA0AA922C06933600317403 /* CreateEventVC.swift in Sources */,
 				3EA0AA8E2C0687C400317403 /* TrackerCreatingVC.swift in Sources */,
@@ -466,6 +506,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3EA0AACF2C0CB5C200317403 /* TrackerDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3EA0AAD02C0CB5C200317403 /* TrackerDataModel.xcdatamodel */,
+			);
+			currentVersion = 3EA0AAD02C0CB5C200317403 /* TrackerDataModel.xcdatamodel */;
+			path = TrackerDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3E97BF2D2BCE7FF500CF3A7F /* Project object */;
 }
