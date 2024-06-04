@@ -19,7 +19,7 @@ final class ButtonCells: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(named: "TextFieldColor")
+        tableView.backgroundColor = UIColor(named: "ButtonCellsColor")
         tableView.separatorStyle = .singleLine
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -45,7 +45,7 @@ extension ButtonCells: UITableViewDataSource{
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = UIColor(named: "TextFieldColor")
+        cell.backgroundColor = UIColor(named: "ButtonCellsColor")
         if indexPath.row == 0{
             cell.textLabel?.text = "Категория"
             cell.layer.cornerRadius = 16
@@ -84,7 +84,11 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
-        cell?.detailTextLabel?.text = joinedDays
+        if days.count == 7 {
+            cell?.detailTextLabel?.text = "Каждый день"
+        }else{
+            cell?.detailTextLabel?.text = joinedDays}
+        
         daysArr = days
     }
     func getDaysArr() -> [String]{
