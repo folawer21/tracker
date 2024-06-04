@@ -12,6 +12,7 @@ final class TimetableCell: UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         switcher.onTintColor = .ypBlue
+        switcher.isOn = false
         accessoryView = switcher
         self.textLabel?.font = .systemFont(ofSize: 17)
     }

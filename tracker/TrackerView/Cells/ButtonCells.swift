@@ -84,11 +84,12 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
-        if days.count == 7 {
-            cell?.detailTextLabel?.text = "Каждый день"
-        }else{
-            cell?.detailTextLabel?.text = joinedDays}
-        
+        cell?.detailTextLabel?.text = ""
+//        if days.count == 7 {
+//            cell?.detailTextLabel?.text = "Каждый день"
+//        }else{
+//            cell?.detailTextLabel?.text = joinedDays}
+        cell?.detailTextLabel?.text = joinedDays
         daysArr = days
     }
     func getDaysArr() -> [String]{

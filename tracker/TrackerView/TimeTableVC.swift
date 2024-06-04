@@ -91,54 +91,54 @@ final class TimeTableVC: UIViewController{
                 print("error")
             }
     }
+//    
+//    func addDayIfSwitched(row: Int){
+//        switch row{
+//        case 0:
+//            addDay(day: "Пн")
+//        case 1:
+//            addDay(day: "Вт")
+//        case 2:
+//            addDay(day: "Ср")
+//        case 3:
+//            addDay(day: "Чт")
+//        case 4:
+//            addDay(day: "Пт")
+//        case 5:
+//            addDay(day: "Сб")
+//        case 6:
+//            addDay(day: "Вс")
+//        default:
+//            print("error")
+//        }
+//        
+//    }
     
-    func addDayIfSwitched(row: Int){
-        switch row{
-        case 0:
-            addDay(day: "Пн")
-        case 1:
-            addDay(day: "Вт")
-        case 2:
-            addDay(day: "Ср")
-        case 3:
-            addDay(day: "Чт")
-        case 4:
-            addDay(day: "Пт")
-        case 5:
-            addDay(day: "Сб")
-        case 6:
-            addDay(day: "Вс")
-        default:
-            print("error")
-        }
-        
-    }
-    
-    func getRowFromDays() -> [Int]{
-        var result:[Int] = []
-        guard let daysaaa = delegate?.getDaysArr() else {return result}
-        for day in daysaaa{
-            switch day{
-            case "Пн":
-                result.append(0)
-            case "Вт":
-                result.append(1)
-            case "Ср":
-                result.append(2)
-            case "Чт":
-                result.append(3)
-            case "Пт":
-                result.append(4)
-            case "Сб":
-                result.append(5)
-            case "Вс":
-                result.append(6)
-            default:
-                print("error")
-            }
-            }
-        return result
-        }
+//    func getRowFromDays() -> [Int]{
+//        var result:[Int] = []
+//        guard let daysaaa = delegate?.getDaysArr() else {return result}
+//        for day in daysaaa{
+//            switch day{
+//            case "Пн":
+//                result.append(0)
+//            case "Вт":
+//                result.append(1)
+//            case "Ср":
+//                result.append(2)
+//            case "Чт":
+//                result.append(3)
+//            case "Пт":
+//                result.append(4)
+//            case "Сб":
+//                result.append(5)
+//            case "Вс":
+//                result.append(6)
+//            default:
+//                print("error")
+//            }
+//            }
+//        return result
+//        }
     
 }
 
@@ -147,14 +147,14 @@ extension TimeTableVC: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "day", for: indexPath) as? TimetableCell else {return UITableViewCell()}
         cell.textLabel?.text = days[indexPath.row]
-        let selected = getRowFromDays()
-        if selected.contains(indexPath.row){
-            cell.switcher.isOn = true
-            addDayIfSwitched(row:indexPath.row)
-        }else{
-            cell.switcher.isOn = false
-        }
-        
+//        let selected = getRowFromDays()
+//        if selected.contains(indexPath.row){
+//            cell.switcher.isOn = true
+//            addDayIfSwitched(row:indexPath.row)
+//        }else{
+//            cell.switcher.isOn = false
+//        }
+//        
         cell.backgroundColor = UIColor(named: "TextFieldColor")
         cell.switcher.addTarget(self, action: #selector(self.switcherTapped(sender:)), for: .touchUpInside)
         let activity = NSUserActivity(activityType: "aa")

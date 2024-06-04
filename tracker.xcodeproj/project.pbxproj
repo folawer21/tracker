@@ -36,6 +36,7 @@
 		3EA0AB022C0D3C2B00317403 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */; };
 		3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */; };
 		3EA0AB062C0D3C4700317403 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */; };
+		3EA0AB082C0F5DF700317403 /* CDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA0AB072C0F5DF700317403 /* CDManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		3EA0AB072C0F5DF700317403 /* CDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 				3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */,
 				3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */,
 				3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */,
+				3EA0AB072C0F5DF700317403 /* CDManager.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				3EA0AAA92C0A24B600317403 /* CreateCancelButtons.swift in Sources */,
 				3EA0AB062C0D3C4700317403 /* TrackerRecordStore.swift in Sources */,
 				3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */,
+				3EA0AB082C0F5DF700317403 /* CDManager.swift in Sources */,
 				3EA0AA922C06933600317403 /* CreateEventVC.swift in Sources */,
 				3EA0AA8E2C0687C400317403 /* TrackerCreatingVC.swift in Sources */,
 				3E97BFA12BD0220500CF3A7F /* Tracker.swift in Sources */,
