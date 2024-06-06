@@ -6,7 +6,7 @@
 //
 import UIKit
 
-enum TrackerType{
+enum TrackerType: Codable{
     case habbit
     case single
 }
@@ -21,7 +21,7 @@ struct Tracker{
     let timetable: [WeekDay]
 }
 
-enum WeekDay: String{
+enum WeekDay: String, Codable{
     case monday = "Пн"
     case tuesday = "Вт"
     case wednesday = "Ср"
