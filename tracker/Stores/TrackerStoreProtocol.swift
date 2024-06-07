@@ -11,4 +11,5 @@ protocol TrackerStoreProtocol: AnyObject{
     func numberOfRowsInSection(_ section: Int) -> Int
     func object(at indexPath: IndexPath) -> Tracker?
     func addTracker(_ tracker: Tracker,category: String)
+    var isEmpty: Bool {get}
 }

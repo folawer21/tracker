@@ -19,6 +19,7 @@ final class TrackerViewController: UIViewController{
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
     
     var trackerStore: TrackerStoreProtocol?
+    var categoriesStore: TrackerCategoryStore?
     
     private func buildWithStub(){
         stubView.frame = self.view.safeAreaLayoutGuide.layoutFrame
@@ -31,6 +32,7 @@ final class TrackerViewController: UIViewController{
     
     private func buildWithTracks(){
         view.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
@@ -55,26 +57,33 @@ final class TrackerViewController: UIViewController{
     }
     override func viewDidLoad() {
         buildNavBar()
-        trackerStore = TrackerStore()
+        let trackerStore = TrackerStore()
+        let categoryStore = TrackerCategoryStore()
+        trackerStore.setCategoryStore(categoryStore: categoryStore)
+        categoryStore.setTrackerStore(trackerStore: trackerStore)
+        trackerStore.delegate = self
+        categoryStore.delegate = self
+        
+        self.categoriesStore  = categoryStore
+        self.trackerStore = trackerStore
+        
         view.backgroundColor = .white
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        if categories.isEmpty{
-//            buildWithStub()
-//        }else{
-//            buildWithTracks()
-//        }
-        buildWithTracks()
+        if trackerStore?.isEmpty == true{
+            buildWithStub()
+        }else{
+            buildWithTracks()
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
-//        if categories.isEmpty{
+//        if trackerStore?.isEmpty == true{
 //            removeStub()
 //        }else{
 //            removeCollection()
 //        }
-        removeCollection()
     }
     
     
@@ -224,16 +233,22 @@ extension TrackerViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filteredCategories[section].trackerList.count
+        print(trackerStore?.numberOfRowsInSection(section))
+        print(44444444)
         guard let trackerStore = trackerStore else {return 0}
+        
         return trackerStore.numberOfRowsInSection(section)
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        filteredCategories.count
+        print(1412124124)
+        print(categoriesStore?.numberOfSections)
+        return categoriesStore?.numberOfSections ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
-        view.titleLabel.text = filteredCategories[indexPath.section].title
+//        view.titleLabel.text = filteredCategories[indexPath.section].title
+        view.titleLabel.text = categoriesStore?.getCategoryName(section: indexPath.section)
         return view
     }
 }
@@ -299,9 +314,24 @@ extension TrackerViewController: TrackCellDelegateProtocol{
 
 extension TrackerViewController: TrackerStoreDelegate{
     func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
+        print(update)
         collectionView.performBatchUpdates{
             let insertedIndexes = update.insertedIndexes.map{IndexPath(item: $0, section: 0)}
             collectionView.insertItems(at: insertedIndexes)
         }
+//        collectionView.reloadData()
+    }
+}
+
+extension TrackerViewController: TrackerCategoryStoreDelegate{
+    func stote(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
+        print(update)
+        collectionView.performBatchUpdates{
+            let insertedCategoryIndexes = update.insertedCategoryIndexes
+            let updatedCategoryIndexes = update.updatedCategoryIndexes
+            collectionView.insertItems(at: insertedCategoryIndexes)
+            collectionView.reloadItems(at: updatedCategoryIndexes)
+        }
+   
     }
 }

@@ -23,7 +23,7 @@ final class TrackerStore: NSObject{
     private let context: NSManagedObjectContext
     private let marshaling = UIColorMarshalling()
     private var insertedIndexes: IndexSet?
-    private let categoryStore = TrackerCategoryStore()
+    weak var categoryStore: TrackerCategoryStore?
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
     
     weak var delegate: TrackerStoreDelegate?
@@ -46,39 +46,43 @@ final class TrackerStore: NSObject{
     }
     
     var trackers: [Tracker]{
+//        categoryStore?.deleteCategory(categoryName: "Какашка")
         guard
             let objects = fetchedResultsController.fetchedObjects,
-            let trackers = try? objects.map({try self.tracker(from: $0)}) else {return []}
+            let trackers = try? objects.map({try self.tracker(from: $0)}) else {
+            print(112312312)
+            return []}
+        print(trackers)
         return trackers
     }
     
     func addNewTracker(tracker: Tracker,category: String) throws {
-        let colorHex = marshaling.hexString(from: tracker.color)
-        let daysData = daysTransformer.transformedValue(tracker.timetable) as? NSObject
-        let typeData = typeTransformer.transformedValue(tracker.type) as? NSObject
-        guard let categoryCD = categoryStore.getCategoryCoreData(categoryName: category) else{
-            fatalError()
-        }
-        let trackerData = TrackerCoreData(context: context)
-        trackerData.category = categoryCD
-        trackerData.emoji = tracker.emoji
-        trackerData.id = tracker.id
-        trackerData.name = tracker.name
-        trackerData.color = colorHex
-        trackerData.timetable = daysData
-        trackerData.type = typeData
-        trackerData.createdAt = tracker.createdAt
-        
-        manager.saveContext()
+//        let colorHex = marshaling.hexString(from: tracker.color)
+//        let daysData = daysTransformer.transformedValue(tracker.timetable) as? NSObject
+//        let typeData = typeTransformer.transformedValue(tracker.type) as? NSObject
+//        guard let categoryCD = categoryStore.getCategoryCoreData(categoryName: category) else{
+//            fatalError()
+//        }
+//        let trackerData = TrackerCoreData(context: context)
+//        trackerData.category = categoryCD
+//        trackerData.emoji = tracker.emoji
+//        trackerData.id = tracker.id
+//        trackerData.name = tracker.name
+//        trackerData.color = colorHex
+//        trackerData.timetable = daysData
+//        trackerData.type = typeData
+//        trackerData.createdAt = tracker.createdAt
+//        manager.saveContext()
+        categoryStore?.addTrackerToCategory(tracker: tracker, categoryName: category)
     }
     
     func getTrackerCD(from tracker: Tracker, categoryName : String) -> TrackerCoreData?{
-        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSArray ,
-              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSObject else {
+        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSData ,
+              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSData else {
             fatalError()
         }
         
-        let categoryCD = categoryStore.getCategoryCoreData(categoryName: categoryName)
+        let categoryCD = categoryStore?.getCategoryCoreData(categoryName: categoryName)
         let colorhex = marshaling.hexString(from: tracker.color)
         let trackerCD = TrackerCoreData(context: context)
         trackerCD.id = tracker.id
@@ -100,13 +104,14 @@ final class TrackerStore: NSObject{
               let createdAt = trackerCoreData.createdAt,
               let emoji = trackerCoreData.emoji,
               let id = trackerCoreData.id,
-              let name = trackerCoreData.name,
-              let timetable = trackerCoreData.timetable as? [WeekDay],
-              let type = trackerCoreData.type as? TrackerType else{
+              let name = trackerCoreData.name
+//              let timetable = daysTransformer.reverseTransformedValue(trackerCoreData.timetable) as? [WeekDay],
+//              let type = typeTransformer.reverseTransformedValue(trackerCoreData.type) as? TrackerType 
+        else{
             fatalError("TrackerStore: tracker")
         }
         let color = marshaling.color(from: colorHex)
-        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let tracker = Tracker(id: id, type: /*type*/ TrackerType.habbit, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: /*timetable*/ [WeekDay.monday])
         return tracker
     }
 }
@@ -147,6 +152,14 @@ extension TrackerStore: TrackerStoreProtocol{
         catch{
             print(error)
         }
+    }
+    
+    func setCategoryStore(categoryStore: TrackerCategoryStore){
+        self.categoryStore = categoryStore
+    }
+    
+    var isEmpty: Bool{
+        return trackers.isEmpty
     }
     
     
