@@ -13,6 +13,9 @@ final class CreateHabbitVC: UIViewController{
     let cancelButton = UIButton()
     let createButton = UIButton()
     weak var delegate: CreateHabbitDelegateProtocol?
+    private var selectedEmoji: String?
+    private var selectedColor: UIColor?
+    private var selectedTimetable: [WeekDay]?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,9 +52,13 @@ final class CreateHabbitVC: UIViewController{
     }
     
     private func getTimetable() -> [WeekDay]?{
+        if selectedTimetable != nil{
+            return selectedTimetable
+        }
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {return nil}
         let days = cell.daysArr
         let enumDays = getEnumTimetable(arr: days)
+        selectedTimetable = enumDays
         return enumDays
     }
     
@@ -62,14 +69,22 @@ final class CreateHabbitVC: UIViewController{
     }
     
     private func getColor() -> UIColor?{
+        if selectedColor != nil {
+            return selectedColor
+        }
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section:3 )) as? ColorCells,
               let color = cell.getColor() else {print("Unable to get color");return nil}
+        selectedColor = color
         return color
     }
     
     private func getEmoji() -> String?{
+        if selectedEmoji != nil{
+            return selectedEmoji
+        }
         guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 2)) as? EmojiCells,
               let emoji = cell.getEmoji() else {print("Unable to get emoji");return nil}
+        selectedEmoji = emoji
         return emoji
     }
 }
@@ -87,10 +102,12 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            cell.delegate = self
             cell.setupView()
             return cell
         case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
+            cell.delegate = self
             cell.setupView()
             return cell
         case 4:
@@ -162,12 +179,7 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
 
 extension CreateHabbitVC:ButtonCellDelegateProtocol{
     func timetableSettedDelegate(flag: Bool) {
-        guard let name = getName() else {print("[timetableSettedDelegate] CreateHabbitVC unable to get name");return}
-        if !(name.isEmpty) && flag{
-            updateCreateButtonState(isEnabled: true)
-        }else{
-            updateCreateButtonState(isEnabled: false)
-        }
+        updateButtonEnabling()
     }
     
     func showTimeTable(vc: TimeTableVC){
@@ -178,13 +190,36 @@ extension CreateHabbitVC:ButtonCellDelegateProtocol{
 extension CreateHabbitVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
-//            print("[updateCreateButtonState] CreateHabbitVC unable to get cell")
-            return
-        }
+            return}
         cell.updateCreateButtonState(isEnabled: isEnabled)
     }
     func textFieldDidChange(text: String) {
-        if !(text.isEmpty) && getTimetable() != nil{
+        updateButtonEnabling()
+    }
+}
+
+extension CreateHabbitVC: EmojiCellsDelegateProtocol{
+    func emojiWasChosen() {
+        updateButtonEnabling()
+    }
+    
+    func emojiWasUnchosen() {
+        updateButtonEnabling()
+    }
+}
+
+extension CreateHabbitVC: ColorCellsDelegateProtocol{
+    func colorWasChosen() {
+        updateButtonEnabling()
+    }
+    func colorWasUnchosen() {
+        updateButtonEnabling()
+    }
+}
+
+extension CreateHabbitVC{
+    func updateButtonEnabling(){
+        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  {
             updateCreateButtonState(isEnabled: true)
         }else{
             updateCreateButtonState(isEnabled: false)
@@ -211,3 +246,5 @@ extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
         dismiss(animated: true)
     }
 }
+
+

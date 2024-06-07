@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ColorCellsDelegateProtocol: AnyObject{
+    func colorWasChosen()
+    func colorWasUnchosen()
+}
+
 final class ColorCell: UICollectionViewCell{
     let color: UIView = UIView()
     func setupView(cellColor: UIColor){
@@ -44,6 +49,7 @@ final class ColorCells: UICollectionViewCell{
     let colores: [UIColor] = [.cellSection1,.cellSection2,.cellSection3,.cellSection4,.cellSection5,.cellSection6,.cellSection7,.cellSection8,.cellSection9,.cellSection10,.cellSection11,.cellSection12,.cellSection13,.cellSection14,.cellSection15,.cellSection16,.cellSection17,.cellSection18]
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private var selectedColor: UIColor?
+    weak var delegate: ColorCellsDelegateProtocol?
     func setupView(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -81,11 +87,13 @@ extension ColorCells: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
         selectedColor = cell.color.backgroundColor
+        delegate?.colorWasChosen()
         cell.showBlock()
     }
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
         selectedColor = nil
+        delegate?.colorWasUnchosen()
         cell.hideBlock()
     }
     

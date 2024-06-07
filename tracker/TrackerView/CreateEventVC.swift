@@ -11,6 +11,8 @@ protocol CreateEventDelegateProtocol: AnyObject{
 final class CreateEventVC: UIViewController{
     let cancelButton = UIButton()
     let createButton = UIButton()
+    private var selectedEmoji: String?
+    private var selectedColor: UIColor?
     weak var delegate: CreateEventDelegateProtocol?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
@@ -38,20 +40,28 @@ final class CreateEventVC: UIViewController{
     }
     
     private func getName() -> String?{
-        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell else {return nil}
-        guard let name = cell.getName() else {return nil}
+        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell,
+              let name = cell.getName() else {return nil}
         return name
     }
     
     private func getColor() -> UIColor?{
+        if selectedColor != nil {
+            return selectedColor
+        }
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section:3 )) as? ColorCells,
               let color = cell.getColor() else {print("Unable to get color");return nil}
+        selectedColor = color
         return color
     }
     
     private func getEmoji() -> String?{
+        if selectedEmoji != nil{
+            return selectedEmoji
+        }
         guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 2)) as? EmojiCells,
               let emoji = cell.getEmoji() else {print("Unable to get emoji");return nil}
+        selectedEmoji = emoji
         return emoji
     }
 }
@@ -68,10 +78,12 @@ extension CreateEventVC: UICollectionViewDataSource{
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            cell.delegate = self
             cell.setupView()
             return cell
         case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
+            cell.delegate = self
             cell.setupView()
             return cell
         case 4:
@@ -141,22 +153,63 @@ extension CreateEventVC: UICollectionViewDelegateFlowLayout{
     }
 }
 
+//extension CreateEventVC: TrackNameCellDelegateProtocol{
+//    func updateCreateButtonState(isEnabled: Bool){
+//        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
+//            print("[updateCreateButtonState] CreateEventVC unable to get cell")
+//            return
+//        }
+//        cell.updateCreateButtonState(isEnabled: isEnabled)
+//    }
+//    func textFieldDidChange(text: String) {
+//        if !(text.isEmpty){
+//            updateCreateButtonState(isEnabled: true)
+//        }else{
+//            updateCreateButtonState(isEnabled: false)
+//        }
+//    }
+//}
+
 extension CreateEventVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
-            print("[updateCreateButtonState] CreateEventVC unable to get cell")
-            return
-        }
+            return}
         cell.updateCreateButtonState(isEnabled: isEnabled)
     }
     func textFieldDidChange(text: String) {
-        if !(text.isEmpty){
+        updateButtonEnabling()
+    }
+}
+
+extension CreateEventVC: EmojiCellsDelegateProtocol{
+    func emojiWasChosen() {
+        updateButtonEnabling()
+    }
+    
+    func emojiWasUnchosen() {
+        updateButtonEnabling()
+    }
+}
+
+extension CreateEventVC: ColorCellsDelegateProtocol{
+    func colorWasChosen() {
+        updateButtonEnabling()
+    }
+    func colorWasUnchosen() {
+        updateButtonEnabling()
+    }
+}
+
+extension CreateEventVC{
+    func updateButtonEnabling(){
+        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil){
             updateCreateButtonState(isEnabled: true)
         }else{
             updateCreateButtonState(isEnabled: false)
         }
     }
 }
+
 
 extension CreateEventVC: CreateCancelButtonsDelegateProtocol{
     func createButtonTappedDelegate(){

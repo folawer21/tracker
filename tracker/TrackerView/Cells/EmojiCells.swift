@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol EmojiCellsDelegateProtocol: AnyObject{
+    func emojiWasChosen()
+    func emojiWasUnchosen()
+}
+
 final class EmojiCell: UICollectionViewCell{
     let emoji: UILabel = UILabel()
     func setupView(text: String){
@@ -38,11 +43,10 @@ final class EmojiCell: UICollectionViewCell{
 }
 
 final class EmojiCells: UICollectionViewCell{
-    
     let emojes = ["🙂","😻","🌺","🐶","❤️","😱","😇","😡","🥶","🤔","🙌","🍔","🥦","🏓","🥇","🎸","🏝","😪"]
     private var selectedEmoji: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
+    weak var delegate: EmojiCellsDelegateProtocol?
     func setupView(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -81,11 +85,13 @@ extension EmojiCells: UICollectionViewDelegateFlowLayout{
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {return}
         selectedEmoji = cell.emoji.text
         cell.showBlock()
+        delegate?.emojiWasChosen()
     }
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {return}
         selectedEmoji = nil
         cell.hideBlock()
+        delegate?.emojiWasUnchosen()
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -102,3 +108,4 @@ extension EmojiCells: UICollectionViewDelegateFlowLayout{
         CGFloat.zero
     }
 }
+
