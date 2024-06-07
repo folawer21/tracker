@@ -18,6 +18,8 @@ final class TrackerViewController: UIViewController{
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
     
+    var trackerStore: TrackerStoreProtocol?
+    
     private func buildWithStub(){
         stubView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         view.addSubview(stubView)
@@ -53,23 +55,26 @@ final class TrackerViewController: UIViewController{
     }
     override func viewDidLoad() {
         buildNavBar()
+        trackerStore = TrackerStore()
         view.backgroundColor = .white
         collectionView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if categories.isEmpty{
-            buildWithStub()
-        }else{
-            buildWithTracks()
-        }
+//        if categories.isEmpty{
+//            buildWithStub()
+//        }else{
+//            buildWithTracks()
+//        }
+        buildWithTracks()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        if categories.isEmpty{
-            removeStub()
-        }else{
-            removeCollection()
-        }
+//        if categories.isEmpty{
+//            removeStub()
+//        }else{
+//            removeCollection()
+//        }
+        removeCollection()
     }
     
     
@@ -194,7 +199,7 @@ final class TrackerViewController: UIViewController{
     }
     
     func formatDate(date: Date) -> Date?{
-        var components = calendar.dateComponents([.year,.month,.day], from: date)
+        let components = calendar.dateComponents([.year,.month,.day], from: date)
         guard let year = components.year, let month = components.month, let day = components.day else{
             return nil
         }
@@ -210,14 +215,17 @@ final class TrackerViewController: UIViewController{
 extension TrackerViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Track", for: indexPath) as? TrackCell else {return UICollectionViewCell()}
-        let tracker = filteredCategories[indexPath.section].trackerList[indexPath.row]
+//        let tracker = filteredCategories[indexPath.section].trackerList[indexPath.row]
+        guard let tracker = trackerStore?.object(at: indexPath) else {return UICollectionViewCell()}
         cell.configCell(track: tracker)
         cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredCategories[section].trackerList.count
+//        return filteredCategories[section].trackerList.count
+        guard let trackerStore = trackerStore else {return 0}
+        return trackerStore.numberOfRowsInSection(section)
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         filteredCategories.count
@@ -246,26 +254,27 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout{
 
 extension TrackerViewController: TrackerCreatingDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
-        if categories.contains(where: {$0.title == categoryName}){
-            guard let categoryIndex = categories.firstIndex(where: {$0.title == categoryName}) else {
-                print("[addNewTracker]: TrackerViewController - не удалось получить структуру")
-                return}
-            let category = categories[categoryIndex]
-            var temp = category.trackerList
-            temp.append(tracker)
-            let newCategory = TrackerCategory(title: categoryName, trackerList: temp)
-            categories.remove(at: categoryIndex)
-            categories.insert(newCategory, at: categoryIndex)
-            updateFilteredCategories()
-        }else{
-            if categories.isEmpty{
-                removeStub()
-                buildWithTracks()
-            }
-            let category = TrackerCategory(title: categoryName, trackerList: [tracker])
-            categories.append(category)
-            updateFilteredCategories()
-        }
+        trackerStore?.addTracker(tracker, category: categoryName)
+//        if categories.contains(where: {$0.title == categoryName}){
+//            guard let categoryIndex = categories.firstIndex(where: {$0.title == categoryName}) else {
+//                print("[addNewTracker]: TrackerViewController - не удалось получить структуру")
+//                return}
+//            let category = categories[categoryIndex]
+//            var temp = category.trackerList
+//            temp.append(tracker)
+//            let newCategory = TrackerCategory(title: categoryName, trackerList: temp)
+//            categories.remove(at: categoryIndex)
+//            categories.insert(newCategory, at: categoryIndex)
+//            updateFilteredCategories()
+//        }else{
+//            if categories.isEmpty{
+//                removeStub()
+//                buildWithTracks()
+//            }
+//            let category = TrackerCategory(title: categoryName, trackerList: [tracker])
+//            categories.append(category)
+//            updateFilteredCategories()
+//        }
     }
 }
 
@@ -285,5 +294,14 @@ extension TrackerViewController: TrackCellDelegateProtocol{
         let date = currentDate
         let trackerRecord = TrackerRecord(id: id, timetable: date)
         completedTrackers.append(trackerRecord)
+    }
+}
+
+extension TrackerViewController: TrackerStoreDelegate{
+    func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
+        collectionView.performBatchUpdates{
+            let insertedIndexes = update.insertedIndexes.map{IndexPath(item: $0, section: 0)}
+            collectionView.insertItems(at: insertedIndexes)
+        }
     }
 }

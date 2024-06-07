@@ -23,12 +23,13 @@ final class TrackerStore: NSObject{
     private let context: NSManagedObjectContext
     private let marshaling = UIColorMarshalling()
     private var insertedIndexes: IndexSet?
+    private let categoryStore = TrackerCategoryStore()
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
     
     weak var delegate: TrackerStoreDelegate?
     
-    init(context: NSManagedObjectContext) throws {
-        self.context = context
+    override init(){
+        self.context = manager.context
         let fetchedRequest = TrackerCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.createdAt, ascending: true)]
         //Когда добавятся категории  придется здесь добавить sectionNameKeyPath?
@@ -36,7 +37,12 @@ final class TrackerStore: NSObject{
         self.fetchedResultsController = controller
         super.init()
         controller.delegate = self
-        try controller.performFetch()
+        do{
+            try controller.performFetch()
+        }catch{
+            fatalError()
+        }
+            
     }
     
     var trackers: [Tracker]{
@@ -46,15 +52,14 @@ final class TrackerStore: NSObject{
         return trackers
     }
     
-    func addNewTracker(tracker: Tracker,category: TrackerCategory) throws {
+    func addNewTracker(tracker: Tracker,category: String) throws {
         let colorHex = marshaling.hexString(from: tracker.color)
         let daysData = daysTransformer.transformedValue(tracker.timetable) as? NSObject
         let typeData = typeTransformer.transformedValue(tracker.type) as? NSObject
-        guard let categoryCD = getCategoryCoreData(category: category) else{
+        guard let categoryCD = categoryStore.getCategoryCoreData(categoryName: category) else{
             fatalError()
         }
         let trackerData = TrackerCoreData(context: context)
-        
         trackerData.category = categoryCD
         trackerData.emoji = tracker.emoji
         trackerData.id = tracker.id
@@ -62,26 +67,35 @@ final class TrackerStore: NSObject{
         trackerData.color = colorHex
         trackerData.timetable = daysData
         trackerData.type = typeData
+        trackerData.createdAt = tracker.createdAt
         
         manager.saveContext()
     }
     
-    private func getCategoryCoreData(category: TrackerCategory)  -> TrackerCategoryCoreData?{
-        let name = category.title
-        let request = TrackerCategoryCoreData.fetchRequest()
-        request.predicate = NSPredicate(format: "title == %@", name)
-        do {
-            guard let category = try context.fetch(request).first else {
-                return nil
-            }
-            return category
-        }catch{
-            return nil
+    func getTrackerCD(from tracker: Tracker, categoryName : String) -> TrackerCoreData?{
+        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSArray ,
+              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSObject else {
+            fatalError()
         }
+        
+        let categoryCD = categoryStore.getCategoryCoreData(categoryName: categoryName)
+        let colorhex = marshaling.hexString(from: tracker.color)
+        let trackerCD = TrackerCoreData(context: context)
+        trackerCD.id = tracker.id
+        trackerCD.color = colorhex
+        trackerCD.createdAt = tracker.createdAt
+        trackerCD.emoji = tracker.emoji
+        trackerCD.category = categoryCD
+        trackerCD.timetable = timetableCD
+        trackerCD.type = typeCD
+        trackerCD.name = tracker.name
+        
+        return trackerCD
+    
     }
    
     
-    private func tracker(from trackerCoreData: TrackerCoreData) throws -> Tracker{
+    func tracker(from trackerCoreData: TrackerCoreData) throws -> Tracker{
         guard let colorHex = trackerCoreData.color,
               let createdAt = trackerCoreData.createdAt,
               let emoji = trackerCoreData.emoji,
@@ -114,4 +128,26 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
             return
         }
     }
+}
+
+
+extension TrackerStore: TrackerStoreProtocol{
+    func numberOfRowsInSection(_ section: Int) -> Int {
+        return trackers.count
+        //TODO: Когда добавятся категории переписать под них
+    }
+    
+    func object(at indexPath: IndexPath) -> Tracker? {
+        return trackers[indexPath.row]
+    }
+    
+    func addTracker(_ tracker: Tracker, category: String){
+        do{
+            try addNewTracker(tracker: tracker, category: category)}
+        catch{
+            print(error)
+        }
+    }
+    
+    
 }
