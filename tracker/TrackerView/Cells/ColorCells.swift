@@ -42,9 +42,8 @@ final class ColorCell: UICollectionViewCell{
 final class ColorCells: UICollectionViewCell{
     
     let colores: [UIColor] = [.cellSection1,.cellSection2,.cellSection3,.cellSection4,.cellSection5,.cellSection6,.cellSection7,.cellSection8,.cellSection9,.cellSection10,.cellSection11,.cellSection12,.cellSection13,.cellSection14,.cellSection15,.cellSection16,.cellSection17,.cellSection18]
-
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
+    private var selectedColor: UIColor?
     func setupView(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -59,6 +58,9 @@ final class ColorCells: UICollectionViewCell{
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -24)
         ])
+    }
+    func getColor() -> UIColor?{
+        return selectedColor
     }
 }
 
@@ -78,10 +80,12 @@ extension ColorCells:UICollectionViewDataSource{
 extension ColorCells: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
+        selectedColor = cell.color.backgroundColor
         cell.showBlock()
     }
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
+        selectedColor = nil
         cell.hideBlock()
     }
     

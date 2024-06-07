@@ -40,7 +40,7 @@ final class EmojiCell: UICollectionViewCell{
 final class EmojiCells: UICollectionViewCell{
     
     let emojes = ["🙂","😻","🌺","🐶","❤️","😱","😇","😡","🥶","🤔","🙌","🍔","🥦","🏓","🥇","🎸","🏝","😪"]
-
+    private var selectedEmoji: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     func setupView(){
@@ -57,6 +57,9 @@ final class EmojiCells: UICollectionViewCell{
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -24)
         ])
+    }
+    func getEmoji() -> String?{
+        return selectedEmoji
     }
 }
 
@@ -76,10 +79,12 @@ extension EmojiCells:UICollectionViewDataSource{
 extension EmojiCells: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {return}
+        selectedEmoji = cell.emoji.text
         cell.showBlock()
     }
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {return}
+        selectedEmoji = nil
         cell.hideBlock()
     }
     

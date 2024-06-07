@@ -56,11 +56,22 @@ final class CreateHabbitVC: UIViewController{
     }
     
     private func getName() -> String?{
-        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell else {return nil}
-        guard let name = cell.getName() else {return nil}
+        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell,
+              let name = cell.getName() else {return nil}
         return name
     }
     
+    private func getColor() -> UIColor?{
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section:3 )) as? ColorCells,
+              let color = cell.getColor() else {print("Unable to get color");return nil}
+        return color
+    }
+    
+    private func getEmoji() -> String?{
+        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 2)) as? EmojiCells,
+              let emoji = cell.getEmoji() else {print("Unable to get emoji");return nil}
+        return emoji
+    }
 }
 
 extension CreateHabbitVC: UICollectionViewDataSource{
@@ -83,7 +94,7 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             cell.setupView()
             return cell
         case 4:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {print(2131231); return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {return UICollectionViewCell()}
             cell.setupView()
             cell.delegate = self
             return cell
@@ -183,14 +194,13 @@ extension CreateHabbitVC: TrackNameCellDelegateProtocol{
 
 extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
     func createButtonTappedDelegate(){
-        guard let timetable = getTimetable() else {return}
-        guard let name = getName() else {return}
+        guard let timetable = getTimetable(),
+              let name = getName(),
+              let emoji = getEmoji(),
+              let color = getColor() else {return}
         let createdAt = Date()
         let id = UUID()
-        let emoji = "💩"
-        let color = UIColor.green
         let type = TrackerType.habbit
-        
         let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
         let categoryName = "Какашка"
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)

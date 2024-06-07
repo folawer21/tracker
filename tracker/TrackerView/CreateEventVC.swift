@@ -43,6 +43,17 @@ final class CreateEventVC: UIViewController{
         return name
     }
     
+    private func getColor() -> UIColor?{
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section:3 )) as? ColorCells,
+              let color = cell.getColor() else {print("Unable to get color");return nil}
+        return color
+    }
+    
+    private func getEmoji() -> String?{
+        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 2)) as? EmojiCells,
+              let emoji = cell.getEmoji() else {print("Unable to get emoji");return nil}
+        return emoji
+    }
 }
 
 extension CreateEventVC: UICollectionViewDataSource{
@@ -150,15 +161,14 @@ extension CreateEventVC: TrackNameCellDelegateProtocol{
 extension CreateEventVC: CreateCancelButtonsDelegateProtocol{
     func createButtonTappedDelegate(){
         let timetable: [WeekDay] = [.monday,.tuesday,.wednesday,.thursday,.friday,.saturday,.sunday]
-        guard let name = getName() else {return}
+        guard let name = getName(),
+              let color = getColor(),
+              let emoji = getEmoji() else {return}
         let createdAt = Date()
         let id = UUID()
-        let emoji = "💞"
-        let color = UIColor.red
         let type = TrackerType.single
-        
         let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
-        let categoryName = "Какашки"
+        let categoryName = "Какашка"
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
     }

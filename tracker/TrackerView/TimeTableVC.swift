@@ -23,6 +23,7 @@ final class TimeTableVC: UIViewController{
     weak var delegate: TimeTableVcDelegateProtocol?
     
     @objc func doneButtonTapped(){
+        print(selectedDays)
         delegate?.setDays(days: selectedDays)
         delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)
@@ -147,14 +148,6 @@ extension TimeTableVC: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "day", for: indexPath) as? TimetableCell else {return UITableViewCell()}
         cell.textLabel?.text = days[indexPath.row]
-//        let selected = getRowFromDays()
-//        if selected.contains(indexPath.row){
-//            cell.switcher.isOn = true
-//            addDayIfSwitched(row:indexPath.row)
-//        }else{
-//            cell.switcher.isOn = false
-//        }
-//        
         cell.backgroundColor = UIColor(named: "TextFieldColor")
         cell.switcher.addTarget(self, action: #selector(self.switcherTapped(sender:)), for: .touchUpInside)
         let activity = NSUserActivity(activityType: "aa")
