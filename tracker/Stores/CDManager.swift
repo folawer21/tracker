@@ -32,6 +32,7 @@ final class CDManager{
         if context.hasChanges{
             do{
                 try context.save()
+                print("Context Saved")
             }catch{
                 context.rollback()
                 fatalError("Problems with context")

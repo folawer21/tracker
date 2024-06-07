@@ -48,9 +48,7 @@ final class TrackerCategoryStore: NSObject{
     var categories: [TrackerCategory]{
         guard let objects = self.fetchedResultsController.fetchedObjects,
               let categories = try? objects.map({try self.category(from: $0)}) else {
-            print(112312312)
             return []}
-        print("categories",categories)
         return categories
     }
     
@@ -85,14 +83,23 @@ final class TrackerCategoryStore: NSObject{
         if trackers.isEmpty{
             category.title = categoryName
             category.trackers = nil
+            
+            manager.saveContext()
         }else{
             guard let trackerStore = self.trackerStore else { fatalError() }
             let trackersCD = trackers.compactMap{trackerStore.getTrackerCD(from:$0,categoryName:categoryName)}
             category.title = categoryName
             category.trackers = NSSet(array: trackersCD)
+//            manager.saveContext()
+
+            do {
+                   try context.save()
+               } catch {
+                   print("Ошибка сохранения контекста: \(error)")
+               }
         }
 //        print("Категория создана")
-        manager.saveContext()
+//        manager.saveContext()
     }
     
      func getCategoryCoreData(categoryName: String)  -> TrackerCategoryCoreData?{
@@ -147,7 +154,7 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        
+        print("controllerDidChangeContent вызван")
         delegate?.stote(self, didUpdate: TrackerCategoryStoreUpdate(insertedCategoryIndexes: insertedIndexes, updatedCategoryIndexes: updatedIndexes))
         insertedIndexes = []
         updatedIndexes = []
@@ -156,7 +163,9 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var numberOfSections: Int{
-        return categories.count
+//        return categories.count
+        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+        return count
     }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
         self.newCategory(categoryName: categoryName, trackers: trackers)

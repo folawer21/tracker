@@ -20,9 +20,10 @@ final class TrackerViewController: UIViewController{
     
     var trackerStore: TrackerStoreProtocol?
     var categoriesStore: TrackerCategoryStore?
-    
+    var stubViewActive: Bool = true
     private func buildWithStub(){
         stubView.frame = self.view.safeAreaLayoutGuide.layoutFrame
+        stubViewActive = true
         view.addSubview(stubView)
         NSLayoutConstraint.activate([
             stubView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -31,6 +32,8 @@ final class TrackerViewController: UIViewController{
     }
     
     private func buildWithTracks(){
+        removeStub()
+        stubViewActive = false
         view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
@@ -233,15 +236,15 @@ extension TrackerViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 //        return filteredCategories[section].trackerList.count
-        print(trackerStore?.numberOfRowsInSection(section))
-        print(44444444)
-        guard let trackerStore = trackerStore else {return 0}
-        
-        return trackerStore.numberOfRowsInSection(section)
+//        print(trackerStore?.numberOfRowsInSection(section))
+//        print(44444444)
+//        guard let trackerStore = trackerStore else {return 0}
+//        
+//        return trackerStore.numberOfRowsInSection(section)
+        guard let count = trackerStore?.numberOfRowsInSection(section) else {fatalError()}
+        return count
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        print(1412124124)
-        print(categoriesStore?.numberOfSections)
         return categoriesStore?.numberOfSections ?? 0
     }
     
@@ -315,23 +318,31 @@ extension TrackerViewController: TrackCellDelegateProtocol{
 extension TrackerViewController: TrackerStoreDelegate{
     func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
         print(update)
-        collectionView.performBatchUpdates{
-            let insertedIndexes = update.insertedIndexes.map{IndexPath(item: $0, section: 0)}
-            collectionView.insertItems(at: insertedIndexes)
+        if stubViewActive{
+            buildWithTracks()
+            collectionView.reloadData()
         }
+        collectionView.reloadData()
+//        collectionView.performBatchUpdates{
+//            let insertedIndexes = update.insertedIndexes.map{IndexPath(item: $0, section: 0)}
+//            collectionView.insertItems(at: insertedIndexes)
+//        }
 //        collectionView.reloadData()
     }
 }
 
 extension TrackerViewController: TrackerCategoryStoreDelegate{
     func stote(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
-        print(update)
-        collectionView.performBatchUpdates{
-            let insertedCategoryIndexes = update.insertedCategoryIndexes
-            let updatedCategoryIndexes = update.updatedCategoryIndexes
-            collectionView.insertItems(at: insertedCategoryIndexes)
-            collectionView.reloadItems(at: updatedCategoryIndexes)
-        }
+//        if stubViewActive{
+//            buildWithTracks()
+//            collectionView.reloadData()
+//        }
+//        collectionView.performBatchUpdates{
+//            let insertedCategoryIndexes = update.insertedCategoryIndexes
+//            let updatedCategoryIndexes = update.updatedCategoryIndexes
+//            collectionView.insertItems(at: insertedCategoryIndexes)
+//            collectionView.reloadItems(at: updatedCategoryIndexes)
+//        }
    
     }
 }

@@ -50,9 +50,7 @@ final class TrackerStore: NSObject{
         guard
             let objects = fetchedResultsController.fetchedObjects,
             let trackers = try? objects.map({try self.tracker(from: $0)}) else {
-            print(112312312)
             return []}
-        print(trackers)
         return trackers
     }
     
