@@ -145,13 +145,11 @@ final class TrackCell: UICollectionViewCell{
     }
     
     func buttonAlreadyTapped(){
-        plusButton.setImage(doneImage, for: .selected)
         plusButton.layer.opacity = 0.3
         plusButton.isSelected = true
         buttonWasTapped = true
     }
     func buttonDidntTapped(){
-        plusButton.setImage(plusImage, for: .normal)
         buttonWasTapped = false
         plusButton.isSelected = false
         plusButton.layer.opacity = 1

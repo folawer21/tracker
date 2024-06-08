@@ -25,34 +25,62 @@ final class TrackerStore: NSObject{
     private var insertedIndexes: IndexSet?
     weak var categoryStore: TrackerCategoryStore?
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
-    
+    private var day : WeekDay
     weak var delegate: TrackerStoreDelegate?
     
-    override init(){
+    init(day: WeekDay){
         self.context = manager.context
+        self.day = day
         let fetchedRequest = TrackerCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.createdAt, ascending: true)]
         //Когда добавятся категории  придется здесь добавить sectionNameKeyPath?
         let controller = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         self.fetchedResultsController = controller
         super.init()
-        controller.delegate = self
-        do{
-            try controller.performFetch()
-        }catch{
-            fatalError()
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
-            
     }
     
     var trackers: [Tracker]{
-//        categoryStore?.deleteCategory(categoryName: "Какашка")
         guard
             let objects = fetchedResultsController.fetchedObjects,
             let trackers = try? objects.map({try self.tracker(from: $0)}) else {
             return []}
-        return trackers
+        let filteredTrackers = trackers.filter{tracker in
+            tracker.timetable.first(where: {$0.rawValue == self.day.rawValue}) != nil
+        }
+        print(filteredTrackers)
+        return filteredTrackers
     }
+        
+    func initializeFetchedResultsController(withPredicate predicate:NSPredicate? = nil){
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+               fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.createdAt, ascending: true)]
+               fetchRequest.predicate = predicate
+               
+       fetchedResultsController = NSFetchedResultsController(
+           fetchRequest: fetchRequest,
+           managedObjectContext: self.context,
+           sectionNameKeyPath: nil,
+           cacheName: nil
+       )
+       fetchedResultsController.delegate = self
+       
+       do {
+           try fetchedResultsController.performFetch()
+       } catch {
+           fatalError("Failed to initialize FetchedResultsController: \(error)")
+       }
+    }
+    
+    func setDay(day: WeekDay){
+        self.day = day
+    }
+    
     
     func addNewTracker(tracker: Tracker,category: String) throws {
 //        let colorHex = marshaling.hexString(from: tracker.color)
@@ -102,14 +130,16 @@ final class TrackerStore: NSObject{
               let createdAt = trackerCoreData.createdAt,
               let emoji = trackerCoreData.emoji,
               let id = trackerCoreData.id,
-              let name = trackerCoreData.name
-//              let timetable = daysTransformer.reverseTransformedValue(trackerCoreData.timetable) as? [WeekDay],
-//              let type = typeTransformer.reverseTransformedValue(trackerCoreData.type) as? TrackerType 
+              let name = trackerCoreData.name,
+              let timetable = daysTransformer.reverseTransformedValue(trackerCoreData.timetable) as? [WeekDay],
+              let type = typeTransformer.reverseTransformedValue(trackerCoreData.type) as? TrackerType
         else{
+            print(trackerCoreData.timetable)
+            print(trackerCoreData.type)
             fatalError("TrackerStore: tracker")
         }
         let color = marshaling.color(from: colorHex)
-        let tracker = Tracker(id: id, type: /*type*/ TrackerType.habbit, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: /*timetable*/ [WeekDay.monday])
+        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
         return tracker
     }
 }
