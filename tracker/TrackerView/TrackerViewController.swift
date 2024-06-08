@@ -267,31 +267,30 @@ final class TrackerViewController: UIViewController{
 extension TrackerViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Track", for: indexPath) as? TrackCell else {return UICollectionViewCell()}
-//        let tracker = filteredCategories[indexPath.section].trackerList[indexPath.row]
-        guard let tracker = trackerStore?.object(at: indexPath),
-              let isDoneToday = trackerRecordStore?.isRecordedByDate(id: tracker.id, date: currentDate)
-              else {return UICollectionViewCell()}
-        
-        cell.configCell(track: tracker)
-        if isDoneToday{
-            cell.buttonAlreadyTapped()
+//        guard let tracker = trackerStore?.object(at: indexPath),
+//              let isDoneToday = trackerRecordStore?.isRecordedByDate(id: tracker.id, date: currentDate)
+//              else {return UICollectionViewCell()}
+        guard let tracker = trackerStore?.object(at: indexPath) else {return UICollectionViewCell()}
+        let type = tracker.type
+        if type == .habbit{
+            
         }else{
-            cell.buttonDidntTapped()
-            if Calendar.current.compare(currentDate, to: Date(), toGranularity: .day) == .orderedDescending{
-                cell.disableButton()
-            }
+            
         }
+//        cell.configCell(track: tracker)
+//        if isDoneToday{
+//            cell.buttonAlreadyTapped()
+//        }else{
+//            cell.buttonDidntTapped()
+//            if Calendar.current.compare(currentDate, to: Date(), toGranularity: .day) == .orderedDescending{
+//                cell.disableButton()
+//            }
+//        }
         cell.delegate = self
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return filteredCategories[section].trackerList.count
-//        print(trackerStore?.numberOfRowsInSection(section))
-//        print(44444444)
-//        guard let trackerStore = trackerStore else {return 0}
-//        
-//        return trackerStore.numberOfRowsInSection(section)
         guard let count = trackerStore?.numberOfRowsInSection(section) else {fatalError()}
         return count
     }
@@ -301,7 +300,6 @@ extension TrackerViewController: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
-//        view.titleLabel.text = filteredCategories[indexPath.section].title
         view.titleLabel.text = categoriesStore?.getCategoryName(section: indexPath.section)
         return view
     }
@@ -353,11 +351,6 @@ extension TrackerViewController: TrackerStoreDelegate{
             collectionView.reloadData()
         }
         collectionView.reloadData()
-//        collectionView.performBatchUpdates{
-//            let insertedIndexes = update.insertedIndexes.map{IndexPath(item: $0, section: 0)}
-//            collectionView.insertItems(at: insertedIndexes)
-//        }
-//        collectionView.reloadData()
     }
 }
 

@@ -143,9 +143,6 @@ final class TrackerStore: NSObject{
               let type = Tracker.typeFromJSON(json: typeCd),
               let timetable = Tracker.timetableFromJSON(json: timetableCD)
         else{
-            print(trackerCoreData.timetable)
-            print(trackerCoreData.type)
-            print(trackerCoreData.emoji)
             fatalError("TrackerStore: tracker")
         }
         let color = marshaling.color(from: colorHex)

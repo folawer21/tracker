@@ -90,6 +90,31 @@ final class TrackerRecordStore: NSObject{
             return false
         }
     }
+    
+    private func singleHasDone(id: UUID) -> Bool{
+        let request = TrackerRecordCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            guard let tracker = try context.fetch(request).first else {
+                return false
+            }
+            return true
+        }catch{
+            fatalError()
+        }
+    }
+    
+    private func daysCount(id: UUID) -> Int{
+        let request = TrackerRecordCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            let count = try context.fetch(request).count
+            return count
+        }catch{
+            fatalError()
+        }
+    }
 }
 
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
@@ -131,6 +156,14 @@ extension TrackerRecordStore: TrackerRecordStoreProtocol{
     
     func isRecordedByDate(id: UUID, date: Date) -> Bool {
         self.isRecorded(id: id, date: date)
+    }
+    
+    func singleIsDone(id: UUID) -> Bool {
+        self.singleHasDone(id: id)
+    }
+    
+    func getTrackerDoneCount(id: UUID) -> Int {
+        self.daysCount(id: id)
     }
     
 }

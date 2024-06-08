@@ -11,4 +11,6 @@ protocol TrackerRecordStoreProtocol: AnyObject{
     func makeNewRecord(id: UUID,timetable: Date)
     func deleteRecord(id:UUID,timetable:Date)
     func isRecordedByDate(id:UUID,date: Date) -> Bool
+    func singleIsDone(id: UUID) -> Bool
+    func getTrackerDoneCount(id: UUID) -> Int
 }
