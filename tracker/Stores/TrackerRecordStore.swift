@@ -8,19 +8,28 @@
 import Foundation
 import CoreData
 
+struct TrackerRecordStoreUpdate{
+    let updatedIndexed: IndexSet
+}
+
+protocol TrackerRecordStoreDelegateProtocol:AnyObject{
+    func update(_ store: TrackerRecordStore, didUpdate update: TrackerRecordStoreUpdate)
+}
+
 final class TrackerRecordStore: NSObject{
-    let manager = CDManager.shared
+    private let manager = CDManager.shared
     private let context: NSManagedObjectContext
-    var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData>
-    
+    private var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData>
+    private var updatedIndexes: IndexSet?
+    weak var delegate: TrackerRecordStoreDelegateProtocol?
     override init(){
         self.context = manager.context
         let fetchedRequest = TrackerRecordCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerRecordCoreData.timetable, ascending: true)]
-        
         let controller = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: manager.context, sectionNameKeyPath: nil, cacheName: nil)
         self.fetchedResultsController = controller
         super.init()
+        controller.delegate = self
         do{
             try controller.performFetch()
         }catch{
@@ -32,7 +41,7 @@ final class TrackerRecordStore: NSObject{
               let trackerRecords = try? objects.map({try self.trackerRecord(from: $0)}) else { return []}
         return trackerRecords
     }
-
+    
     private func trackerRecord(from trackerRecordCD: TrackerRecordCoreData) throws -> TrackerRecord{
         guard let id = trackerRecordCD.id,
               let timetable = trackerRecordCD.timetable else {fatalError()}
@@ -72,7 +81,7 @@ final class TrackerRecordStore: NSObject{
         guard let recordsCD = fetchedResultsController.fetchedObjects?.filter({$0.id == id}) else {fatalError()}
         return recordsCD
     }
-
+    
     private func isRecorded(id:UUID,date: Date) -> Bool{
         let index = trackerRecords.firstIndex(where: {$0.id == id && Calendar.current.isDate($0.timetable, equalTo: date, toGranularity: .day)})
         if index != nil {
@@ -82,6 +91,34 @@ final class TrackerRecordStore: NSObject{
         }
     }
 }
+
+extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+        updatedIndexes = IndexSet()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>){
+        guard let indexes = updatedIndexes else {fatalError()}
+        delegate?.update(self, didUpdate: TrackerRecordStoreUpdate(updatedIndexed: indexes))
+        updatedIndexes = nil
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type{
+        case .insert:
+            if let insertedIndexPath = newIndexPath{
+                updatedIndexes?.insert(insertedIndexPath.item)
+            }
+        case .delete:
+            if let deletedIndexPath = indexPath{
+                updatedIndexes?.insert(deletedIndexPath.item)
+            }
+        default:
+            break
+        }
+    }
+}
+
 
 extension TrackerRecordStore: TrackerRecordStoreProtocol{
     func deleteRecord(id: UUID, timetable: Date){
@@ -96,5 +133,5 @@ extension TrackerRecordStore: TrackerRecordStoreProtocol{
         self.isRecorded(id: id, date: date)
     }
     
-    
 }
+
