@@ -125,6 +125,8 @@ final class TrackerCategoryStore: NSObject{
             }
             guard let trackerStore = self.trackerStore,
                 let trackersCD = trackerStore.getTrackerCD(from: tracker, categoryName: categoryName) else {fatalError()}
+            print(tracker)
+            print(trackersCD)
             category.addToTrackers(trackersCD)
             manager.saveContext()
         }catch{

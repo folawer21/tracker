@@ -43,6 +43,8 @@
 		3EED72D12C12639C00B55F2F /* TrackerStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */; };
 		3EED72D32C12920700B55F2F /* TrackerCategoryStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */; };
 		3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */; };
+		3EED72DE2C14F07300B55F2F /* MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72DD2C14F07300B55F2F /* MappingModel.xcmappingmodel */; };
+		3EED72E02C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72DF2C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +86,9 @@
 		3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreProtocol.swift; sourceTree = "<group>"; };
 		3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStoreProtocol.swift; sourceTree = "<group>"; };
 		3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStoreProtocol.swift; sourceTree = "<group>"; };
+		3EED72D92C14EAF200B55F2F /* TrackerDataModel2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TrackerDataModel2.xcdatamodel; sourceTree = "<group>"; };
+		3EED72DD2C14F07300B55F2F /* MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModel.xcmappingmodel; sourceTree = "<group>"; };
+		3EED72DF2C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCoreDataMigrationPolicy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				3EA0AACF2C0CB5C200317403 /* TrackerDataModel.xcdatamodeld */,
+				3EED72DD2C14F07300B55F2F /* MappingModel.xcmappingmodel */,
+				3EED72DF2C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift */,
 			);
 			path = DataModels;
 			sourceTree = "<group>";
@@ -314,6 +321,7 @@
 				3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
+				3EED72DE2C14F07300B55F2F /* MappingModel.xcmappingmodel in Sources */,
 				3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */,
 				3EA0AB0B2C0F819F00317403 /* DaysValueTransformer.swift in Sources */,
 				3EA0AAD12C0CB5C200317403 /* TrackerDataModel.xcdatamodeld in Sources */,
@@ -322,6 +330,7 @@
 				3EA0AB022C0D3C2B00317403 /* TrackerStore.swift in Sources */,
 				3EA0AB0D2C0F81B800317403 /* TypeValueTransformer.swift in Sources */,
 				3EA0AAA32C08E82900317403 /* EventCell.swift in Sources */,
+				3EED72E02C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift in Sources */,
 				3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */,
 				3EA0AA902C06932900317403 /* CreateHabbitVC.swift in Sources */,
 				3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */,
@@ -547,9 +556,10 @@
 		3EA0AACF2C0CB5C200317403 /* TrackerDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3EED72D92C14EAF200B55F2F /* TrackerDataModel2.xcdatamodel */,
 				3EA0AAD02C0CB5C200317403 /* TrackerDataModel.xcdatamodel */,
 			);
-			currentVersion = 3EA0AAD02C0CB5C200317403 /* TrackerDataModel.xcdatamodel */;
+			currentVersion = 3EED72D92C14EAF200B55F2F /* TrackerDataModel2.xcdatamodel */;
 			path = TrackerDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

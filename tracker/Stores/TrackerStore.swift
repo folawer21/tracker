@@ -53,6 +53,8 @@ final class TrackerStore: NSObject{
         let filteredTrackers = trackers.filter{tracker in
             tracker.timetable.first(where: {$0.rawValue == self.day.rawValue}) != nil
         }
+        print(day)
+        print(trackers)
         print(filteredTrackers)
         return filteredTrackers
     }
@@ -103,8 +105,13 @@ final class TrackerStore: NSObject{
     }
     
     func getTrackerCD(from tracker: Tracker, categoryName : String) -> TrackerCoreData?{
-        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSData ,
-              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSData else {
+//        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSData ,
+//              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSData else {
+//            fatalError()
+//        }
+//        
+        guard let timetableCD = tracker.timetableToJSON() ,
+              let typeCD = tracker.typeToJSON()else {
             fatalError()
         }
         
@@ -119,7 +126,7 @@ final class TrackerStore: NSObject{
         trackerCD.timetable = timetableCD
         trackerCD.type = typeCD
         trackerCD.name = tracker.name
-        
+
         return trackerCD
     
     }
@@ -131,11 +138,14 @@ final class TrackerStore: NSObject{
               let emoji = trackerCoreData.emoji,
               let id = trackerCoreData.id,
               let name = trackerCoreData.name,
-              let timetable = daysTransformer.reverseTransformedValue(trackerCoreData.timetable) as? [WeekDay],
-              let type = typeTransformer.reverseTransformedValue(trackerCoreData.type) as? TrackerType
+              let timetableCD = trackerCoreData.timetable,
+              let typeCd = trackerCoreData.type,
+              let type = Tracker.typeFromJSON(json: typeCd),
+              let timetable = Tracker.timetableFromJSON(json: timetableCD)
         else{
             print(trackerCoreData.timetable)
             print(trackerCoreData.type)
+            print(trackerCoreData.emoji)
             fatalError("TrackerStore: tracker")
         }
         let color = marshaling.color(from: colorHex)
@@ -187,6 +197,7 @@ extension TrackerStore: TrackerStoreProtocol{
     }
     
     var isEmpty: Bool{
+//        categoryStore?.deleteCategory(categoryName: "Какашка")
         return trackers.isEmpty
     }
     

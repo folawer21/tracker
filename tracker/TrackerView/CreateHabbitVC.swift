@@ -48,6 +48,9 @@ final class CreateHabbitVC: UIViewController{
             guard let day = WeekDay(rawValue: arr[i]) else { break}
             result.append(day)
         }
+        if result == [] {
+            return nil
+        }
         return result
     }
     

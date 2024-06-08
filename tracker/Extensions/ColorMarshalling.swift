@@ -30,4 +30,5 @@ final class UIColorMarshalling {
             alpha: CGFloat(1.0)
         )
     }
+
 }

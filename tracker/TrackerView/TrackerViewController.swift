@@ -29,7 +29,7 @@ final class TrackerViewController: UIViewController{
         view.addSubview(stubView)
         NSLayoutConstraint.activate([
             stubView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stubView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+//            stubView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
