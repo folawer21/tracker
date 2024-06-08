@@ -42,6 +42,7 @@
 		3EED72CF2C12310300B55F2F /* ColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72CE2C12310300B55F2F /* ColorMarshalling.swift */; };
 		3EED72D12C12639C00B55F2F /* TrackerStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */; };
 		3EED72D32C12920700B55F2F /* TrackerCategoryStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */; };
+		3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		3EED72CE2C12310300B55F2F /* ColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMarshalling.swift; sourceTree = "<group>"; };
 		3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreProtocol.swift; sourceTree = "<group>"; };
 		3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStoreProtocol.swift; sourceTree = "<group>"; };
+		3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStoreProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				3EA0AB072C0F5DF700317403 /* CDManager.swift */,
 				3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */,
 				3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */,
+				3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */,
 			);
 			path = Stores;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				3E97BF512BCE8F6200CF3A7F /* MainTabBar.swift in Sources */,
 				3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */,
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
+				3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
 				3EA0AAA52C0934F200317403 /* EmojiCells.swift in Sources */,

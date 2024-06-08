@@ -19,7 +19,8 @@ final class TrackerViewController: UIViewController{
     let stubView = StubView(frame: CGRect.zero, title: "Что будем отслеживать?")
     
     var trackerStore: TrackerStoreProtocol?
-    var categoriesStore: TrackerCategoryStore?
+    var categoriesStore: TrackerCategoryStoreProtocol?
+    var trackerRecordStore: TrackerRecordStoreProtocol?
     var stubViewActive: Bool = true
     private func buildWithStub(){
         stubView.frame = self.view.safeAreaLayoutGuide.layoutFrame
@@ -60,6 +61,7 @@ final class TrackerViewController: UIViewController{
     }
     override func viewDidLoad() {
         buildNavBar()
+        let trackerRecordStore = TrackerRecordStore()
         let trackerStore = TrackerStore()
         let categoryStore = TrackerCategoryStore()
         trackerStore.setCategoryStore(categoryStore: categoryStore)
@@ -69,6 +71,7 @@ final class TrackerViewController: UIViewController{
         
         self.categoriesStore  = categoryStore
         self.trackerStore = trackerStore
+        self.trackerRecordStore = trackerRecordStore
         
         view.backgroundColor = .white
         
@@ -317,7 +320,6 @@ extension TrackerViewController: TrackCellDelegateProtocol{
 
 extension TrackerViewController: TrackerStoreDelegate{
     func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
-        print(update)
         if stubViewActive{
             buildWithTracks()
             collectionView.reloadData()
@@ -333,16 +335,5 @@ extension TrackerViewController: TrackerStoreDelegate{
 
 extension TrackerViewController: TrackerCategoryStoreDelegate{
     func stote(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
-//        if stubViewActive{
-//            buildWithTracks()
-//            collectionView.reloadData()
-//        }
-//        collectionView.performBatchUpdates{
-//            let insertedCategoryIndexes = update.insertedCategoryIndexes
-//            let updatedCategoryIndexes = update.updatedCategoryIndexes
-//            collectionView.insertItems(at: insertedCategoryIndexes)
-//            collectionView.reloadItems(at: updatedCategoryIndexes)
-//        }
-   
     }
 }
