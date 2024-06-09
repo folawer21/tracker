@@ -21,6 +21,7 @@ final class TrackerRecordStore: NSObject{
     private let context: NSManagedObjectContext
     private var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData>
     private var updatedIndexes: IndexSet?
+    weak var trackerStore : TrackerStore?
     weak var delegate: TrackerRecordStoreDelegateProtocol?
     override init(){
         self.context = manager.context
@@ -42,6 +43,9 @@ final class TrackerRecordStore: NSObject{
         return trackerRecords
     }
     
+    func setTrackerStore(store:TrackerStore){
+        trackerStore = store
+    }
     private func trackerRecord(from trackerRecordCD: TrackerRecordCoreData) throws -> TrackerRecord{
         guard let id = trackerRecordCD.id,
               let timetable = trackerRecordCD.timetable else {fatalError()}
@@ -51,25 +55,51 @@ final class TrackerRecordStore: NSObject{
     }
     
     private func makeRecord(id: UUID, timetable: Date){
-        let records = getTrackerRecordsCD(id: id)
-        let recordIndex = records.firstIndex(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) ?? 0
-        if recordIndex == 0{
-            deleteRecordFromCD(record: records[recordIndex])
-        }else{
-            let trackerCD = TrackerRecordCoreData()
-            trackerCD.id = id
-            trackerCD.timetable = timetable
-        }
+//        let records = getTrackerRecordsCD(id: id)
+//        let recordIndex = records.firstIndex(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) ?? 0
+//        if recordIndex != 0{
+//            deleteRecordFromCD(record: records[recordIndex])
+//        }else{
+        let trackerCD = TrackerRecordCoreData(context: context)
+        trackerCD.id = id
+        trackerCD.timetable = timetable
+//        }
         manager.saveContext()
     }
     
     private func deleteRecordMain(id:UUID,timetable: Date){
-        guard let record = getTrackerRecordsCD(id: id).first(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) else{fatalError()}
-        deleteRecordFromCD(record: record)
+        guard let tracker = trackerStore?.getTrackerById(id: id) else {
+            return
+        }
+        let type = tracker.type
+        if type == .habbit{
+            guard let record = getTrackerRecordsCD(id: id).first(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) else{
+                print("записи нет")
+                return}
+            deleteRecordFromCD(record: record)
+            return
+        }
+        if type == .single{
+            guard let record = getTrackerRecordsCD(id: id).first else {
+                print("записи нет одиночка")
+                return}
+            print("deleted")
+            deleteRecordFromCD(record: record)
+            return
+        }
     }
     
     private func deleteRecordFromCD(record: TrackerRecordCoreData){
         context.delete(record)
+        manager.saveContext()
+    }
+    
+    func deleteAllRecords(){
+        let trackersCD = fetchedResultsController.fetchedObjects
+        for tracker in trackersCD! {
+            context.delete(tracker)
+        }
+        manager.saveContext()
     }
     
     private func getTrackerRecords(id: UUID) -> [TrackerRecord]{

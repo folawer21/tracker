@@ -10,7 +10,7 @@ import UIKit
 final class TrackerViewController: UIViewController{
     var categories: [TrackerCategory] = []
     var filteredCategories: [TrackerCategory] = []
-    var completedTrackers: [TrackerRecord] = []
+//    var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
     let datePicker = UIDatePicker()
     let imageView = UIImageView()
@@ -77,9 +77,11 @@ final class TrackerViewController: UIViewController{
         let categoryStore = TrackerCategoryStore()
         trackerStore.setCategoryStore(categoryStore: categoryStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
+        trackerRecordStore.setTrackerStore(store: trackerStore)
         trackerStore.delegate = self
         categoryStore.delegate = self
         trackerRecordStore.delegate = self
+        
         
         self.categoriesStore  = categoryStore
         self.trackerStore = trackerStore
@@ -272,9 +274,20 @@ extension TrackerViewController: UICollectionViewDataSource{
 //              else {return UICollectionViewCell()}
         guard let tracker = trackerStore?.object(at: indexPath) else {return UICollectionViewCell()}
         let type = tracker.type
+        var available = true
+        if Calendar.current.compare(currentDate, to: Date(), toGranularity: .day) == .orderedDescending{
+            available = false
+        }
         if type == .habbit{
-            
-        }else{
+            guard let isDoneToday = trackerRecordStore?.isRecordedByDate(id: tracker.id, date: currentDate),
+                  let daysCount = trackerRecordStore?.getTrackerDoneCount(id: tracker.id) else{return UICollectionViewCell()}
+            cell.configCell(track: tracker, days: daysCount, isDone: isDoneToday, availible: available)
+        }
+        
+        if type == .single {
+            guard let isDone = trackerRecordStore?.singleIsDone(id: tracker.id) else {return UICollectionViewCell()}
+            let daysCount = isDone ? 1 : 0
+            cell.configCell(track: tracker, days: daysCount, isDone: isDone, availible: available)
             
         }
 //        cell.configCell(track: tracker)
@@ -328,20 +341,25 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
 
 extension TrackerViewController: TrackCellDelegateProtocol{
     func deleteTrackerRecord(id: UUID) {
-        guard let recordIndex = completedTrackers.firstIndex(where: {
-            $0.id == id
-        })else{
-            print("[deleteTrackerRecord] TrackerViewController - unable to get recordIndex ")
-            return
-        }
-        completedTrackers.remove(at: recordIndex)
+//        guard let recordIndex = completedTrackers.firstIndex(where: {
+//            $0.id == id
+//        })else{
+//            print("[deleteTrackerRecord] TrackerViewController - unable to get recordIndex ")
+//            return
+//        }
+//        completedTrackers.remove(at: recordIndex)
+        trackerRecordStore?.deleteRecord(id: id, timetable: currentDate)
+        print("TrackerDeleted ad \(id)")
     }
     
     func addTrackerRecord(id: UUID) {
-        let date = currentDate
-        let trackerRecord = TrackerRecord(id: id, timetable: date)
-        completedTrackers.append(trackerRecord)
+//        let date = currentDate
+//        let trackerRecord = TrackerRecord(id: id, timetable: date)
+//        completedTrackers.append(trackerRecord)
+        trackerRecordStore?.makeNewRecord(id: id, timetable: currentDate)
+        print("TrackerAdded ad \(id)")
     }
+    
 }
 
 extension TrackerViewController: TrackerStoreDelegate{
@@ -362,9 +380,10 @@ extension TrackerViewController: TrackerCategoryStoreDelegate{
 
 extension TrackerViewController: TrackerRecordStoreDelegateProtocol{
     func update(_ store: TrackerRecordStore, didUpdate update: TrackerRecordStoreUpdate) {
-        let indexes = update.updatedIndexed.map{IndexPath(item: $0, section: 0)}
-        collectionView.performBatchUpdates{
-            collectionView.reloadItems(at: indexes)
-        }
+//        let indexes = update.updatedIndexed.map{IndexPath(item: $0, section: 0)}
+//        collectionView.performBatchUpdates{
+//            collectionView.reloadItems(at: indexes)
+//        }
+        collectionView.reloadData()
     }
 }

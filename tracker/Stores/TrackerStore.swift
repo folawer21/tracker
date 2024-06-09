@@ -53,9 +53,6 @@ final class TrackerStore: NSObject{
         let filteredTrackers = trackers.filter{tracker in
             tracker.timetable.first(where: {$0.rawValue == self.day.rawValue}) != nil
         }
-        print(day)
-        print(trackers)
-        print(filteredTrackers)
         return filteredTrackers
     }
         
@@ -102,6 +99,18 @@ final class TrackerStore: NSObject{
 //        trackerData.createdAt = tracker.createdAt
 //        manager.saveContext()
         categoryStore?.addTrackerToCategory(tracker: tracker, categoryName: category)
+    }
+    
+    func getTrackerById(id: UUID) -> Tracker?{
+        let request = TrackerCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            guard let trackerCD = try context.fetch(request).first else {return nil}
+            let tracker = try tracker(from: trackerCD)
+            return tracker
+        }catch{
+            fatalError()
+        }
     }
     
     func getTrackerCD(from tracker: Tracker, categoryName : String) -> TrackerCoreData?{
