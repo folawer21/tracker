@@ -9,6 +9,7 @@ import UIKit
 
 protocol ButtonCellDelegateProtocol: AnyObject{
     func showTimeTable(vc: TimeTableVC)
+    func timetableSettedDelegate(flag: Bool)
 }
 
 final class ButtonCells: UICollectionViewCell {
@@ -17,9 +18,8 @@ final class ButtonCells: UICollectionViewCell {
     weak var delegate: ButtonCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
-//        self.backgroundColor = UIColor(named: "TextFieldColor")
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(named: "TextFieldColor")
+        tableView.backgroundColor = UIColor(named: "ButtonCellsColor")
         tableView.separatorStyle = .singleLine
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -45,7 +45,7 @@ extension ButtonCells: UITableViewDataSource{
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = UIColor(named: "TextFieldColor")
+        cell.backgroundColor = UIColor(named: "ButtonCellsColor")
         if indexPath.row == 0{
             cell.textLabel?.text = "Категория"
             cell.layer.cornerRadius = 16
@@ -57,8 +57,8 @@ extension ButtonCells: UITableViewDataSource{
             cell.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
             return cell
         }
-        
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         2
     }
@@ -73,15 +73,22 @@ extension ButtonCells:UITableViewDelegate {
             vc.delegate = self
             delegate?.showTimeTable(vc: vc)
         }
-    }
-    
-
+    }      
 }
 
 extension ButtonCells:TimeTableVcDelegateProtocol{
+    func timetableSetted(flag: Bool) {
+        delegate?.timetableSettedDelegate(flag: flag)
+    }
+    
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
+        cell?.detailTextLabel?.text = ""
+//        if days.count == 7 {
+//            cell?.detailTextLabel?.text = "Каждый день"
+//        }else{
+//            cell?.detailTextLabel?.text = joinedDays}
         cell?.detailTextLabel?.text = joinedDays
         daysArr = days
     }

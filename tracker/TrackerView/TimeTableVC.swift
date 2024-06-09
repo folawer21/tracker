@@ -11,6 +11,7 @@ import UIKit
 protocol TimeTableVcDelegateProtocol: AnyObject{
     func setDays(days: [String])
     func getDaysArr() -> [String]
+    func timetableSetted(flag: Bool)
 }
 
 final class TimeTableVC: UIViewController{
@@ -18,10 +19,13 @@ final class TimeTableVC: UIViewController{
     let doneButton = UIButton()
     let days = ["Понедельник","Вторник","Среда","Четверг","Пятница","Суббота","Воскресенье"]
     var selectedDays: [String] = []
+    var switchersTappedIndexes: [Int] = []
     weak var delegate: TimeTableVcDelegateProtocol?
     
     @objc func doneButtonTapped(){
+        print(selectedDays)
         delegate?.setDays(days: selectedDays)
+        delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)
 }
     
@@ -87,9 +91,56 @@ final class TimeTableVC: UIViewController{
             default:
                 print("error")
             }
-
-        
     }
+//    
+//    func addDayIfSwitched(row: Int){
+//        switch row{
+//        case 0:
+//            addDay(day: "Пн")
+//        case 1:
+//            addDay(day: "Вт")
+//        case 2:
+//            addDay(day: "Ср")
+//        case 3:
+//            addDay(day: "Чт")
+//        case 4:
+//            addDay(day: "Пт")
+//        case 5:
+//            addDay(day: "Сб")
+//        case 6:
+//            addDay(day: "Вс")
+//        default:
+//            print("error")
+//        }
+//        
+//    }
+    
+//    func getRowFromDays() -> [Int]{
+//        var result:[Int] = []
+//        guard let daysaaa = delegate?.getDaysArr() else {return result}
+//        for day in daysaaa{
+//            switch day{
+//            case "Пн":
+//                result.append(0)
+//            case "Вт":
+//                result.append(1)
+//            case "Ср":
+//                result.append(2)
+//            case "Чт":
+//                result.append(3)
+//            case "Пт":
+//                result.append(4)
+//            case "Сб":
+//                result.append(5)
+//            case "Вс":
+//                result.append(6)
+//            default:
+//                print("error")
+//            }
+//            }
+//        return result
+//        }
+    
 }
 
 extension TimeTableVC: UITableViewDataSource{
@@ -115,5 +166,3 @@ extension TimeTableVC: UITableViewDelegate{
         return tableView.bounds.height / 7
     }
 }
-
-

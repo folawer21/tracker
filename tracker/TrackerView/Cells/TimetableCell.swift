@@ -11,12 +11,14 @@ final class TimetableCell: UITableViewCell{
     let switcher = UISwitch()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        switcher.isOn = false
         switcher.onTintColor = .ypBlue
-//        switcher.addTarget(self, action: #selector(switcherTapped), for: .touchUpInside)
+        switcher.isOn = false
         accessoryView = switcher
         self.textLabel?.font = .systemFont(ofSize: 17)
     }
+
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder) has not implemented")
     }
