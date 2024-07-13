@@ -10,12 +10,14 @@ protocol CreateHabbitDelegateProtocol: AnyObject{
     func addNewTracker(tracker: Tracker,categoryName : String)
 }
 final class CreateHabbitVC: UIViewController{
+    let viewModel = CategoriesViewModel()
     let cancelButton = UIButton()
     let createButton = UIButton()
     weak var delegate: CreateHabbitDelegateProtocol?
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
     private var selectedTimetable: [WeekDay]?
+    var selectedCategory: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,6 +83,17 @@ final class CreateHabbitVC: UIViewController{
         return color
     }
     
+    private func getCategory() -> String?{
+        if selectedCategory != nil {
+            return selectedCategory
+        }
+        guard let category = viewModel.getPickedCategory() else {
+            return nil
+        }
+        selectedCategory = category
+        return selectedCategory
+    }
+    
     private func getEmoji() -> String?{
         if selectedEmoji != nil{
             return selectedEmoji
@@ -102,6 +115,7 @@ extension CreateHabbitVC: UICollectionViewDataSource{
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as? ButtonCells else {return UICollectionViewCell()}
             cell.delegate = self
+            cell.setVM(vm: viewModel)
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
@@ -184,8 +198,15 @@ extension CreateHabbitVC:ButtonCellDelegateProtocol{
     func timetableSettedDelegate(flag: Bool) {
         updateButtonEnabling()
     }
-    
+    func categoryWasChosen(category: String){
+        selectedCategory = category
+        updateButtonEnabling()
+    }
     func showTimeTable(vc: TimeTableVC){
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showCategoryVC(vc: CategoriesVC){
         navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -222,7 +243,7 @@ extension CreateHabbitVC: ColorCellsDelegateProtocol{
 
 extension CreateHabbitVC{
     func updateButtonEnabling(){
-        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  {
+        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  && (getCategory() != nil) {
             updateCreateButtonState(isEnabled: true)
         }else{
             updateCreateButtonState(isEnabled: false)
@@ -235,12 +256,12 @@ extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
         guard let timetable = getTimetable(),
               let name = getName(),
               let emoji = getEmoji(),
-              let color = getColor() else {return}
+              let color = getColor(),
+              let categoryName = viewModel.getPickedCategory() else {return}
         let createdAt = Date()
         let id = UUID()
         let type = TrackerType.habbit
         let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
-        let categoryName = "Какашка"
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
     }

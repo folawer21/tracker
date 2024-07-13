@@ -106,6 +106,9 @@ final class TrackerViewController: UIViewController{
 //        }
     }
     
+    deinit {
+        print(111111)
+    }
     
     @objc func addButtonTapped(){
         let vc = TrackerCreatingVC()
