@@ -21,12 +21,13 @@ final class SupplementaryView: UICollectionReusableView {
     private func setupView() {
         addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = .systemFont(ofSize: 18, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 19, weight: .bold)
         titleLabel.textColor = .black
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+//            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+//            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
