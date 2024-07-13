@@ -62,6 +62,10 @@ class CategoriesViewModel{
         }
     }
     
+    func isEmpty() -> Bool{
+        return model.isEmpty
+    }
+    
 //    func createNewCategory(categoryName: String){
 //        categories.append(categoryName)
 //    }

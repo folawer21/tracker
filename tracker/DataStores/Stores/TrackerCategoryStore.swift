@@ -181,6 +181,10 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
         return count
     }
+    var isEmpty: Bool{
+        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
+        return isEmpty
+    }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
         self.newCategory(categoryName: categoryName, trackers: trackers)
     }

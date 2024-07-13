@@ -32,6 +32,7 @@ final class StubView: UIView{
         let textLabel = UILabel()
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.numberOfLines = 2
         textLabel.textAlignment = .center
         return textLabel
     }()

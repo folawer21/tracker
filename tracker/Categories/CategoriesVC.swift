@@ -15,6 +15,8 @@ final class CategoriesVC: UIViewController {
         return table
     }()
     
+    lazy var stubView = StubView(frame: CGRect.zero, title: "Привычки и события можно \nобъединить по смыслу")
+    
     let addButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -40,6 +42,7 @@ final class CategoriesVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem()
@@ -49,8 +52,7 @@ final class CategoriesVC: UIViewController {
         navigationItem.title = "Категория"
         
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        addSubViews()
-        applyConstraintsWithCategories()
+      
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -61,20 +63,46 @@ final class CategoriesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         //Question: Вообщем я не знаю почему но каждый раз trackerStore у viewModel.model зануляется. В чем причина? подскажите пожалуйста
         viewModel?.setTrackerStore()
+        
+        guard let isEmpty = viewModel?.isEmpty() else {
+            return
+        }
+        if isEmpty {
+            buildWithStub()
+        } else {
+            buildWithCategories()
+        }
     }
-    private func addSubViews() {
+    
+    private func buildWithStub(){
+        removeTable()
+        addSubViewsWithStub()
+        applyConstraintsWithStub()
+    }
+    
+    private func buildWithCategories(){
+        removeStub()
+        addSubViewsWithCategories()
+        applyConstraintsWithCategories()
+    }
+    
+    private func addSubViewsWithCategories() {
         view.addSubview(tableView)
         view.addSubview(addButton)
     }
     
-    @objc private func addButtonTapped() {
-        let vc = CreationCategoryVC(viewModel: viewModel)
-        show(vc, sender: self)
+    private func addSubViewsWithStub(){
+        view.addSubview(stubView)
+        view.addSubview(addButton)
     }
-  
+    
+    private func applyConstraintsWithStub() {
+        applyStubConstraints()
+        applyButtonConstraintsStub()
+    }
     private func applyConstraintsWithCategories() {
         applyTableConstraints()
-        applyButtonConstraints()
+        applyButtonConstraintsWithCategories()
     }
     
     private func applyTableConstraints() {
@@ -86,7 +114,7 @@ final class CategoriesVC: UIViewController {
         ])
     }
     
-    private func applyButtonConstraints() {
+    private func applyButtonConstraintsWithCategories() {
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
             addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -95,6 +123,41 @@ final class CategoriesVC: UIViewController {
             addButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
+    
+    private func applyStubConstraints() {
+        stubView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            stubView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            stubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stubView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -15)
+        ])
+    }
+    
+    private func applyButtonConstraintsStub() {
+        NSLayoutConstraint.activate([
+            addButton.topAnchor.constraint(equalTo: stubView.bottomAnchor, constant: 15),
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            addButton.heightAnchor.constraint(equalToConstant: 70)
+        ])
+    }
+    
+    private func removeStub(){
+        self.view.willRemoveSubview(stubView)
+        stubView.removeFromSuperview()
+    }
+    private func removeTable(){
+        self.view.willRemoveSubview(tableView)
+        tableView.removeFromSuperview()
+    }
+    
+    @objc private func addButtonTapped() {
+        let vc = CreationCategoryVC(viewModel: viewModel)
+        show(vc, sender: self)
+    }
+  
 }
 
 extension CategoriesVC: UITableViewDataSource {

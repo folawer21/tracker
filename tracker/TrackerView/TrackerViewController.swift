@@ -98,18 +98,7 @@ final class TrackerViewController: UIViewController{
             buildWithTracks()
         }
     }
-    override func viewWillDisappear(_ animated: Bool) {
-//        if trackerStore?.isEmpty == true{
-//            removeStub()
-//        }else{
-//            removeCollection()
-//        }
-    }
-    
-    deinit {
-        print(111111)
-    }
-    
+
     @objc func addButtonTapped(){
         let vc = TrackerCreatingVC()
         let navVc = UINavigationController(rootViewController: vc)
