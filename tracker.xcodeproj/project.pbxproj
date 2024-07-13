@@ -11,6 +11,10 @@
 		3E0D957A2C41E351007D490B /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D95792C41E351007D490B /* CategoriesViewModel.swift */; };
 		3E0D957C2C41EA5B007D490B /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D957B2C41EA5B007D490B /* CategoryCell.swift */; };
 		3E0D957E2C41FBF4007D490B /* CreationCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D957D2C41FBF4007D490B /* CreationCategoryVC.swift */; };
+		3E0D95822C4232A4007D490B /* UserDefaultsGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D95812C4232A4007D490B /* UserDefaultsGetter.swift */; };
+		3E0D95842C423364007D490B /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D95832C423364007D490B /* SplashScreen.swift */; };
+		3E0D95872C42347E007D490B /* OnboardingPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D95862C42347E007D490B /* OnboardingPageVC.swift */; };
+		3E0D95892C4234DE007D490B /* OnboardingPageScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0D95882C4234DE007D490B /* OnboardingPageScreen.swift */; };
 		3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */; };
 		3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */; };
 		3E97BF422BCE7FF600CF3A7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */; };
@@ -56,6 +60,10 @@
 		3E0D95792C41E351007D490B /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		3E0D957B2C41EA5B007D490B /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		3E0D957D2C41FBF4007D490B /* CreationCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreationCategoryVC.swift; sourceTree = "<group>"; };
+		3E0D95812C4232A4007D490B /* UserDefaultsGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGetter.swift; sourceTree = "<group>"; };
+		3E0D95832C423364007D490B /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		3E0D95862C42347E007D490B /* OnboardingPageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageVC.swift; sourceTree = "<group>"; };
+		3E0D95882C4234DE007D490B /* OnboardingPageScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageScreen.swift; sourceTree = "<group>"; };
 		3E97BF352BCE7FF500CF3A7F /* tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +129,35 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		3E0D957F2C42325E007D490B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */,
+				3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */,
+				3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		3E0D95802C423272007D490B /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */,
+				3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */,
+				3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		3E0D95852C42345A007D490B /* OnboardingViews */ = {
+			isa = PBXGroup;
+			children = (
+				3E0D95862C42347E007D490B /* OnboardingPageVC.swift */,
+				3E0D95882C4234DE007D490B /* OnboardingPageScreen.swift */,
+			);
+			path = OnboardingViews;
+			sourceTree = "<group>";
+		};
 		3E97BF2C2BCE7FF500CF3A7F = {
 			isa = PBXGroup;
 			children = (
@@ -141,8 +178,9 @@
 		3E97BF372BCE7FF500CF3A7F /* tracker */ = {
 			isa = PBXGroup;
 			children = (
+				3E0D95852C42345A007D490B /* OnboardingViews */,
 				3E0D95782C41E2F0007D490B /* Categories */,
-				3EA0AB002C0D3C1E00317403 /* Stores */,
+				3EA0AB002C0D3C1E00317403 /* DataStores */,
 				3EA0AAFF2C0D3C1100317403 /* DataModels */,
 				3E97BF9F2BD021F000CF3A7F /* Models */,
 				3E97BF542BCE96A700CF3A7F /* TrackerView */,
@@ -169,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				3E97BF502BCE8F6200CF3A7F /* MainTabBar.swift */,
+				3E0D95832C423364007D490B /* SplashScreen.swift */,
 			);
 			path = MainScreen;
 			sourceTree = "<group>";
@@ -232,19 +271,16 @@
 			path = DataModels;
 			sourceTree = "<group>";
 		};
-		3EA0AB002C0D3C1E00317403 /* Stores */ = {
+		3EA0AB002C0D3C1E00317403 /* DataStores */ = {
 			isa = PBXGroup;
 			children = (
+				3E0D95802C423272007D490B /* Stores */,
+				3E0D957F2C42325E007D490B /* Protocols */,
 				3EA0AB092C0F817800317403 /* ValueTransformers */,
-				3EA0AB012C0D3C2B00317403 /* TrackerStore.swift */,
-				3EA0AB032C0D3C3C00317403 /* TrackerCategoryStore.swift */,
-				3EA0AB052C0D3C4700317403 /* TrackerRecordStore.swift */,
 				3EA0AB072C0F5DF700317403 /* CDManager.swift */,
-				3EED72D02C12639C00B55F2F /* TrackerStoreProtocol.swift */,
-				3EED72D22C12920700B55F2F /* TrackerCategoryStoreProtocol.swift */,
-				3EED72D42C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift */,
+				3E0D95812C4232A4007D490B /* UserDefaultsGetter.swift */,
 			);
-			path = Stores;
+			path = DataStores;
 			sourceTree = "<group>";
 		};
 		3EA0AB092C0F817800317403 /* ValueTransformers */ = {
@@ -339,6 +375,8 @@
 				3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */,
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */,
+				3E0D95892C4234DE007D490B /* OnboardingPageScreen.swift in Sources */,
+				3E0D95822C4232A4007D490B /* UserDefaultsGetter.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
 				3E0D957E2C41FBF4007D490B /* CreationCategoryVC.swift in Sources */,
@@ -349,12 +387,14 @@
 				3EA0AA9D2C07704800317403 /* Extension.swift in Sources */,
 				3EED72D32C12920700B55F2F /* TrackerCategoryStoreProtocol.swift in Sources */,
 				3EA0AB022C0D3C2B00317403 /* TrackerStore.swift in Sources */,
+				3E0D95872C42347E007D490B /* OnboardingPageVC.swift in Sources */,
 				3EA0AB0D2C0F81B800317403 /* TypeValueTransformer.swift in Sources */,
 				3EA0AAA32C08E82900317403 /* EventCell.swift in Sources */,
 				3EED72E02C14F11700B55F2F /* TrackerCoreDataMigrationPolicy.swift in Sources */,
 				3E0D95772C41D085007D490B /* CategoriesVC.swift in Sources */,
 				3E0D957C2C41EA5B007D490B /* CategoryCell.swift in Sources */,
 				3EA0AA9F2C07846600317403 /* TrackCell.swift in Sources */,
+				3E0D95842C423364007D490B /* SplashScreen.swift in Sources */,
 				3EA0AA902C06932900317403 /* CreateHabbitVC.swift in Sources */,
 				3EA0AA972C06A13A00317403 /* ButtonCells.swift in Sources */,
 				3EA0AAA72C09FE3600317403 /* ColorCells.swift in Sources */,
