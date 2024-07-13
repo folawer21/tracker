@@ -148,3 +148,8 @@ extension CategoriesVC: UITableViewDelegate {
         cell.makeUnChosen()
     }
 }
+extension CategoriesVC: TrackerCategoryStoreDelegate{
+    func stote(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
+        tableView.reloadData()
+    }
+}

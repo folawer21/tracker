@@ -83,6 +83,7 @@ extension ButtonCells:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
             let vc = CategoriesVC(viewModel: viewModel)
+            viewModel?.model.delegate = vc
             delegate?.showCategoryVC(vc: vc)
         }
         if indexPath.row == 1{
