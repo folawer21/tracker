@@ -118,15 +118,12 @@ final class TrackCell: UICollectionViewCell{
   
     
     private func changeText(daysCount: Int){
-        let flag = daysCount % 10
-        switch flag{
-        case 1:
-            daysLabel.text = "\(daysCount) день"
-        case 2,3,4:
-            daysLabel.text = "\(daysCount) дня"
-        default:
-            daysLabel.text = "\(daysCount) дней"
-        }
+        let daysString = String.localizedStringWithFormat(
+            NSLocalizedString("number_of_days", comment: ""),
+            daysCount
+        )
+        daysLabel.text = daysString
+
     }
     
     
