@@ -33,14 +33,11 @@ final class ColorCell: UICollectionViewCell{
     }
     
     func showBlock(){
-//        color.backgroundColor = UIColor(named: "colorBlock")
         contentView.layer.borderColor = color.backgroundColor?.withAlphaComponent(0.3).cgColor
     }
     
     func hideBlock(){
-//        color.backgroundColor = .white
         contentView.layer.borderColor = UIColor.white.cgColor
-
     }
 }
 

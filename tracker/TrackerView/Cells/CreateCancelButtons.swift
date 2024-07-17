@@ -40,7 +40,8 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(.white, for: .normal)
-        createButton.setTitle("Создать", for: .normal)
+        let buttonText = NSLocalizedString("createcancel_button_create", comment: "")
+        createButton.setTitle(buttonText, for: .normal)
         createButton.isEnabled = false
         createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
     }
@@ -49,7 +50,8 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
         cancelButton.backgroundColor = .white
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
-        cancelButton.setTitle("Отменить", for: .normal)
+        let buttonText = NSLocalizedString("createcancel_button_cancel", comment: "")
+        cancelButton.setTitle(buttonText, for: .normal)
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = UIColor(named: "RedForBottoms")?.cgColor
         cancelButton.setTitleColor(UIColor(named: "RedForBottoms"), for: .normal)

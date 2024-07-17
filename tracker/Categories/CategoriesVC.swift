@@ -15,14 +15,13 @@ final class CategoriesVC: UIViewController {
         return table
     }()
     
-    lazy var stubView = StubView(frame: CGRect.zero, title: "Привычки и события можно \nобъединить по смыслу")
+    lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("stubView_text", comment: ""))
     
     let addButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.backgroundColor = .black
-        button.setTitle("Добавить категорию", for: .normal)
         return button
     }()
     
@@ -35,7 +34,6 @@ final class CategoriesVC: UIViewController {
         let trackerStore = TrackerStore(day: .friday)
         trackerStore.setCategoryStore(categoryStore: categoryStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
-        print("Initialization completed: trackerStore set in init")
     }
     
     required init?(coder: NSCoder) {
@@ -48,12 +46,12 @@ final class CategoriesVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         viewModel?.setTrackerStore()
         view.backgroundColor = .white
-        
-        navigationItem.title = "Категория"
-        
+        let navTitle = NSLocalizedString("categories_nav_title", comment: "")
+        navigationItem.title = navTitle
+        let button_text = NSLocalizedString("stubView_button_text", comment: "")
+        addButton.setTitle(button_text, for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
       
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellIdentifier)
@@ -61,7 +59,6 @@ final class CategoriesVC: UIViewController {
 
     }
     override func viewWillAppear(_ animated: Bool) {
-        //Question: Вообщем я не знаю почему но каждый раз trackerStore у viewModel.model зануляется. В чем причина? подскажите пожалуйста
         viewModel?.setTrackerStore()
         
         guard let isEmpty = viewModel?.isEmpty() else {

@@ -23,7 +23,8 @@ final class CreateHabbitVC: UIViewController{
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem()
-        navigationItem.title = "Новая привычка"
+        let navTitleText = NSLocalizedString("create_habbit_vc_nav_title", comment: "")
+        navigationItem.title = navTitleText
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -34,7 +35,6 @@ final class CreateHabbitVC: UIViewController{
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16)
         ])
-        
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
         collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")

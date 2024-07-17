@@ -13,7 +13,6 @@ protocol EventCellDelegateProtocol: AnyObject{
     func categoryWasChosen(category: String)
 }
 
-
 final class EventCell: UICollectionViewCell {
     let tableView = UITableView()
     weak var viewModel: CategoriesViewModel?
@@ -59,7 +58,8 @@ extension EventCell: UITableViewDataSource{
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = UIColor(named: "TextFieldColor")
-        cell.textLabel?.text = "Категория"
+        let cellText = NSLocalizedString("eventCell_category", comment: "")
+        cell.textLabel?.text = cellText
         cell.layer.cornerRadius = 16
         cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         return cell

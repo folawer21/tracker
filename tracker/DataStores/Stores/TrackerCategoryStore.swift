@@ -164,7 +164,6 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-        print("controllerDidChangeContent вызван")
         delegate?.stote(self, didUpdate: TrackerCategoryStoreUpdate(insertedCategoryIndexes: insertedIndexes, updatedCategoryIndexes: updatedIndexes))
         insertedIndexes = []
         updatedIndexes = []
@@ -173,7 +172,6 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var numberOfSections: Int{
-//        return categories.count
         guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
         return count
     }

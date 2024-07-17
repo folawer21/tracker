@@ -21,7 +21,8 @@ final class CreateEventVC: UIViewController{
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.leftBarButtonItem = UIBarButtonItem()
-        navigationItem.title = "Новая привычка"
+        let navTitleText = NSLocalizedString("create_event_vc_nav_title", comment: "")
+        navigationItem.title = navTitleText
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self

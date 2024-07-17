@@ -60,12 +60,14 @@ extension ButtonCells: UITableViewDataSource{
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = UIColor(named: "ButtonCellsColor")
         if indexPath.row == 0{
-            cell.textLabel?.text = "Категория"
+            let cellText = NSLocalizedString("buttonCells_category", comment: "")
+            cell.textLabel?.text = cellText
             cell.layer.cornerRadius = 16
             cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
             return cell
         }else{
-            cell.textLabel?.text = "Расписание"
+            let cellText = NSLocalizedString("buttonCells_timetable", comment: "")
+            cell.textLabel?.text = cellText
             cell.layer.cornerRadius = 16
             cell.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
             return cell
@@ -103,10 +105,6 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
         cell?.detailTextLabel?.text = ""
-//        if days.count == 7 {
-//            cell?.detailTextLabel?.text = "Каждый день"
-//        }else{
-//            cell?.detailTextLabel?.text = joinedDays}
         cell?.detailTextLabel?.text = joinedDays
         daysArr = days
     }

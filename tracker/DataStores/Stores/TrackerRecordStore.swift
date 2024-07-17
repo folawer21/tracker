@@ -55,15 +55,9 @@ final class TrackerRecordStore: NSObject{
     }
     
     private func makeRecord(id: UUID, timetable: Date){
-//        let records = getTrackerRecordsCD(id: id)
-//        let recordIndex = records.firstIndex(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) ?? 0
-//        if recordIndex != 0{
-//            deleteRecordFromCD(record: records[recordIndex])
-//        }else{
         let trackerCD = TrackerRecordCoreData(context: context)
         trackerCD.id = id
         trackerCD.timetable = timetable
-//        }
         manager.saveContext()
     }
     
@@ -74,16 +68,13 @@ final class TrackerRecordStore: NSObject{
         let type = tracker.type
         if type == .habbit{
             guard let record = getTrackerRecordsCD(id: id).first(where: {Calendar.current.isDate($0.timetable ?? Date(), equalTo: timetable, toGranularity: .day)}) else{
-                print("записи нет")
                 return}
             deleteRecordFromCD(record: record)
             return
         }
         if type == .single{
             guard let record = getTrackerRecordsCD(id: id).first else {
-                print("записи нет одиночка")
                 return}
-            print("deleted")
             deleteRecordFromCD(record: record)
             return
         }

@@ -1,0 +1,51 @@
+/* 
+  Localizable.strings
+  tracker
+
+  Created by Александр  Сухинин on 17.07.2024.
+  
+*/
+"onboard_text_first" = "Отслеживайте только то, что хотите"
+"onboard_text_second" = "Даже если это не литры воды и йога"
+"onboard_button_text" = "Вот это технологии!"
+"stubView_text" = "Привычки и события можно \nобъединить по смыслу"
+"stubView_button_text" = "Добавить категорию"
+"categories_nav_title" = "Категория"
+"creation_categoty_field" = "Введите название категории"
+"creation_categoty_button" = "Готово"
+"creation_categoty_navtitle" = "Новая категория"
+
+"monday" = "Пн"
+"tuesday" = "Вт"
+"wednesday" = "Ср"
+"thursday" = "Чт"
+"friday" = "Пт"
+"saturday" = "Сб"
+"sunday" = "Вс"
+
+"trackname_cell_placeholder" = "Введите название трекера"
+
+"buttonCells_category" = "Категория"
+"buttonCells_timetable" = "Расписание"
+
+"eventCell_category" = "Категория"
+
+"createcancel_button_create" = "Создать"
+"createcancel_button_cancel" = "Отменить"
+
+"emptyState.title" = "Что будем отслеживать?"
+"trackerVc_nav_title" = "Трекеры"
+
+"tracker_creating_cell_habbitButton" = "Привычка"
+"tracker_creating_cell_eveneButton" = "Нерегулярное событие"
+"tracker_creating_nav_title" = "Создание трекера"
+
+"create_habbit_vc_nav_title" = "Новая привычка"
+
+"create_event_vc_nav_title" = "Новое нерегулярное событие"
+
+"timetable_vc_nav_title" = "Расписание"
+"timetable_vc_button" = "Готово"
+
+"tab_bar_trackers" = "Трекеры"
+"tab_bar_statistics" = "Статистика"

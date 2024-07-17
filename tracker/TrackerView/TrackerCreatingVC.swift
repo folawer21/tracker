@@ -17,20 +17,22 @@ final class TrackerCreatingVC: UIViewController{
     weak var delegate: TrackerCreatingDelegateProtocol?
     
     private func configHabbitButton(){
+        let habbitButtonText = NSLocalizedString("tracker_creating_cell_habbitButton", comment: "")
         habbitButton.backgroundColor = .black
         habbitButton.tintColor = .white
         habbitButton.titleLabel?.font = .systemFont(ofSize: 16)
-        habbitButton.setTitle("Привычка", for: .normal)
+        habbitButton.setTitle(habbitButtonText, for: .normal)
         habbitButton.layer.cornerRadius = 16
         habbitButton.addTarget(self, action: #selector(showHabbitView), for: .touchUpInside)
         habbitButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configEventButton(){
+        let eventButtonText = NSLocalizedString("tracker_creating_cell_eveneButton", comment: "")
         eventButton.backgroundColor = .black
         eventButton.tintColor = .white
         eventButton.titleLabel?.font = .systemFont(ofSize: 16)
-        eventButton.setTitle("Нерегулярное событие", for: .normal)
+        eventButton.setTitle(eventButtonText, for: .normal)
         eventButton.layer.cornerRadius = 16
         eventButton.addTarget(self, action: #selector(showEventView), for: .touchUpInside)
         eventButton.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +53,6 @@ final class TrackerCreatingVC: UIViewController{
             eventButton.topAnchor.constraint(equalTo: habbitButton.bottomAnchor, constant: 16),
             eventButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             eventButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-//            eventButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -281),
             eventButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -71,10 +72,11 @@ final class TrackerCreatingVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let navItemTitle = NSLocalizedString("tracker_creating_nav_title", comment: "")
         view.backgroundColor = .white
-        navigationController?.navigationBar.topItem?.title = "Создание трекера"
+        navigationController?.navigationBar.topItem?.title = navItemTitle
         navigationItem.titleView?.tintColor = UIColor(named: "NavTitle")
-        navigationItem.title = "Создание трекера"
+        navigationItem.title = navItemTitle
         configHabbitButton()
         configEventButton()
         addSubViews()

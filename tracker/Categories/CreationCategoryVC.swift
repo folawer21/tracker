@@ -12,7 +12,8 @@ final class CreationCategoryVC: UIViewController{
     
     let nameInput = {
         let field = UITextField()
-        field.placeholder = "Введите название категории"
+        let inputName = NSLocalizedString("creation_categoty_field", comment: "")
+        field.placeholder = inputName
         field.backgroundColor = UIColor(named: "greyForCollection")
         field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.cornerRadius = 16
@@ -25,8 +26,9 @@ final class CreationCategoryVC: UIViewController{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(named: "greyForCollection")
+        let buttonText = NSLocalizedString("creation_categoty_field", comment: "")
         button.isUserInteractionEnabled = false
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(buttonText, for: .normal)
         return button
     }()
     
@@ -49,8 +51,9 @@ final class CreationCategoryVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let navigationTitleText = NSLocalizedString("creation_categoty_navtitle", comment: "")
         navigationItem.leftBarButtonItem = UIBarButtonItem()
-        navigationItem.title = "Новая категория"
+        navigationItem.title = navigationTitleText
         view.backgroundColor = .white
         
         view.addSubview(nameInput)

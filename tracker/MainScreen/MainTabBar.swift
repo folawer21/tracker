@@ -11,10 +11,11 @@ final class MainTabBar: UITabBarController {
     
     override func viewDidLoad() {
         let trackerNavViewController = UINavigationController(rootViewController: TrackerViewController())
-        trackerNavViewController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(named: "trackerBarItem"), selectedImage: nil)
-        
+        let trackerTitle = NSLocalizedString("tab_bar_trackers", comment: "")
+        trackerNavViewController.tabBarItem = UITabBarItem(title: trackerTitle, image: UIImage(named: "trackerBarItem"), selectedImage: nil)
         let statisticViewController = UIViewController()
-        statisticViewController.tabBarItem = UITabBarItem(title: "Статистика", image: UIImage(named: "statisticBarItem"), selectedImage: nil)
+        let statisticTitle = NSLocalizedString("tab_bar_statistics", comment: "")
+        statisticViewController.tabBarItem = UITabBarItem(title: statisticTitle, image: UIImage(named: "statisticBarItem"), selectedImage: nil)
     
         self.tabBar.layer.borderWidth = 1
         self.tabBar.layer.borderColor = UIColor(named: "YPGray")?.cgColor

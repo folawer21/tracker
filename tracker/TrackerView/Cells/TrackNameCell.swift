@@ -15,7 +15,8 @@ final class TrackNameCell: UICollectionViewCell{
     weak var textFieldDelegate: TrackNameCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
-        textField.placeholder = "Введите название трекера"
+        let textFieldPlaceholder = NSLocalizedString("trackname_cell_placeholder", comment: "")
+        textField.placeholder = textFieldPlaceholder
         textField.clearsOnBeginEditing = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 16

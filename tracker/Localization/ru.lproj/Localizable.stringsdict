@@ -16,10 +16,6 @@
             <string>0 дней</string>
             <key>one</key>
             <string>1 день</string>
-<!--            <key>two</key>-->
-<!--            <string>%d дня</string>-->
-<!--            <key>few</key>-->
-<!--            <string>%d дня</string>-->
             <key>many</key>
             <string>%d дней</string>
             <key>other</key>

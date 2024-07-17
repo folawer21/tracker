@@ -7,17 +7,9 @@
 //
 import UIKit
 
-//enum ButtonStates{
-//    case doneToday
-//    case singleDone
-//    case unavailibleDateLateer
-//    case availible
-//}
-
 protocol TrackCellDelegateProtocol: AnyObject{
     func deleteTrackerRecord(id: UUID)
     func addTrackerRecord(id: UUID)
-//    func buttonTapped(id:UUID)
 }
 
 final class TrackCell: UICollectionViewCell{
@@ -29,7 +21,6 @@ final class TrackCell: UICollectionViewCell{
 
     //Белый блок
     private let infoBlock = UIView()
-//    var daysCount: Int = 0
     let daysLabel = UILabel()
     let plusButton = UIButton()
     var buttonWasTapped = false
@@ -44,7 +35,6 @@ final class TrackCell: UICollectionViewCell{
         trackerId = track.id
         emodji.text = track.emoji
         nameLabel.text = track.name
-//        daysLabel.text = "0 дней"
         colorBlock.backgroundColor = track.color
         plusButton.tintColor = track.color
         configScreen()
@@ -80,20 +70,13 @@ final class TrackCell: UICollectionViewCell{
     
     private func configStateSingle(isDone:Bool,availible:Bool){
         plusButton.layer.opacity = 1
-        
-        print(isDone,availible)
-        
-        
         if isDone && availible{
-            print(1)
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             enableButton()
         }
         if isDone && !availible{
-            print(2)
-
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
@@ -101,13 +84,11 @@ final class TrackCell: UICollectionViewCell{
             plusButton.imageView?.image = doneImage
         }
         if !isDone && availible{
-            print(3)
             buttonWasTapped = false
             plusButton.isSelected = false
             enableButton()
         }
         if !isDone && !availible{
-            print(4)
             buttonWasTapped = false
             plusButton.isSelected = false
             plusButton.layer.opacity = 0.3
@@ -115,31 +96,14 @@ final class TrackCell: UICollectionViewCell{
         }
     }
 
-  
-    
     private func changeText(daysCount: Int){
         let daysString = String.localizedStringWithFormat(
             NSLocalizedString("number_of_days", comment: ""),
             daysCount
         )
         daysLabel.text = daysString
-
     }
     
-    
-    
-    
-//    func buttonAlreadyTapped(){
-//        plusButton.layer.opacity = 0.3
-//        plusButton.isSelected = true
-//        buttonWasTapped = true
-//    }
-//    func buttonDidntTapped(){
-//        buttonWasTapped = false
-//        plusButton.isSelected = false
-//        plusButton.layer.opacity = 1
-//    }
-//    
     func enableButton(){
         plusButton.isEnabled = true
     }
@@ -148,31 +112,7 @@ final class TrackCell: UICollectionViewCell{
         plusButton.isEnabled = false
     }
    
-    
     @objc func buttonTapped(){
-//        if buttonWasTapped{
-//            daysCount -= 1
-//            changeText()
-//            plusButton.isSelected = false
-//            buttonWasTapped = false
-//            plusButton.layer.opacity = 1
-//            guard let id = tracker?.id else {
-//                print("[buttonTapped] TrackCell - unable to get Id ")
-//                return
-//            }
-//            delegate?.deleteTrackerRecord(id: id)
-//        }else{
-//            daysCount += 1
-//            changeText()
-//            plusButton.isSelected = true
-//            plusButton.layer.opacity = 0.3
-//            buttonWasTapped = true
-//            guard let id = tracker?.id else {
-//                print("[buttonTapped] TrackCell - unable to get Id ")
-//                return
-//            }
-//            delegate?.addTrackerRecord(id: id)
-//        }
         guard let id = trackerId else {return}
         if buttonWasTapped{
             delegate?.deleteTrackerRecord(id: id)

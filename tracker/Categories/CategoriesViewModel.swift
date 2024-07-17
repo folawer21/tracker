@@ -14,7 +14,6 @@ class CategoriesViewModel{
     var onPickedCategoryChanged: Binding<String>?
     private var pickedCategory: String?
     let model = TrackerCategoryStore()
-    var categories =  ["какашки","пиписьки","насвайки"]
     func getCategoristCount() -> Int{
         return model.categoriesCount
     }
@@ -45,15 +44,7 @@ class CategoriesViewModel{
     func getPickedCategory() -> String?{
         pickedCategory
     }
-    
-//    func getCategoristCount() -> Int{
-//        return categories.count
-//    }
-//    
-//    func getCategoryName(index: Int) -> String{
-//        return categories[index]
-//    }
-    
+
     func textFieldDidChange(categoryName: String){
         if categoryName == ""{
             onCreationAllowedStateChange?(false)
@@ -66,13 +57,4 @@ class CategoriesViewModel{
         return model.isEmpty
     }
     
-//    func createNewCategory(categoryName: String){
-//        categories.append(categoryName)
-//    }
-//    
-
-//    
-//    func isCategoryChosen(index: Int) -> Bool{
-//        return categories[index] == pickedCategory ? true : false
-//    }
 }

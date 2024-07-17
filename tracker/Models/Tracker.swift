@@ -80,7 +80,7 @@ struct Tracker{
 }
 
 enum WeekDay: String, Codable{
-    case monday = "Пн"
+    case monday =  "Пн"
     case tuesday = "Вт"
     case wednesday = "Ср"
     case thursday = "Чт"

@@ -82,22 +82,6 @@ final class TrackerStore: NSObject{
     
     
     func addNewTracker(tracker: Tracker,category: String) throws {
-//        let colorHex = marshaling.hexString(from: tracker.color)
-//        let daysData = daysTransformer.transformedValue(tracker.timetable) as? NSObject
-//        let typeData = typeTransformer.transformedValue(tracker.type) as? NSObject
-//        guard let categoryCD = categoryStore.getCategoryCoreData(categoryName: category) else{
-//            fatalError()
-//        }
-//        let trackerData = TrackerCoreData(context: context)
-//        trackerData.category = categoryCD
-//        trackerData.emoji = tracker.emoji
-//        trackerData.id = tracker.id
-//        trackerData.name = tracker.name
-//        trackerData.color = colorHex
-//        trackerData.timetable = daysData
-//        trackerData.type = typeData
-//        trackerData.createdAt = tracker.createdAt
-//        manager.saveContext()
         categoryStore?.addTrackerToCategory(tracker: tracker, categoryName: category)
     }
     
@@ -114,11 +98,6 @@ final class TrackerStore: NSObject{
     }
     
     func getTrackerCD(from tracker: Tracker, categoryName : String) -> TrackerCoreData?{
-//        guard let timetableCD = daysTransformer.transformedValue(tracker.timetable) as? NSData ,
-//              let typeCD = typeTransformer.transformedValue(tracker.type) as? NSData else {
-//            fatalError()
-//        }
-//        
         guard let timetableCD = tracker.timetableToJSON() ,
               let typeCD = tracker.typeToJSON()else {
             fatalError()
@@ -206,7 +185,6 @@ extension TrackerStore: TrackerStoreProtocol{
     }
     
     var isEmpty: Bool{
-//        categoryStore?.deleteCategory(categoryName: "Какашка")
         return trackers.isEmpty
     }
     

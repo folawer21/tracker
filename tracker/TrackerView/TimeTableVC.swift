@@ -23,7 +23,6 @@ final class TimeTableVC: UIViewController{
     weak var delegate: TimeTableVcDelegateProtocol?
     
     @objc func doneButtonTapped(){
-        print(selectedDays)
         delegate?.setDays(days: selectedDays)
         delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)
@@ -38,7 +37,7 @@ final class TimeTableVC: UIViewController{
     }
     
     func configButton(){
-        doneButton.setTitle("Готово", for: .normal)
+        doneButton.setTitle(NSLocalizedString("timetable_vc_button", comment: ""), for: .normal)
         doneButton.backgroundColor = .black
         doneButton.setTitleColor(.white, for: .normal)
         doneButton.titleLabel?.font = .systemFont(ofSize: 16)
@@ -48,7 +47,8 @@ final class TimeTableVC: UIViewController{
     }
     
     override func viewDidLoad() {
-        navigationItem.title = "Расписание"
+        let navTitleText = NSLocalizedString("timetable_vc_nav_title", comment: "")
+        navigationItem.title = navTitleText
         configTableView()
         configButton()
         view.backgroundColor = .white
@@ -92,55 +92,6 @@ final class TimeTableVC: UIViewController{
                 print("error")
             }
     }
-//    
-//    func addDayIfSwitched(row: Int){
-//        switch row{
-//        case 0:
-//            addDay(day: "Пн")
-//        case 1:
-//            addDay(day: "Вт")
-//        case 2:
-//            addDay(day: "Ср")
-//        case 3:
-//            addDay(day: "Чт")
-//        case 4:
-//            addDay(day: "Пт")
-//        case 5:
-//            addDay(day: "Сб")
-//        case 6:
-//            addDay(day: "Вс")
-//        default:
-//            print("error")
-//        }
-//        
-//    }
-    
-//    func getRowFromDays() -> [Int]{
-//        var result:[Int] = []
-//        guard let daysaaa = delegate?.getDaysArr() else {return result}
-//        for day in daysaaa{
-//            switch day{
-//            case "Пн":
-//                result.append(0)
-//            case "Вт":
-//                result.append(1)
-//            case "Ср":
-//                result.append(2)
-//            case "Чт":
-//                result.append(3)
-//            case "Пт":
-//                result.append(4)
-//            case "Сб":
-//                result.append(5)
-//            case "Вс":
-//                result.append(6)
-//            default:
-//                print("error")
-//            }
-//            }
-//        return result
-//        }
-    
 }
 
 extension TimeTableVC: UITableViewDataSource{

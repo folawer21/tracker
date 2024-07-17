@@ -27,12 +27,10 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.titleLabel?.textColor = .white
-        button.titleLabel?.text = "Вот это технологии!"
-        
         return button
     }()
     
-    let texts = ["Отслеживайте только то, что хотите", "Даже если это не литры воды и йога"]
+    let texts = [NSLocalizedString("onboard_text_first", comment: ""), NSLocalizedString("onboard_text_second", comment: "")]
     let images = [UIImage(named: "1"), UIImage(named: "2")]
     
     lazy var pages: [UIViewController] = {
@@ -49,7 +47,8 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         super.viewDidLoad()
         dataSource = self
         delegate = self
-        nextButton.setTitle("Вот это технология!", for: .normal)
+        let techonology_text = NSLocalizedString("onboard_button_text", comment: "")
+        nextButton.setTitle(techonology_text, for: .normal)
         if let first = pages.first{
             setViewControllers([first], direction: .forward, animated: true,completion: nil)
         }
@@ -83,20 +82,8 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
     }
     
     @objc func nextButtonTapped(){
-//        guard let currentViewController = viewControllers?.first,
-//              let currentIndex = pages.firstIndex(of: currentViewController) else {
-//            return
-//        }
-//        
-//        let nextIndex = currentIndex + 1
-//        guard nextIndex < pages.count else{
-//            return
-//        }
-//        
-//        setViewControllers([pages[nextIndex]], direction: .forward, animated: true)
         userDefGetter.setSkip(skip: true)
         switchToTabBar()
-        
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {

@@ -17,8 +17,6 @@ final class TimetableCell: UITableViewCell{
         self.textLabel?.font = .systemFont(ofSize: 17)
     }
 
-    
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder) has not implemented")
     }
