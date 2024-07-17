@@ -26,7 +26,7 @@ final class CreationCategoryVC: UIViewController{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(named: "greyForCollection")
-        let buttonText = NSLocalizedString("creation_categoty_field", comment: "")
+        let buttonText = NSLocalizedString("creation_categoty_button", comment: "")
         button.isUserInteractionEnabled = false
         button.setTitle(buttonText, for: .normal)
         return button

@@ -52,3 +52,5 @@
 
 "tab_bar_trackers" = "Trackers";
 "tab_bar_statistics" = "Statistics";
+
+"tracker_viewController_search" = "Search";

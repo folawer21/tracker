@@ -22,9 +22,25 @@ final class TrackerCategoryStore: NSObject{
     private let context: NSManagedObjectContext
     private var insertedIndexes : [IndexPath] = []
     private var updatedIndexes: [IndexPath] = []
+    private var searchText: String = ""
     var fetchedResultsController:NSFetchedResultsController<TrackerCategoryCoreData>
     
     weak var delegate: TrackerCategoryStoreDelegate?
+    
+    var categories: [TrackerCategory]{
+        guard let objects = self.fetchedResultsController.fetchedObjects,
+              let categories = try? objects.map({try self.category(from: $0)}) else {
+            return []}
+        return categories
+    }
+    
+    var filteredCategories: [TrackerCategory]{
+        if !searchText.isEmpty {
+            return categories.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+        } else {
+            return categories
+        }
+    }
     
     override init(){
         self.context = manager.context
@@ -36,6 +52,8 @@ final class TrackerCategoryStore: NSObject{
         self.fetchedResultsController = conroller
         
         super.init()
+        
+        
         conroller.delegate = self
         do{
             try conroller.performFetch()
@@ -44,12 +62,6 @@ final class TrackerCategoryStore: NSObject{
         }
     }
     
-    var categories: [TrackerCategory]{
-        guard let objects = self.fetchedResultsController.fetchedObjects,
-              let categories = try? objects.map({try self.category(from: $0)}) else {
-            return []}
-        return categories
-    }
     
     func category(from categoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory{
         guard let title = categoryCoreData.title else { print(1)
@@ -61,12 +73,6 @@ final class TrackerCategoryStore: NSObject{
         guard let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else { print(4)
             fatalError()
         }
-//        guard let title = categoryCoreData.title,
-//              let trackerStore = self.trackerStore,
-//              let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData],
-//              let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else {
-//            fatalError()
-//        }
         let category = TrackerCategory(title: title, trackerList: trackers)
         return category
     }
@@ -98,7 +104,6 @@ final class TrackerCategoryStore: NSObject{
             let trackersCD = trackers.compactMap{trackerStore.getTrackerCD(from:$0,categoryName:categoryName)}
             category.title = categoryName
             category.trackers = NSSet(array: trackersCD)
-//            manager.saveContext()
 
             do {
                    try context.save()
@@ -106,8 +111,6 @@ final class TrackerCategoryStore: NSObject{
                    print("Ошибка сохранения контекста: \(error)")
                }
         }
-//        print("Категория создана")
-//        manager.saveContext()
     }
     
      func getCategoryCoreData(categoryName: String)  -> TrackerCategoryCoreData?{
@@ -133,8 +136,6 @@ final class TrackerCategoryStore: NSObject{
             }
             guard let trackerStore = self.trackerStore,
                 let trackersCD = trackerStore.getTrackerCD(from: tracker, categoryName: categoryName) else {fatalError()}
-            print(tracker)
-            print(trackersCD)
             category.addToTrackers(trackersCD)
             manager.saveContext()
         }catch{
@@ -172,16 +173,19 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var numberOfSections: Int{
-        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-        return count
+//        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+//        return count
+        filteredCategories.count
     }
     var categoriesCount: Int{
-        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-        return count
+//        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+//        return count
+        filteredCategories.count
     }
     var isEmpty: Bool{
-        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
-        return isEmpty
+//        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
+//        return isEmpty
+        filteredCategories.isEmpty
     }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
         self.newCategory(categoryName: categoryName, trackers: trackers)
@@ -191,14 +195,21 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         self.trackerStore = trackerStore
     }
     func getCategoryName(section: Int) -> String {
-        return categories[section].title
+//        return categories[section].title
+        return filteredCategories[section].title
     }
     
     func getCategoryCountByIndex(index: Int) -> Int{
-        return categories[index].trackerList.count
+//        return categories[index].trackerList.count
+        return filteredCategories[index].trackerList.count
     }
     
     func getTrackerByIndexPath(index: IndexPath) -> Tracker{
-        return categories[index.section].trackerList[index.row]
+//        return categories[index.section].trackerList[index.row]
+        return filteredCategories[index.section].trackerList[index.row]
+    }
+    
+    func updateCategoriesWithSearch(searchText: String){
+        self.searchText = searchText
     }
 }

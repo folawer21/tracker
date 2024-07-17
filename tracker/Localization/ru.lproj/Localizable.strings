@@ -48,4 +48,6 @@
 "timetable_vc_button" = "Готово";
 
 "tab_bar_trackers" = "Трекеры";
-"tab_bar_statistics" = "Статистика";н
+"tab_bar_statistics" = "Статистика";
+
+"tracker_viewController_search" = "Поиск";

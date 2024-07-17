@@ -120,7 +120,13 @@ final class TrackerViewController: UIViewController{
         datePicker.preferredDatePickerStyle = .compact
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
-        navigationItem.searchController = UISearchController(searchResultsController: nil)
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = NSLocalizedString("tracker_viewController_search", comment: "")
+        navigationItem.searchController = searchController
+        
+        
     }
     
     @objc func datePickerChanged(){
@@ -279,5 +285,14 @@ extension TrackerViewController: TrackerCategoryStoreDelegate{
 extension TrackerViewController: TrackerRecordStoreDelegateProtocol{
     func update(_ store: TrackerRecordStore, didUpdate update: TrackerRecordStoreUpdate) {
         collectionView.reloadData()
+    }
+}
+
+extension TrackerViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text{
+            categoriesStore?.updateCategoriesWithSearch(searchText: searchText)
+            collectionView.reloadData()
+        }
     }
 }
