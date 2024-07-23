@@ -11,7 +11,7 @@ final class CategoriesVC: UIViewController {
     let tableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = .white
+        table.backgroundColor = Colors.blackBackgroundColor
         return table
     }()
     
@@ -21,7 +21,9 @@ final class CategoriesVC: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.tintColor = Colors.createButtonTextColorEnabled
+        button.backgroundColor = Colors.addButtonColor
+        button.titleLabel?.textColor = Colors.createButtonTextColorEnabled
         return button
     }()
     
@@ -45,7 +47,8 @@ final class CategoriesVC: UIViewController {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         viewModel?.setTrackerStore()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
+        navigationItem.titleView?.tintColor = Colors.stubTextLabelColor
         let navTitle = NSLocalizedString("categories_nav_title", comment: "")
         navigationItem.title = navTitle
         let button_text = NSLocalizedString("stubView_button_text", comment: "")

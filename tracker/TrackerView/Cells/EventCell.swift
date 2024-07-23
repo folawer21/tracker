@@ -21,7 +21,7 @@ final class EventCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(named: "TextFieldColor")
+//        tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
         tableView.separatorStyle = .singleLine
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -57,7 +57,7 @@ extension EventCell: UITableViewDataSource{
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = UIColor(named: "TextFieldColor")
+        cell.backgroundColor = Colors.createHabbitEventSecondaryColor
         let cellText = NSLocalizedString("eventCell_category", comment: "")
         cell.textLabel?.text = cellText
         cell.layer.cornerRadius = 16

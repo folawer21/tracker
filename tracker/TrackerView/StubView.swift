@@ -11,6 +11,7 @@ final class StubView: UIView{
 
     init(frame: CGRect,title: String) {
         super.init(frame: frame)
+        self.backgroundColor = Colors.blackBackgroundColor
         textLabel.text = title
         addViews()
         activateConstraints()
@@ -25,6 +26,7 @@ final class StubView: UIView{
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "stubView")
+        imageView.backgroundColor = Colors.blackBackgroundColor
         return imageView
     }()
 
@@ -34,6 +36,7 @@ final class StubView: UIView{
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.numberOfLines = 2
         textLabel.textAlignment = .center
+        textLabel.textColor = Colors.stubTextLabelColor
         return textLabel
     }()
     

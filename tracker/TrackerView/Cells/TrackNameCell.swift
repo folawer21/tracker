@@ -23,6 +23,7 @@ final class TrackNameCell: UICollectionViewCell{
         textField.backgroundColor = UIColor(named: "TextFieldColor")
         textField.indent(size: 10)
         textField.delegate = self
+        textField.backgroundColor = Colors.createHabbitEventSecondaryColor
         contentView.addSubview(textField)
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

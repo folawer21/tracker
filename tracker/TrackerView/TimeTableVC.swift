@@ -31,6 +31,8 @@ final class TimeTableVC: UIViewController{
     func configTableView(){
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
+        tableView.separatorColor = Colors.separatorColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(TimetableCell.self, forCellReuseIdentifier: "day")
         tableView.layer.cornerRadius = 16
@@ -38,8 +40,8 @@ final class TimeTableVC: UIViewController{
     
     func configButton(){
         doneButton.setTitle(NSLocalizedString("timetable_vc_button", comment: ""), for: .normal)
-        doneButton.backgroundColor = .black
-        doneButton.setTitleColor(.white, for: .normal)
+        doneButton.backgroundColor = Colors.addButtonColor
+        doneButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
         doneButton.titleLabel?.font = .systemFont(ofSize: 16)
         doneButton.layer.cornerRadius = 16
         doneButton.translatesAutoresizingMaskIntoConstraints = false
@@ -49,9 +51,10 @@ final class TimeTableVC: UIViewController{
     override func viewDidLoad() {
         let navTitleText = NSLocalizedString("timetable_vc_nav_title", comment: "")
         navigationItem.title = navTitleText
+        navigationItem.titleView?.tintColor = Colors.stubTextLabelColor
         configTableView()
         configButton()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         view.addSubview(tableView)
         view.addSubview(doneButton)
@@ -99,7 +102,8 @@ extension TimeTableVC: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "day", for: indexPath) as? TimetableCell else {return UITableViewCell()}
         cell.textLabel?.text = days[indexPath.row]
-        cell.backgroundColor = UIColor(named: "TextFieldColor")
+        cell.backgroundColor = Colors.createHabbitEventSecondaryColor
+        cell.textLabel?.textColor = Colors.stubTextLabelColor
         cell.switcher.addTarget(self, action: #selector(self.switcherTapped(sender:)), for: .touchUpInside)
         let activity = NSUserActivity(activityType: "aa")
         activity.userInfo = ["day" : days[indexPath.row]]

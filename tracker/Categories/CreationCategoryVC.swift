@@ -54,7 +54,7 @@ final class CreationCategoryVC: UIViewController{
         let navigationTitleText = NSLocalizedString("creation_categoty_navtitle", comment: "")
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         navigationItem.title = navigationTitleText
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         
         view.addSubview(nameInput)
         view.addSubview(completeButton)

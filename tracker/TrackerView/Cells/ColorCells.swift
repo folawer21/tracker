@@ -16,6 +16,7 @@ final class ColorCell: UICollectionViewCell{
     let color: UIView = UIView()
     func setupView(cellColor: UIColor){
         contentView.addSubview(color)
+        
         color.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -37,7 +38,7 @@ final class ColorCell: UICollectionViewCell{
     }
     
     func hideBlock(){
-        contentView.layer.borderColor = UIColor.white.cgColor
+        contentView.layer.borderColor = Colors.blackBackgroundColor.cgColor
     }
 }
 
@@ -52,7 +53,7 @@ final class ColorCells: UICollectionViewCell{
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.register(ColorCell.self, forCellWithReuseIdentifier: "color")
         contentView.addSubview(collectionView)
         NSLayoutConstraint.activate([

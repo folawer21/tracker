@@ -22,7 +22,7 @@ final class ButtonCells: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = UIColor(named: "ButtonCellsColor")
+        tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
         tableView.separatorStyle = .singleLine
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
@@ -58,7 +58,7 @@ extension ButtonCells: UITableViewDataSource{
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
-        cell.backgroundColor = UIColor(named: "ButtonCellsColor")
+        cell.backgroundColor = Colors.createHabbitEventSecondaryColor
         if indexPath.row == 0{
             let cellText = NSLocalizedString("buttonCells_category", comment: "")
             cell.textLabel?.text = cellText

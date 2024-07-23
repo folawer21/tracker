@@ -21,6 +21,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     func setupView(){
         contentView.addSubview(cancelButton)
         contentView.addSubview(createButton)
+//        contentView.backgroundColor = Colors.blackBackgroundColor
         configCancelButton()
         configCreateButton()
         NSLayoutConstraint.activate([
@@ -36,25 +37,26 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     }
     
     func configCreateButton(){
-        createButton.backgroundColor = .ypGray
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
-        createButton.setTitleColor(.white, for: .normal)
+        createButton.setTitleColor(Colors.createButtonTextColorEnabled, for: .normal)
+        createButton.setTitleColor(Colors.createButtonTextColorDisabled, for: .disabled)
         let buttonText = NSLocalizedString("createcancel_button_create", comment: "")
         createButton.setTitle(buttonText, for: .normal)
         createButton.isEnabled = false
+        createButton.backgroundColor = createButton.isEnabled ? Colors.createButtonColor : .ypGray
         createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
     }
     
     func configCancelButton(){
-        cancelButton.backgroundColor = .white
+        cancelButton.backgroundColor = Colors.blackBackgroundColor
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
         let buttonText = NSLocalizedString("createcancel_button_cancel", comment: "")
         cancelButton.setTitle(buttonText, for: .normal)
         cancelButton.layer.borderWidth = 1
-        cancelButton.layer.borderColor = UIColor(named: "RedForBottoms")?.cgColor
-        cancelButton.setTitleColor(UIColor(named: "RedForBottoms"), for: .normal)
+        cancelButton.layer.borderColor = Colors.cancelButtonTextAndBorder?.cgColor
+        cancelButton.setTitleColor(Colors.cancelButtonTextAndBorder, for: .normal)
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
     
@@ -68,6 +70,6 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     
     func updateCreateButtonState(isEnabled: Bool){
         createButton.isEnabled = isEnabled
-        createButton.backgroundColor = isEnabled ? .black : .ypGray
+        createButton.backgroundColor = isEnabled ? Colors.createButtonColor : .ypGray
     }
 }

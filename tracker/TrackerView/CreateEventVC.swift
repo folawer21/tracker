@@ -19,10 +19,11 @@ final class CreateEventVC: UIViewController{
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         let navTitleText = NSLocalizedString("create_event_vc_nav_title", comment: "")
         navigationItem.title = navTitleText
+        collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -86,6 +87,7 @@ extension CreateEventVC: UICollectionViewDataSource{
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
             cell.textFieldDelegate = self
+            
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as? EventCell else {return UICollectionViewCell()}
@@ -151,10 +153,12 @@ extension CreateEventVC: UICollectionViewDelegateFlowLayout{
         if indexPath.section == 2{
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Emoji"
+            view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
         }else if indexPath.section == 3{
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Цвет"
+            view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
         }
         return UICollectionReusableView()

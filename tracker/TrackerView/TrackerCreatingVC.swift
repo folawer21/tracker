@@ -18,8 +18,8 @@ final class TrackerCreatingVC: UIViewController{
     
     private func configHabbitButton(){
         let habbitButtonText = NSLocalizedString("tracker_creating_cell_habbitButton", comment: "")
-        habbitButton.backgroundColor = .black
-        habbitButton.tintColor = .white
+        habbitButton.backgroundColor = Colors.trackerCreatingVCbuttonsColors
+        habbitButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
         habbitButton.titleLabel?.font = .systemFont(ofSize: 16)
         habbitButton.setTitle(habbitButtonText, for: .normal)
         habbitButton.layer.cornerRadius = 16
@@ -29,8 +29,8 @@ final class TrackerCreatingVC: UIViewController{
     
     private func configEventButton(){
         let eventButtonText = NSLocalizedString("tracker_creating_cell_eveneButton", comment: "")
-        eventButton.backgroundColor = .black
-        eventButton.tintColor = .white
+        eventButton.backgroundColor = Colors.trackerCreatingVCbuttonsColors
+        eventButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
         eventButton.titleLabel?.font = .systemFont(ofSize: 16)
         eventButton.setTitle(eventButtonText, for: .normal)
         eventButton.layer.cornerRadius = 16
@@ -73,7 +73,7 @@ final class TrackerCreatingVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         let navItemTitle = NSLocalizedString("tracker_creating_nav_title", comment: "")
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         navigationController?.navigationBar.topItem?.title = navItemTitle
         navigationItem.titleView?.tintColor = UIColor(named: "NavTitle")
         navigationItem.title = navItemTitle

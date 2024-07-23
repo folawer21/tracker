@@ -13,7 +13,7 @@ final class CategoryCell: UITableViewCell{
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.textColor = Colors.addButtonColor
         label.textAlignment = .left
         label.numberOfLines = 2
         return label
@@ -50,7 +50,7 @@ final class CategoryCell: UITableViewCell{
     }
     
     func setupCell(name: String){
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = Colors.createHabbitEventSecondaryColor
         setCategoryNameTitle(name: name)
         contentView.addSubview(cellView)
         cellView.addSubview(categoryNameLabel)

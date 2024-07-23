@@ -21,10 +21,11 @@ final class CreateHabbitVC: UIViewController{
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         let navTitleText = NSLocalizedString("create_habbit_vc_nav_title", comment: "")
         navigationItem.title = navTitleText
+        collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -176,10 +177,12 @@ extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
         if indexPath.section == 2{
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Emoji"
+            view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
         }else if indexPath.section == 3{
             guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Цвет"
+            view.titleLabel.textColor = Colors.headerCollectionViewColor           
             return view
         }
         return UICollectionReusableView()

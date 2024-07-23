@@ -44,7 +44,7 @@ final class TrackerViewController: UIViewController{
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(TrackCell.self, forCellWithReuseIdentifier: "Track")
@@ -61,7 +61,6 @@ final class TrackerViewController: UIViewController{
     }
     override func viewDidLoad() {
         buildNavBar()
-        
         let date = datePicker.date
         guard let formattedDate = formatDate(date: date) else {
             print("[updateFilteredCategories] TrackerViewController - unable to get Date")
@@ -85,7 +84,7 @@ final class TrackerViewController: UIViewController{
         self.trackerStore = trackerStore
         self.trackerRecordStore = trackerRecordStore
         
-        view.backgroundColor = .white
+        view.backgroundColor = Colors.blackBackgroundColor
         
     }
     
@@ -111,15 +110,16 @@ final class TrackerViewController: UIViewController{
         navigationController?.navigationBar.prefersLargeTitles = true
         
         let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addButtonTapped))
-        addButton.tintColor = .black
+        addButton.tintColor = Colors.addButtonColor
         navigationItem.leftBarButtonItem = addButton
         
         
         datePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.backgroundColor = Colors.datePickerColor
+        datePicker.layer.cornerRadius = 20
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-        
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -230,6 +230,7 @@ extension TrackerViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
         view.titleLabel.text = categoriesStore?.getCategoryName(section: indexPath.section)
+        view.titleLabel.textColor = Colors.headerCollectionViewColor
         return view
     }
 }

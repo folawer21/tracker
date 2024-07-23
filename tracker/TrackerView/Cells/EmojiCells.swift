@@ -16,6 +16,7 @@ final class EmojiCell: UICollectionViewCell{
     let emoji: UILabel = UILabel()
     func setupView(text: String){
         contentView.addSubview(emoji)
+        contentView.backgroundColor = Colors.blackBackgroundColor
         emoji.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -27,18 +28,18 @@ final class EmojiCell: UICollectionViewCell{
         emoji.text = text
         emoji.textAlignment = .center
         emoji.font = .boldSystemFont(ofSize: 32)
-        emoji.backgroundColor = .white
+        emoji.backgroundColor = Colors.emojiColor
         emoji.layer.cornerRadius = 16
         emoji.layer.masksToBounds = true
         hideBlock()
     }
     
     func showBlock(){
-        emoji.backgroundColor = UIColor(named: "EmojiBlock")
+        emoji.backgroundColor = Colors.emojiBlockColor
     }
     
     func hideBlock(){
-        emoji.backgroundColor = .white
+        emoji.backgroundColor = Colors.emojiColor
     }
 }
 
@@ -52,7 +53,7 @@ final class EmojiCells: UICollectionViewCell{
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsMultipleSelection = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.register(EmojiCell.self, forCellWithReuseIdentifier: "emoji")
         contentView.addSubview(collectionView)
         NSLayoutConstraint.activate([

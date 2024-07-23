@@ -133,9 +133,9 @@ extension TrackCell{
         emodjiBlock.layer.cornerRadius = 12
         emodjiBlock.layer.masksToBounds = true
         colorBlock.layer.cornerRadius = 16
-        infoBlock.backgroundColor = .white
+        infoBlock.backgroundColor = Colors.blackBackgroundColor
         daysLabel.numberOfLines = 2
-        daysLabel.textColor = .black
+        daysLabel.textColor = Colors.trackCellText
         daysLabel.font = .systemFont(ofSize: 12)
         nameLabel.textColor = .white
         emodji.font =  UIFont.systemFont(ofSize: 14)
@@ -186,7 +186,7 @@ extension TrackCell{
             nameLabel.trailingAnchor.constraint(equalTo: colorBlock.trailingAnchor, constant: -12),
             nameLabel.topAnchor.constraint(equalTo: emodjiBlock.bottomAnchor, constant: 8),
             
-            daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 12),
+            daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 14),
             daysLabel.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -24),
             daysLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -8),
             daysLabel.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 16),
