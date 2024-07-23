@@ -21,6 +21,8 @@
 		3E4758DB2C4F178F00919EA5 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 3E4758DA2C4F178F00919EA5 /* InlineSnapshotTesting */; };
 		3E4758DD2C4F178F00919EA5 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 3E4758DC2C4F178F00919EA5 /* SnapshotTesting */; };
 		3E4758E02C4F1E7500919EA5 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758DF2C4F1E7500919EA5 /* Colors.swift */; };
+		3E4758E32C4FF36C00919EA5 /* StatisticVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758E22C4FF36C00919EA5 /* StatisticVC.swift */; };
+		3E4758E72C4FF92300919EA5 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758E62C4FF92300919EA5 /* StatisticsCell.swift */; };
 		3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */; };
 		3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */; };
 		3E97BF422BCE7FF600CF3A7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */; };
@@ -87,6 +89,8 @@
 		3E4758D02C4F170200919EA5 /* trackerScreenshotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = trackerScreenshotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4758D22C4F170200919EA5 /* trackerScreenshotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = trackerScreenshotsTests.swift; sourceTree = "<group>"; };
 		3E4758DF2C4F1E7500919EA5 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		3E4758E22C4FF36C00919EA5 /* StatisticVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticVC.swift; sourceTree = "<group>"; };
+		3E4758E62C4FF92300919EA5 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		3E97BF352BCE7FF500CF3A7F /* tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -210,10 +214,20 @@
 		3E4758DE2C4F1E5400919EA5 /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				3E0D95AB2C473E65007D490B /* Localization */,
 				3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */,
 				3E4758DF2C4F1E7500919EA5 /* Colors.swift */,
 			);
 			path = Resourses;
+			sourceTree = "<group>";
+		};
+		3E4758E12C4FF34F00919EA5 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				3E4758E22C4FF36C00919EA5 /* StatisticVC.swift */,
+				3E4758E62C4FF92300919EA5 /* StatisticsCell.swift */,
+			);
+			path = Statistics;
 			sourceTree = "<group>";
 		};
 		3E97BF2C2BCE7FF500CF3A7F = {
@@ -238,7 +252,7 @@
 		3E97BF372BCE7FF500CF3A7F /* tracker */ = {
 			isa = PBXGroup;
 			children = (
-				3E0D95AB2C473E65007D490B /* Localization */,
+				3E4758E12C4FF34F00919EA5 /* Statistics */,
 				3E0D95852C42345A007D490B /* OnboardingViews */,
 				3E0D95782C41E2F0007D490B /* Categories */,
 				3EA0AB002C0D3C1E00317403 /* DataStores */,
@@ -482,6 +496,7 @@
 				3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */,
 				3EA0AAA12C07F48100317403 /* SupplementaryView.swift in Sources */,
 				3E97BF512BCE8F6200CF3A7F /* MainTabBar.swift in Sources */,
+				3E4758E32C4FF36C00919EA5 /* StatisticVC.swift in Sources */,
 				3EA0AB042C0D3C3C00317403 /* TrackerCategoryStore.swift in Sources */,
 				3EA0AA992C06BCDA00317403 /* TimeTableVC.swift in Sources */,
 				3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */,
@@ -511,6 +526,7 @@
 				3EA0AAA92C0A24B600317403 /* CreateCancelButtons.swift in Sources */,
 				3EA0AB062C0D3C4700317403 /* TrackerRecordStore.swift in Sources */,
 				3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */,
+				3E4758E72C4FF92300919EA5 /* StatisticsCell.swift in Sources */,
 				3EA0AB082C0F5DF700317403 /* CDManager.swift in Sources */,
 				3EA0AA922C06933600317403 /* CreateEventVC.swift in Sources */,
 				3EA0AA8E2C0687C400317403 /* TrackerCreatingVC.swift in Sources */,

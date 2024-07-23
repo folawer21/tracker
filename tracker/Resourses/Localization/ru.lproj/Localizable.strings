@@ -51,3 +51,6 @@
 "tab_bar_statistics" = "Статистика";
 
 "tracker_viewController_search" = "Поиск";
+
+"statistics_navigation" = "Статистика";
+"statistics_stub_text" = "Анализировать пока нечего";

@@ -54,3 +54,6 @@
 "tab_bar_statistics" = "Statistics";
 
 "tracker_viewController_search" = "Search";
+
+"statistics_navigation" = "Statistics";
+"statistics_stub_text" = "Nothing for analyze";

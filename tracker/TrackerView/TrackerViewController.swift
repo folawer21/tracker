@@ -16,7 +16,7 @@ final class TrackerViewController: UIViewController{
     let calendar = Calendar.current
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    let stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("emptyState.title", comment: ""))
+    let stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("emptyState.title", comment: ""),imageName: "stubView")
     
     var trackerStore: TrackerStoreProtocol?
     var categoriesStore: TrackerCategoryStoreProtocol?

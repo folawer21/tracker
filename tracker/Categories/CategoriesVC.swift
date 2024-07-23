@@ -15,7 +15,7 @@ final class CategoriesVC: UIViewController {
         return table
     }()
     
-    lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("stubView_text", comment: ""))
+    lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("stubView_text", comment: ""), imageName: "stubView")
     
     let addButton = {
         let button = UIButton()

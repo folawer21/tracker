@@ -9,9 +9,10 @@ import UIKit
 
 final class StubView: UIView{
 
-    init(frame: CGRect,title: String) {
+    init(frame: CGRect,title: String, imageName: String) {
         super.init(frame: frame)
         self.backgroundColor = Colors.blackBackgroundColor
+        imageView.image = UIImage(named: imageName)
         textLabel.text = title
         addViews()
         activateConstraints()
@@ -25,7 +26,7 @@ final class StubView: UIView{
         let imageView = UIImageView()
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "stubView")
+//        imageView.image = UIImage(named: "stubView")
         imageView.backgroundColor = Colors.blackBackgroundColor
         return imageView
     }()
