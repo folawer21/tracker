@@ -14,7 +14,7 @@ final class CreationCategoryVC: UIViewController{
         let field = UITextField()
         let inputName = NSLocalizedString("creation_categoty_field", comment: "")
         field.placeholder = inputName
-        field.backgroundColor = UIColor(named: "greyForCollection")
+        field.backgroundColor = Colors.createHabbitEventSecondaryColor
         field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.cornerRadius = 16
         field.indent(size: 16)
@@ -27,8 +27,11 @@ final class CreationCategoryVC: UIViewController{
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(named: "greyForCollection")
         let buttonText = NSLocalizedString("creation_categoty_button", comment: "")
-        button.isUserInteractionEnabled = false
+        button.isEnabled = false
         button.setTitle(buttonText, for: .normal)
+        button.setTitleColor(.white, for: .disabled)
+        button.setTitleColor(Colors.blackBackgroundColor, for: .normal)
+        button.backgroundColor = .ypGray
         return button
     }()
     
@@ -45,8 +48,8 @@ final class CreationCategoryVC: UIViewController{
     }
     
     private func setCompleteButton(enabled: Bool){
-        completeButton.isUserInteractionEnabled = enabled
-        completeButton.backgroundColor = enabled ? .black : .lightGray
+        completeButton.isEnabled = enabled
+        completeButton.backgroundColor = completeButton.isEnabled ? Colors.addButtonColor : .ypGray
     }
     
     override func viewDidLoad() {

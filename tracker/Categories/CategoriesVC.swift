@@ -21,9 +21,7 @@ final class CategoriesVC: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
-        button.tintColor = Colors.createButtonTextColorEnabled
         button.backgroundColor = Colors.addButtonColor
-        button.titleLabel?.textColor = Colors.createButtonTextColorEnabled
         return button
     }()
     
@@ -53,6 +51,8 @@ final class CategoriesVC: UIViewController {
         navigationItem.title = navTitle
         let button_text = NSLocalizedString("stubView_button_text", comment: "")
         addButton.setTitle(button_text, for: .normal)
+
+        addButton.setTitleColor(Colors.blackBackgroundColor, for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
       
         tableView.dataSource = self

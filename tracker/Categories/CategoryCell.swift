@@ -13,6 +13,7 @@ final class CategoryCell: UITableViewCell{
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17)
+        label.backgroundColor = Colors.createHabbitEventSecondaryColor
         label.textColor = Colors.addButtonColor
         label.textAlignment = .left
         label.numberOfLines = 2
@@ -20,7 +21,7 @@ final class CategoryCell: UITableViewCell{
     }()
     let cellView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "greyForCollection")
+        view.backgroundColor = Colors.createHabbitEventSecondaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         return view
@@ -50,7 +51,7 @@ final class CategoryCell: UITableViewCell{
     }
     
     func setupCell(name: String){
-        contentView.backgroundColor = Colors.createHabbitEventSecondaryColor
+        contentView.backgroundColor = Colors.blackBackgroundColor
         setCategoryNameTitle(name: name)
         contentView.addSubview(cellView)
         cellView.addSubview(categoryNameLabel)
