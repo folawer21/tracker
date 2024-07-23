@@ -19,7 +19,7 @@ final class TrackerCreatingVC: UIViewController{
     private func configHabbitButton(){
         habbitButton.backgroundColor = .black
         habbitButton.tintColor = .white
-        habbitButton.titleLabel?.font = .systemFont(ofSize: 16, weight: UIFont.Weight(510))
+        habbitButton.titleLabel?.font = .systemFont(ofSize: 16)
         habbitButton.setTitle("Привычка", for: .normal)
         habbitButton.layer.cornerRadius = 16
         habbitButton.addTarget(self, action: #selector(showHabbitView), for: .touchUpInside)
@@ -29,7 +29,7 @@ final class TrackerCreatingVC: UIViewController{
     private func configEventButton(){
         eventButton.backgroundColor = .black
         eventButton.tintColor = .white
-        eventButton.titleLabel?.font = .systemFont(ofSize: 16, weight: UIFont.Weight(510))
+        eventButton.titleLabel?.font = .systemFont(ofSize: 16)
         eventButton.setTitle("Нерегулярное событие", for: .normal)
         eventButton.layer.cornerRadius = 16
         eventButton.addTarget(self, action: #selector(showEventView), for: .touchUpInside)

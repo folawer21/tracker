@@ -4,7 +4,6 @@
 //
 //  Created by Александр  Сухинин on 03.06.2024.
 //
-
 import Foundation
 import CoreData
 
@@ -53,12 +52,21 @@ final class TrackerCategoryStore: NSObject{
     }
     
     func category(from categoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory{
-        guard let title = categoryCoreData.title,
-              let trackerStore = self.trackerStore,
-              let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData],
-              let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else {
+        guard let title = categoryCoreData.title else { print(1)
+            fatalError()}
+        guard let trackerStore = self.trackerStore else { print(2)
+            fatalError()}
+        guard let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData] else {print(3)
+            fatalError()}
+        guard let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else { print(4)
             fatalError()
         }
+//        guard let title = categoryCoreData.title,
+//              let trackerStore = self.trackerStore,
+//              let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData],
+//              let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else {
+//            fatalError()
+//        }
         let category = TrackerCategory(title: title, trackerList: trackers)
         return category
     }
@@ -169,6 +177,14 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
         return count
     }
+    var categoriesCount: Int{
+        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+        return count
+    }
+    var isEmpty: Bool{
+        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
+        return isEmpty
+    }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
         self.newCategory(categoryName: categoryName, trackers: trackers)
     }
@@ -178,5 +194,13 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     }
     func getCategoryName(section: Int) -> String {
         return categories[section].title
+    }
+    
+    func getCategoryCountByIndex(index: Int) -> Int{
+        return categories[index].trackerList.count
+    }
+    
+    func getTrackerByIndexPath(index: IndexPath) -> Tracker{
+        return categories[index.section].trackerList[index.row]
     }
 }

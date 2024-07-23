@@ -182,12 +182,15 @@ extension TrackerStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerStore: TrackerStoreProtocol{
     func numberOfRowsInSection(_ section: Int) -> Int {
-        return trackers.count
-        //TODO: Когда добавятся категории переписать под них
+        guard let count = categoryStore?.getCategoryCountByIndex(index: section) else {
+            print("Unable to get categoryCount")
+            return 0
+        }
+        return count
     }
     
     func object(at indexPath: IndexPath) -> Tracker? {
-        return trackers[indexPath.row]
+        return categoryStore?.getTrackerByIndexPath(index: indexPath)
     }
     
     func addTracker(_ tracker: Tracker, category: String){

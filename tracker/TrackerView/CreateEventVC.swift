@@ -9,10 +9,12 @@ protocol CreateEventDelegateProtocol: AnyObject{
     func addNewTracker(tracker: Tracker,categoryName : String)
 }
 final class CreateEventVC: UIViewController{
+    let viewModel = CategoriesViewModel()
     let cancelButton = UIButton()
     let createButton = UIButton()
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
+    var selectedCategory: String?
     weak var delegate: CreateEventDelegateProtocol?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     override func viewDidLoad() {
@@ -55,6 +57,17 @@ final class CreateEventVC: UIViewController{
         return color
     }
     
+    private func getCategory() -> String?{
+        if selectedCategory != nil {
+            return selectedCategory
+        }
+        guard let category = viewModel.getPickedCategory() else {
+            return nil
+        }
+        selectedCategory = category
+        return selectedCategory
+    }
+    
     private func getEmoji() -> String?{
         if selectedEmoji != nil{
             return selectedEmoji
@@ -75,6 +88,8 @@ extension CreateEventVC: UICollectionViewDataSource{
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as? EventCell else {return UICollectionViewCell()}
+            cell.delegate = self
+            cell.setVM(vm: viewModel)
             return cell
         case 2:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
@@ -153,23 +168,6 @@ extension CreateEventVC: UICollectionViewDelegateFlowLayout{
     }
 }
 
-//extension CreateEventVC: TrackNameCellDelegateProtocol{
-//    func updateCreateButtonState(isEnabled: Bool){
-//        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
-//            print("[updateCreateButtonState] CreateEventVC unable to get cell")
-//            return
-//        }
-//        cell.updateCreateButtonState(isEnabled: isEnabled)
-//    }
-//    func textFieldDidChange(text: String) {
-//        if !(text.isEmpty){
-//            updateCreateButtonState(isEnabled: true)
-//        }else{
-//            updateCreateButtonState(isEnabled: false)
-//        }
-//    }
-//}
-
 extension CreateEventVC: TrackNameCellDelegateProtocol{
     func updateCreateButtonState(isEnabled: Bool){
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
@@ -202,7 +200,7 @@ extension CreateEventVC: ColorCellsDelegateProtocol{
 
 extension CreateEventVC{
     func updateButtonEnabling(){
-        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil){
+        if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getCategory() != nil){
             updateCreateButtonState(isEnabled: true)
         }else{
             updateCreateButtonState(isEnabled: false)
@@ -216,17 +214,28 @@ extension CreateEventVC: CreateCancelButtonsDelegateProtocol{
         let timetable: [WeekDay] = [.monday,.tuesday,.wednesday,.thursday,.friday,.saturday,.sunday]
         guard let name = getName(),
               let color = getColor(),
+              let categoryName = getCategory(),
               let emoji = getEmoji() else {return}
         let createdAt = Date()
         let id = UUID()
         let type = TrackerType.single
         let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
-        let categoryName = "Какашка"
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
     }
     
     func cancelButtonTappedDelegate(){
         dismiss(animated: true)
+    }
+}
+
+extension CreateEventVC: EventCellDelegateProtocol{
+    func showCategoryVC(vc: CategoriesVC) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func categoryWasChosen(category: String) {
+        selectedCategory = category
+        updateButtonEnabling()
     }
 }

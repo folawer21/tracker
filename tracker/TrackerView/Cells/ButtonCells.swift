@@ -9,10 +9,13 @@ import UIKit
 
 protocol ButtonCellDelegateProtocol: AnyObject{
     func showTimeTable(vc: TimeTableVC)
+    func showCategoryVC(vc: CategoriesVC)
     func timetableSettedDelegate(flag: Bool)
+    func categoryWasChosen(category: String)
 }
 
 final class ButtonCells: UICollectionViewCell {
+    weak var viewModel: CategoriesViewModel?
     let tableView = UITableView()
     var daysArr: [String] = []
     weak var delegate: ButtonCellDelegateProtocol?
@@ -35,8 +38,18 @@ final class ButtonCells: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        assertionFailure("Blin")
+        fatalError()
+    }
+    func setVM(vm: CategoriesViewModel?){
+        self.viewModel = vm
+        self.viewModel?.setTrackerStore()
+        self.viewModel?.onPickedCategoryChanged = {[weak self] categoryName in
+            self?.delegate?.categoryWasChosen(category: categoryName)
+            self?.setCategory(name: categoryName)}
+    }
+    private func setCategory(name: String){
+        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
+        cell?.detailTextLabel?.text = name
     }
     
 }
@@ -68,6 +81,11 @@ extension ButtonCells:UITableViewDelegate {
         return 75
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0{
+            let vc = CategoriesVC(viewModel: viewModel)
+            viewModel?.model.delegate = vc
+            delegate?.showCategoryVC(vc: vc)
+        }
         if indexPath.row == 1{
             let vc = TimeTableVC()
             vc.delegate = self
@@ -96,3 +114,4 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
         return daysArr
     }
 }
+
