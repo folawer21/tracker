@@ -10,7 +10,7 @@ import UIKit
 final class StatisticVC: UIViewController {
     
     lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("statistics_stub_text", comment: ""), imageName: "stubSmile")
-    var isEmpty = false
+    var isEmpty = true
     
     let tableView = {
         let table = UITableView()
@@ -32,7 +32,7 @@ final class StatisticVC: UIViewController {
         
         view.backgroundColor = Colors.blackBackgroundColor
         
-        
+        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellIdentifier)

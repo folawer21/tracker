@@ -53,4 +53,8 @@ struct Colors {
     //TimetableVC
     
     static let separatorColor = UIColor(named: "separatorColor")
+    
+    static let gradientBlue = UIColor(named: "gradientBlue")
+    static let gradientGreen = UIColor(named: "gradientGreen")
+    static let gradientRed = UIColor(named: "gradientRed")
 }
