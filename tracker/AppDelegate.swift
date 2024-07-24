@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import YandexMobileMetrica
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         DaysValueTransformer.register()
         TypeValueTransformer.register()
+        guard let configuration = YMMYandexMetricaConfiguration(apiKey: "e97b0212-b480-487f-aa4b-c9684831b59f") else {
+            return true}
+        YMMYandexMetrica.activate(with: configuration)
         return true
     }
 
