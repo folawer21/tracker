@@ -46,7 +46,7 @@ final class StatisticsCell: UITableViewCell {
     
 
     func setupCell(number: Int, text: String) {
-
+        gradientView.backgroundColor = Colors.blackBackgroundColor
         contentView.addSubview(gradientView)
         gradientView.addSubview(blockView)
         blockView.addSubview(numberLabel)

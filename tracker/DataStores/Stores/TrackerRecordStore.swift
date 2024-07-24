@@ -135,6 +135,31 @@ final class TrackerRecordStore: NSObject{
             fatalError()
         }
     }
+    
+    func isEmptyRecords() -> Bool {
+        return trackerRecords.isEmpty
+    }
+    
+    func getAllCompletedTrackers() -> Int {
+        return trackerRecords.count
+    }
+    
+    func getMeanTrackersRecordCounts() -> Float {
+        var daysCount : [Date : Int] = [:]
+        for trackerRecord in trackerRecords {
+            let date = trackerRecord.timetable
+            if let count = daysCount[date] {
+                daysCount[date] = count + 1
+            } else {
+                daysCount[date] = 1
+            }
+        }
+        var sum = 0
+        for days in daysCount {
+            sum += days.value
+        }
+        return Float(sum / daysCount.count)
+    }
 }
 
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
@@ -161,6 +186,148 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
         default:
             break
         }
+    }
+    func countPerfectDays() -> Int {
+        trackerStore = TrackerStore(day: .monday)
+        guard let trackers = trackerStore?.allTrackers else { return 0}
+        func weekday(from date: Date) -> WeekDay? {
+            guard let day = getDayOfWeek(from: date) else {
+                return nil
+            }
+            switch day {
+            case "Monday":
+                return .monday
+            case "Tuesday":
+                return .tuesday
+            case "Wednesday":
+                return .wednesday
+            case "Thursday":
+                return .thursday
+            case "Friday":
+                return .friday
+            case "Saturday":
+                return .saturday
+            case "Sunday":
+                return .sunday
+            default:
+                return nil
+            }
+        }
+        
+        var recordsByDate: [Date: [UUID]] = [:]
+        for record in trackerRecords {
+            let dateOnly = Calendar.current.startOfDay(for: record.timetable)
+            if recordsByDate[dateOnly] != nil {
+                recordsByDate[dateOnly]?.append(record.id)
+            } else {
+                recordsByDate[dateOnly] = [record.id]
+            }
+        }
+        var completedSingleTrackers: Set<UUID> = []
+        for record in trackerRecords {
+            if let tracker = trackers.first(where: { $0.id == record.id }), tracker.type == .single {
+                completedSingleTrackers.insert(tracker.id)
+            }
+        }
+        var perfectDaysCount = 0
+        
+        for (date, records) in recordsByDate {
+            guard let dayOfWeek = weekday(from: date) else { break}
+            let requiredTrackerIDs = trackers.filter {
+                ($0.type == .habbit && $0.timetable.contains(dayOfWeek)) ||
+                ($0.type == .single && !completedSingleTrackers.contains($0.id))
+            }.map { $0.id }
+            
+            if Set(requiredTrackerIDs).isSubset(of: Set(records)) {
+                perfectDaysCount += 1
+            }
+        }
+
+        return perfectDaysCount
+    }
+    
+    func maxSequenceOfPerfectDays() -> Int {
+        func weekday(from date: Date) -> WeekDay? {
+            guard let day = getDayOfWeek(from: date) else {
+                return nil
+            }
+            switch day {
+            case "Monday":
+                return .monday
+            case "Tuesday":
+                return .tuesday
+            case "Wednesday":
+                return .wednesday
+            case "Thursday":
+                return .thursday
+            case "Friday":
+                return .friday
+            case "Saturday":
+                return .saturday
+            case "Sunday":
+                return .sunday
+            default:
+                return nil
+            }
+        }
+        trackerStore = TrackerStore(day: .monday)
+        guard let trackers = trackerStore?.allTrackers else { return 0}
+        var recordsByDate: [Date: [UUID]] = [:]
+        for record in trackerRecords {
+            let dateOnly = Calendar.current.startOfDay(for: record.timetable)
+            if recordsByDate[dateOnly] != nil {
+                recordsByDate[dateOnly]?.append(record.id)
+            } else {
+                recordsByDate[dateOnly] = [record.id]
+            }
+        }
+        
+        var completedSingleTrackers: Set<UUID> = []
+        for record in trackerRecords {
+            if let tracker = trackers.first(where: { $0.id == record.id }), tracker.type == .single {
+                completedSingleTrackers.insert(tracker.id)
+            }
+        }
+        
+        var perfectDays: Set<Date> = []
+        for (date, records) in recordsByDate {
+            guard let dayOfWeek = weekday(from: date) else { break}
+            let requiredTrackerIDs = trackers.filter {
+                ($0.type == .habbit && $0.timetable.contains(dayOfWeek)) ||
+                ($0.type == .single && !completedSingleTrackers.contains($0.id))
+            }.map { $0.id }
+            
+            if Set(requiredTrackerIDs).isSubset(of: Set(records)) {
+                perfectDays.insert(date)
+            }
+        }
+        
+       
+        let sortedPerfectDays = perfectDays.sorted()
+        var maxSequence = 0
+        var currentSequence = 0
+        var previousDate: Date?
+        
+        for date in sortedPerfectDays {
+            if let previous = previousDate, Calendar.current.isDate(date, inSameDayAs: Calendar.current.date(byAdding: .day, value: 1, to: previous)!) {
+                currentSequence += 1
+            } else {
+                maxSequence = max(maxSequence, currentSequence)
+                currentSequence = 1
+            }
+            previousDate = date
+        }
+        maxSequence = max(maxSequence, currentSequence) 
+        
+        return maxSequence
+    }
+    
+    func getDayOfWeek(from date: Date) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        let dayOfWeek = dateFormatter.string(from: date)
+        return dayOfWeek
     }
 }
 

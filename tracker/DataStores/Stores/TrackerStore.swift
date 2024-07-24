@@ -33,7 +33,6 @@ final class TrackerStore: NSObject{
         self.day = day
         let fetchedRequest = TrackerCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCoreData.createdAt, ascending: true)]
-        //Когда добавятся категории  придется здесь добавить sectionNameKeyPath?
         let controller = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         self.fetchedResultsController = controller
         super.init()
@@ -44,7 +43,13 @@ final class TrackerStore: NSObject{
             fatalError("Failed to initialize FetchedResultsController: \(error)")
         }
     }
-    
+    var allTrackers: [Tracker] {
+        guard
+            let objects = fetchedResultsController.fetchedObjects,
+            let trackers = try? objects.map({try self.tracker(from: $0)}) else {
+            return []}
+       return trackers
+    }
     var trackers: [Tracker]{
         guard
             let objects = fetchedResultsController.fetchedObjects,
@@ -114,7 +119,6 @@ final class TrackerStore: NSObject{
         trackerCD.timetable = timetableCD
         trackerCD.type = typeCD
         trackerCD.name = tracker.name
-
         return trackerCD
     
     }

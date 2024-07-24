@@ -87,4 +87,5 @@ enum WeekDay: String, Codable{
     case friday = "Пт"
     case saturday = "Сб"
     case sunday = "Вс"
+    
 }

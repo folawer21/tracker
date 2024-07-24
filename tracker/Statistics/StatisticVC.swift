@@ -8,19 +8,22 @@
 import UIKit
 
 final class StatisticVC: UIViewController {
+    var bestPeriod = 0
+    var perfectDaysCount = 0
+    var completedTrackersCount = 0
+    var meanValue = 0
     
     lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("statistics_stub_text", comment: ""), imageName: "stubSmile")
-    var isEmpty = true
-    
+    var isEmpty = false
+    lazy var statisticsStore = StatisticsStore()
     let tableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.backgroundColor = Colors.blackBackgroundColor
+
         return table
     }()
     
     let statistics = ["Лучший период", "Идеальные дни", "Трекеров завершено", "Среднее значение"]
-    let numbers = [6,2,5,4]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,7 @@ final class StatisticVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         view.backgroundColor = Colors.blackBackgroundColor
-        
+        tableView.backgroundColor = Colors.blackBackgroundColor
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
@@ -40,14 +43,24 @@ final class StatisticVC: UIViewController {
         tableView.register(StatisticsCell.self, forCellReuseIdentifier: StatisticsCell.reuseIdentifier)
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
+        isEmpty = statisticsStore.isEmpty
         if isEmpty {
             buildWithStub()
         } else {
+            getStatistics()
             buildWithCategories()
+            tableView.reloadData()
         }
     }
     
+    private func getStatistics() {
+        bestPeriod = statisticsStore.getBestPeriod()
+        perfectDaysCount = statisticsStore.getPerfectDaysCount()
+        completedTrackersCount = statisticsStore.getCompletedTrackersCount()
+        meanValue = Int(statisticsStore.getMeanValue())
+    
+    }
     private func buildWithStub(){
         removeTable()
         addSubViewsWithStub()
@@ -110,8 +123,20 @@ extension StatisticVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsCell.reuseIdentifier, for: indexPath) as? StatisticsCell else {
             return UITableViewCell()
         }
+        var number = 0
+        if indexPath.row == 0 {
+            cell.setupCell(number: bestPeriod, text: statistics[indexPath.row])
+        }
+        if indexPath.row == 1 {
+            cell.setupCell(number: perfectDaysCount, text: statistics[indexPath.row])
+        }
+        if indexPath.row == 2 {
+            cell.setupCell(number: completedTrackersCount, text: statistics[indexPath.row])
+        }
+        if indexPath.row == 3 {
+            cell.setupCell(number: meanValue, text: statistics[indexPath.row])
+        }
         
-        cell.setupCell(number: numbers[indexPath.row], text: statistics[indexPath.row])
         return cell
                 
     }
