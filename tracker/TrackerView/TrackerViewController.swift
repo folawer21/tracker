@@ -11,6 +11,7 @@ final class TrackerViewController: UIViewController{
     var categories: [TrackerCategory] = []
     var filteredCategories: [TrackerCategory] = []
     var currentDate: Date = Date()
+    var chosenFilter: Filtres = .all
     let datePicker = UIDatePicker()
     let imageView = UIImageView()
     let filterButton = {
@@ -46,6 +47,8 @@ final class TrackerViewController: UIViewController{
         stubViewActive = false
         view.addSubview(collectionView)
         view.addSubview(filterButton)
+        filterButton.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         NSLayoutConstraint.activate([
@@ -119,6 +122,13 @@ final class TrackerViewController: UIViewController{
         navigationController?.present(navVc, animated: true)
     }
     
+    @objc func filterButtonTapped() {
+        let vc = FiltresVC()
+        vc.delegate = self
+        vc.chosenFilter = chosenFilter
+        let navVc = UINavigationController(rootViewController: vc)
+        navigationController?.present(navVc,animated: true)
+    }
 
     private func buildNavBar(){
         let navItemText = NSLocalizedString("trackerVc_nav_title", comment: "")
@@ -225,13 +235,11 @@ extension TrackerViewController: UICollectionViewDataSource{
                   let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else {return UICollectionViewCell()}
             cell.configCell(track: tracker, days: daysCount, isDone: isDoneToday, availible: available,isPinned: isPinned)
         }
-        
         if type == .single {
             guard let isDone = trackerRecordStore?.singleIsDone(id: tracker.id),
                   let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else {return UICollectionViewCell()}
             let daysCount = isDone ? 1 : 0
             cell.configCell(track: tracker, days: daysCount, isDone: isDone, availible: available, isPinned: isPinned)
-            
         }
         cell.delegate = self
         return cell
@@ -373,3 +381,10 @@ extension TrackerViewController: UISearchResultsUpdating {
     }
 }
 
+extension TrackerViewController: FiltresVCDelegateProtocol {
+    func filterDidChosen(filter: Filtres) {
+        chosenFilter = filter
+        //TODO: ADD SOME LOGIC WITH CATEGORIES STORE
+        print(chosenFilter)
+    }
+}

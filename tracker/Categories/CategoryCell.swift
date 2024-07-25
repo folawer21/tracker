@@ -13,7 +13,7 @@ final class CategoryCell: UITableViewCell{
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17)
-        label.backgroundColor = Colors.createHabbitEventSecondaryColor
+        label.backgroundColor = .clear
         label.textColor = Colors.addButtonColor
         label.textAlignment = .left
         label.numberOfLines = 2
