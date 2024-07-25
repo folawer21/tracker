@@ -125,12 +125,15 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
     }
     
     func setDays(days: [String]) {
+        print(days)
+        daysArr = days
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
         cell?.detailTextLabel?.text = joinedDays
 
     }
     func getDaysArr() -> [String]{
+        print("DaysArr: ",daysArr)
         return daysArr
     }
 }

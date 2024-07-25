@@ -72,6 +72,7 @@ final class CreateHabbitVC: UIViewController{
     
     private func getTimetable() -> [WeekDay]?{
         if selectedTimetable != nil{
+            
             return selectedTimetable
         }
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {return nil}
@@ -314,6 +315,13 @@ extension CreateHabbitVC{
         if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  && (getCategory() != nil) {
             updateCreateButtonState(isEnabled: true)
         }else{
+            print("____________")
+            print(getName())
+            print(getEmoji())
+            print(getColor())
+            print(getTimetable())
+            print(getCategory())
+            print("____________")
             updateCreateButtonState(isEnabled: false)
         }
     }
