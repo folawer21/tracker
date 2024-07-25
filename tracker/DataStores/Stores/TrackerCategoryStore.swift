@@ -218,13 +218,33 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     
     
     func getCategoryCountByIndex(index: Int) -> Int{
+        switch filter {
+        case .all:
+            return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
+        case .today:
+            return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
+        case .completed:
+            return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true && $0.timetable.contains(self.day)}).count
+        case .uncompleted:
+            return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false && $0.timetable.contains(self.day)}).count
+        }
         //        return categories[index].trackerList.count
-        return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
+//        return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
     }
     
     func getTrackerByIndexPath(index: IndexPath) -> Tracker{
         //        return categories[index.section].trackerList[index.row]
-        return filteredCategories[index.section].trackerList.filter({$0.timetable.contains(self.day)}) [index.row]
+        switch filter {
+        case .all:
+            return filteredCategories[index.section].trackerList[index.row]
+        case .today:
+            return filteredCategories[index.section].trackerList[index.row]
+        case .completed:
+            return filteredCategories[index.section].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true })[index.row]
+        case .uncompleted:
+            return filteredCategories[index.section].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false })[index.row]
+        }
+//        return filteredCategories[index.section].trackerList/*.filter({$0.timetable.contains(self.day)})*/ [index.row]
     }
     
     func updateCategoriesWithSearch(searchText: String){
