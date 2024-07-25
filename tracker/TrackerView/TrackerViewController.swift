@@ -93,7 +93,7 @@ final class TrackerViewController: UIViewController{
         
         let trackerRecordStore = TrackerRecordStore()
         let trackerStore = TrackerStore(day: enumDay)
-        let categoryStore = TrackerCategoryStore()
+        let categoryStore = TrackerCategoryStore(day:enumDay)
         trackerStore.setCategoryStore(categoryStore: categoryStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
         trackerRecordStore.setTrackerStore(store: trackerStore)
@@ -156,6 +156,10 @@ final class TrackerViewController: UIViewController{
     }
     
     @objc func datePickerChanged(){
+        if chosenFilter == .today {
+            chosenFilter = .all
+        }
+        print("ASDASDASDASDASDASDASDASD")
         filterByDate()
     }
     
@@ -169,6 +173,7 @@ final class TrackerViewController: UIViewController{
         let day = getDayOfWeek(from: currentDate)
         let enumDay = dayEnumFromDay(day: day)
         trackerStore?.setDay(day: enumDay)
+        categoriesStore?.setDay(day: enumDay)
         guard let flag = trackerStore?.isEmpty else {return }
         if !flag{
             if stubViewActive{
@@ -189,18 +194,20 @@ final class TrackerViewController: UIViewController{
         }
     private func dayEnumFromDay(day: String) -> WeekDay{
         switch day{
-            case "Monday":
+            case "понедельник":
                 return WeekDay.monday
-            case "Tuesday":
+            case "вторник":
                 return WeekDay.tuesday
-            case "Wednesday":
+            case "среда":
                 return WeekDay.wednesday
-            case "Thursday":
+            case "четверг":
                 return WeekDay.thursday
-            case "Friday":
+            case "пятница":
                 return WeekDay.friday
-            case "Saturday":
+            case "суббота":
                 return WeekDay.saturday
+            case "воскресенье":
+                return WeekDay.sunday
             default:
                 return WeekDay.sunday
         }
@@ -383,8 +390,19 @@ extension TrackerViewController: UISearchResultsUpdating {
 
 extension TrackerViewController: FiltresVCDelegateProtocol {
     func filterDidChosen(filter: Filtres) {
+        
         chosenFilter = filter
-        //TODO: ADD SOME LOGIC WITH CATEGORIES STORE
-        print(chosenFilter)
+        switch chosenFilter {
+        case .all:
+            print("all")
+        case .today:
+            datePicker.date = Date()
+            datePickerChanged()
+        case .completed:
+            print("completed")
+        case .uncompleted:
+            print("uncompleted")
+        }
+//        categoriesStore?.setFilter(filter: filter)
     }
 }

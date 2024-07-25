@@ -20,10 +20,11 @@ final class TrackerCategoryStore: NSObject{
     private let manager = CDManager.shared
     weak var trackerStore: TrackerStore?
     private let context: NSManagedObjectContext
-    var filter: Filtres
+    var filter: Filtres = .all
     private var insertedIndexes : [IndexPath] = []
     private var updatedIndexes: [IndexPath] = []
     private var searchText: String = ""
+    var day: WeekDay
     var fetchedResultsController:NSFetchedResultsController<TrackerCategoryCoreData>
     
     weak var delegate: TrackerCategoryStoreDelegate?
@@ -37,14 +38,24 @@ final class TrackerCategoryStore: NSObject{
    
     var filteredCategories: [TrackerCategory]{
         if !searchText.isEmpty {
-            return categories.filter { $0.title.lowercased().contains(searchText.lowercased()) }
+            return categories.filter { $0.title.lowercased().contains(searchText.lowercased()) && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})}
         } else {
-            return categories
+            switch filter {
+            case .all:
+                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
+            case .today:
+                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
+            case .completed:
+                return categories
+            case .uncompleted:
+                return categories
+            }
         }
     }
     
-    override init(){
+    init(day: WeekDay){
         self.context = manager.context
+        self.day = day
         let fetchedRequest = TrackerCategoryCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCategoryCoreData.title, ascending: true)]
         
@@ -53,8 +64,6 @@ final class TrackerCategoryStore: NSObject{
         self.fetchedResultsController = conroller
         
         super.init()
-        
-        
         conroller.delegate = self
         do{
             try conroller.performFetch()
@@ -92,8 +101,6 @@ final class TrackerCategoryStore: NSObject{
             fatalError(error.localizedDescription)
         }
     }
-    
-
     
     func newCategory(categoryName: String,trackers: [Tracker] = [] ){
         let category = TrackerCategoryCoreData(context: context)
@@ -183,7 +190,7 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var categoriesCount: Int{
 //        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
 //        return count
-        filteredCategories.count
+        categories.count
     }
     var isEmpty: Bool{
 //        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
@@ -201,15 +208,20 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
 //        return categories[section].title
         return filteredCategories[section].title
     }
+    func getCategoryNameVC(section: Int) -> String {
+//        return categories[section].title
+        return categories[section].title
+    }
+    
     
     func getCategoryCountByIndex(index: Int) -> Int{
 //        return categories[index].trackerList.count
-        return filteredCategories[index].trackerList.count
+        return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
     }
     
     func getTrackerByIndexPath(index: IndexPath) -> Tracker{
 //        return categories[index.section].trackerList[index.row]
-        return filteredCategories[index.section].trackerList[index.row]
+        return filteredCategories[index.section].trackerList.filter({$0.timetable.contains(self.day)}) [index.row]
     }
     
     func updateCategoriesWithSearch(searchText: String){
@@ -242,5 +254,12 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         guard let category = categories.first(where: {$0.title == NSLocalizedString("category_pinned", comment: "")}) else { return false }
         guard let firstIndex = category.trackerList.first(where: {$0.id == trackerId}) else { return false}
         return true
+    }
+    
+    func setFilter(filter: Filtres) {
+        self.filter = filter
+    }
+    func setDay(day: WeekDay) {
+        self.day = day
     }
 }

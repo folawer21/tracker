@@ -16,4 +16,6 @@ protocol TrackerCategoryStoreProtocol: AnyObject{
     func pin(trackerId: UUID)
     func unpin(trackerId: UUID)
     func isPinnedById(trackerId: UUID) -> Bool
+    func setFilter(filter: Filtres)
+    func setDay(day: WeekDay)
 }

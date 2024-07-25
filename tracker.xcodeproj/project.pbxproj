@@ -250,6 +250,15 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
+		3E4758F42C530C4A00919EA5 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				3E4758F22C52B85400919EA5 /* FilterCell.swift */,
+				3E4758F02C52B6DC00919EA5 /* FiltresVC.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
 		3E97BF2C2BCE7FF500CF3A7F = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +283,7 @@
 		3E97BF372BCE7FF500CF3A7F /* tracker */ = {
 			isa = PBXGroup;
 			children = (
+				3E4758F42C530C4A00919EA5 /* Filters */,
 				3E4758E12C4FF34F00919EA5 /* Statistics */,
 				3E0D95852C42345A007D490B /* OnboardingViews */,
 				3E0D95782C41E2F0007D490B /* Categories */,
@@ -319,7 +329,6 @@
 				3EA0AA8F2C06932900317403 /* CreateHabbitVC.swift */,
 				3EA0AA912C06933600317403 /* CreateEventVC.swift */,
 				3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */,
-				3E4758F02C52B6DC00919EA5 /* FiltresVC.swift */,
 			);
 			path = TrackerView;
 			sourceTree = "<group>";
@@ -346,7 +355,6 @@
 				3EA0AAA42C0934F200317403 /* EmojiCells.swift */,
 				3EA0AAA62C09FE3600317403 /* ColorCells.swift */,
 				3EA0AAA82C0A24B600317403 /* CreateCancelButtons.swift */,
-				3E4758F22C52B85400919EA5 /* FilterCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";

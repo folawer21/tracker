@@ -83,6 +83,7 @@ final class TrackerStore: NSObject{
     
     func setDay(day: WeekDay){
         self.day = day
+//        categoryStore?.day = day
     }
     
     
@@ -202,17 +203,6 @@ extension TrackerStore: TrackerStoreProtocol{
     }
     
     func editTracker(id: UUID, categoryName: String) {
-//        guard let tracker = trackers.first(where: {$0.id == id}) else {
-//            return
-//        }
-//        //        if tracker.type == .single {
-//        //            let vc = CreateEventVC()
-//        //
-//        //
-//        //        } else {
-//        //            let vc = CreateHabbitVC()
-//        //            vc.setData(tracker: tracker, categoryName: categoryName)
-//        //        }
     }
     
     func setCategoryStore(categoryStore: TrackerCategoryStore){

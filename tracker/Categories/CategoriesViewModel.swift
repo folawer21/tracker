@@ -13,7 +13,7 @@ class CategoriesViewModel{
     var onCreationAllowedStateChange: Binding<Bool>?
     var onPickedCategoryChanged: Binding<String>?
     private var pickedCategory: String?
-    let model = TrackerCategoryStore()
+    let model = TrackerCategoryStore(day: .monday)
     func getCategoristCount() -> Int{
         return model.categoriesCount
     }
@@ -26,6 +26,10 @@ class CategoriesViewModel{
         setTrackerStore()
         return model.getCategoryName(section: index)
     }
+    func getCategoryNameVC(index: Int) -> String{
+        setTrackerStore()
+        return model.getCategoryNameVC(section: index)
+    }
     
     func createNewCategory(categoryName: String){
         setTrackerStore()
@@ -33,7 +37,7 @@ class CategoriesViewModel{
     }
     func isCategoryChosen(index: Int) -> Bool{
         setTrackerStore()
-        return model.getCategoryName(section: index) == pickedCategory ? true : false
+        return model.getCategoryNameVC(section: index) == pickedCategory ? true : false
     }
     
     func setPickedCategory(name: String){

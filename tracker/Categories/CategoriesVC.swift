@@ -174,7 +174,7 @@ extension CategoriesVC: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let name = viewModel?.getCategoryName(index: indexPath.row) else {
+        guard let name = viewModel?.getCategoryNameVC(index: indexPath.row) else {
             return UITableViewCell()
         }
         cell.setupCell(name: name)
@@ -196,7 +196,7 @@ extension CategoriesVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CategoryCell,
-              let chosenCategory = viewModel?.getCategoryName(index: indexPath.row) else {
+              let chosenCategory = viewModel?.getCategoryNameVC(index: indexPath.row) else {
             return
         }
         viewModel?.setPickedCategory(name: chosenCategory)
