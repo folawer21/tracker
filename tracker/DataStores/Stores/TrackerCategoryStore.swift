@@ -44,12 +44,16 @@ final class TrackerCategoryStore: NSObject{
         } else {
             switch filter {
             case .all:
+                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
             case .today:
+                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
             case .completed:
+                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})})
             case .uncompleted:
+                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})})
             }
         }
@@ -220,12 +224,16 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     func getCategoryCountByIndex(index: Int) -> Int{
         switch filter {
         case .all:
+            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
         case .today:
+            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
         case .completed:
+            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true && $0.timetable.contains(self.day)}).count
         case .uncompleted:
+            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false && $0.timetable.contains(self.day)}).count
         }
         //        return categories[index].trackerList.count

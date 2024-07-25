@@ -397,10 +397,13 @@ extension TrackerViewController: FiltresVCDelegateProtocol {
         switch chosenFilter {
         case .all:
             print("all")
+            categoriesStore?.setFilter(filter: .all)
+            collectionView.reloadData()
         case .today:
             datePicker.date = Date()
             datePickerChanged()
             categoriesStore?.setFilter(filter: .today)
+            collectionView.reloadData()
         case .completed:
             categoriesStore?.setFilter(filter: .completed)
             collectionView.reloadData()
