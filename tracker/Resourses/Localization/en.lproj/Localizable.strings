@@ -65,3 +65,10 @@
 "cancel_action" = "Cancel";
 "save_button" = "Save";
 "category_pinned" = "Pinned";
+
+"filter_button" = "Filters";
+
+"all_filter" = "All trackers";
+"today_filter" = "Trackers for today";
+"completed_filter" = "Completed trackers";
+"uncompleted_filter" = "Uncompleted trackers";

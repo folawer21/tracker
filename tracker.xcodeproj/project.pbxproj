@@ -25,6 +25,8 @@
 		3E4758E72C4FF92300919EA5 /* StatisticsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758E62C4FF92300919EA5 /* StatisticsCell.swift */; };
 		3E4758E92C504DB400919EA5 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758E82C504DB400919EA5 /* GradientView.swift */; };
 		3E4758EB2C5050C200919EA5 /* StatisticsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758EA2C5050C200919EA5 /* StatisticsStore.swift */; };
+		3E4758F12C52B6DC00919EA5 /* FiltresVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758F02C52B6DC00919EA5 /* FiltresVC.swift */; };
+		3E4758F32C52B85400919EA5 /* FilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E4758F22C52B85400919EA5 /* FilterCell.swift */; };
 		3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */; };
 		3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */; };
 		3E97BF422BCE7FF600CF3A7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */; };
@@ -97,6 +99,8 @@
 		3E4758E62C4FF92300919EA5 /* StatisticsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCell.swift; sourceTree = "<group>"; };
 		3E4758E82C504DB400919EA5 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		3E4758EA2C5050C200919EA5 /* StatisticsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsStore.swift; sourceTree = "<group>"; };
+		3E4758F02C52B6DC00919EA5 /* FiltresVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltresVC.swift; sourceTree = "<group>"; };
+		3E4758F22C52B85400919EA5 /* FilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCell.swift; sourceTree = "<group>"; };
 		3E97BF352BCE7FF500CF3A7F /* tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -315,6 +319,7 @@
 				3EA0AA8F2C06932900317403 /* CreateHabbitVC.swift */,
 				3EA0AA912C06933600317403 /* CreateEventVC.swift */,
 				3EA0AA982C06BCDA00317403 /* TimeTableVC.swift */,
+				3E4758F02C52B6DC00919EA5 /* FiltresVC.swift */,
 			);
 			path = TrackerView;
 			sourceTree = "<group>";
@@ -341,6 +346,7 @@
 				3EA0AAA42C0934F200317403 /* EmojiCells.swift */,
 				3EA0AAA62C09FE3600317403 /* ColorCells.swift */,
 				3EA0AAA82C0A24B600317403 /* CreateCancelButtons.swift */,
+				3E4758F22C52B85400919EA5 /* FilterCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -402,7 +408,6 @@
 				E6508E99A1C13FC078BB3886 /* Pods-trackerScreenshotsTests.debug.xcconfig */,
 				DE5ECB653A3AEFE808378BB7 /* Pods-trackerScreenshotsTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -581,6 +586,7 @@
 				3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */,
 				3E97BFA32BD0241600CF3A7F /* TrackerCategory.swift in Sources */,
 				3E97BF562BCE975700CF3A7F /* TrackerViewController.swift in Sources */,
+				3E4758F12C52B6DC00919EA5 /* FiltresVC.swift in Sources */,
 				3EA0AA9B2C06C1B500317403 /* TimetableCell.swift in Sources */,
 				3EA0AAA12C07F48100317403 /* SupplementaryView.swift in Sources */,
 				3E4758EB2C5050C200919EA5 /* StatisticsStore.swift in Sources */,
@@ -591,6 +597,7 @@
 				3EED72D52C13ECF400B55F2F /* TrackerRecordStoreProtocol.swift in Sources */,
 				3E0D95892C4234DE007D490B /* OnboardingPageScreen.swift in Sources */,
 				3E0D95822C4232A4007D490B /* UserDefaultsGetter.swift in Sources */,
+				3E4758F32C52B85400919EA5 /* FilterCell.swift in Sources */,
 				3E97BFA52BD0245600CF3A7F /* TrackerRecord.swift in Sources */,
 				3E97BF582BCEFEA400CF3A7F /* StubView.swift in Sources */,
 				3E0D957E2C41FBF4007D490B /* CreationCategoryVC.swift in Sources */,

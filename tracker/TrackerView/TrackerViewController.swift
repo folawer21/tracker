@@ -6,13 +6,22 @@
 //
 
 import UIKit
-
+//не работает создание привычки
 final class TrackerViewController: UIViewController{
     var categories: [TrackerCategory] = []
     var filteredCategories: [TrackerCategory] = []
     var currentDate: Date = Date()
     let datePicker = UIDatePicker()
     let imageView = UIImageView()
+    let filterButton = {
+        let button = UIButton()
+        button.setTitle(NSLocalizedString("filter_button", comment: ""), for: .normal)
+        button.setTitleColor(Colors.white, for: .normal)
+        button.backgroundColor = Colors.filter_blue
+        button.layer.cornerRadius = 16
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     let calendar = Calendar.current
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -36,13 +45,19 @@ final class TrackerViewController: UIViewController{
         removeStub()
         stubViewActive = false
         view.addSubview(collectionView)
+        view.addSubview(filterButton)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.frame = self.view.safeAreaLayoutGuide.layoutFrame
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            filterButton.heightAnchor.constraint(equalToConstant: 50),
+            filterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filterButton.widthAnchor.constraint(equalToConstant: 115)
         ])
         collectionView.backgroundColor = Colors.blackBackgroundColor
         collectionView.dataSource = self
@@ -58,6 +73,9 @@ final class TrackerViewController: UIViewController{
     private func removeCollection(){
         self.view.willRemoveSubview(collectionView)
         collectionView.removeFromSuperview()
+        self.view.willRemoveSubview(filterButton)
+        filterButton.removeFromSuperview()
+        
     }
     override func viewDidLoad() {
         buildNavBar()
@@ -83,9 +101,7 @@ final class TrackerViewController: UIViewController{
         self.categoriesStore  = categoryStore
         self.trackerStore = trackerStore
         self.trackerRecordStore = trackerRecordStore
-        
         view.backgroundColor = Colors.blackBackgroundColor
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -249,6 +265,9 @@ extension TrackerViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
            return CGSize(width: collectionView.frame.width, height: 44)
     }
+    func reloadCollectionView() {
+        collectionView.reloadData()
+    }
 }
 
 extension TrackerViewController: TrackerCreatingDelegateProtocol{
@@ -277,6 +296,7 @@ extension TrackerViewController: TrackCellDelegateProtocol{
         let deleteAction = UIAlertAction(title: NSLocalizedString("delete_cell", comment: ""), style: .default, handler: {
                 [weak self ] (alert: UIAlertAction!) -> Void in
             self?.trackerStore?.deleteTracker(id: id)
+            self?.reloadCollectionView()
             })
         let cancelAction = UIAlertAction(title: NSLocalizedString("cancel_action", comment: ""), style: .default, handler: {
                (alert: UIAlertAction!) -> Void in
