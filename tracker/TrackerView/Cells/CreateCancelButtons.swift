@@ -48,6 +48,12 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
         createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
     }
     
+    func makeEditingScreen(){
+        createButton.titleLabel?.text = NSLocalizedString("save_button", comment: "")
+        createButton.removeTarget(self, action:  #selector(createButtonTapped), for: .touchUpInside)
+        createButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+    }
+    
     func configCancelButton(){
         cancelButton.backgroundColor = Colors.blackBackgroundColor
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -66,6 +72,10 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     
     @objc func cancelButtonTapped(){
         delegate?.cancelButtonTappedDelegate()
+    }
+    
+    @objc func editButtonTapped(){
+        
     }
     
     func updateCreateButtonState(isEnabled: Bool){

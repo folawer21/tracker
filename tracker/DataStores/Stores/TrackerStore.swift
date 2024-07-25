@@ -122,7 +122,6 @@ final class TrackerStore: NSObject{
         return trackerCD
     
     }
-   
     
     func tracker(from trackerCoreData: TrackerCoreData) throws -> Tracker{
         guard let colorHex = trackerCoreData.color,
@@ -184,6 +183,36 @@ extension TrackerStore: TrackerStoreProtocol{
         }
     }
     
+    func deleteTracker(id: UUID?){
+        guard let id = id else { return }
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            let trackersToDelete = try context.fetch(fetchRequest)
+            for tracker in trackersToDelete{
+                context.delete(tracker)
+            }
+            manager.saveContext()
+        }catch{
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func editTracker(id: UUID, categoryName: String) {
+        guard let tracker = trackers.first(where: {$0.id == id}) else {
+            return
+        }
+        //        if tracker.type == .single {
+        //            let vc = CreateEventVC()
+        //
+        //
+        //        } else {
+        //            let vc = CreateHabbitVC()
+        //            vc.setData(tracker: tracker, categoryName: categoryName)
+        //        }
+    }
+    
     func setCategoryStore(categoryStore: TrackerCategoryStore){
         self.categoryStore = categoryStore
     }
@@ -192,5 +221,8 @@ extension TrackerStore: TrackerStoreProtocol{
         return trackers.isEmpty
     }
     
+    func getTracker(id: UUID) -> Tracker? {
+        return self.getTrackerById(id: id)
+    }
     
 }

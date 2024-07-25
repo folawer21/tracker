@@ -11,16 +11,20 @@ protocol CreateHabbitDelegateProtocol: AnyObject{
 }
 final class CreateHabbitVC: UIViewController{
     let viewModel = CategoriesViewModel()
-    let cancelButton = UIButton()
-    let createButton = UIButton()
+    let isEditVC: Bool
+    let tracker: Tracker?
+    let categoryName: String?
     weak var delegate: CreateHabbitDelegateProtocol?
     private var selectedEmoji: String?
     private var selectedColor: UIColor?
     private var selectedTimetable: [WeekDay]?
     var selectedCategory: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil){
+        self.isEditVC = isEditVC
+        self.tracker = tracker
+        self.categoryName = categoryName
+        super.init(nibName: nil, bundle: nil)
         view.backgroundColor = Colors.blackBackgroundColor
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         let navTitleText = NSLocalizedString("create_habbit_vc_nav_title", comment: "")
@@ -43,6 +47,14 @@ final class CreateHabbitVC: UIViewController{
         collectionView.register(CreateCancelButtonsCells.self, forCellWithReuseIdentifier: "CreateCancelButtons")
         collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
     }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//       
+//    }
     
     private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
         var result: [WeekDay] = []
@@ -104,18 +116,59 @@ final class CreateHabbitVC: UIViewController{
         selectedEmoji = emoji
         return emoji
     }
+    func setData(tracker: Tracker, categoryName: String) {
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell else { print(2)
+            return }
+        print(1)
+        cell.textField.text = tracker.name
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {print(2)
+            return}
+        print(1)
+        var daysArray: [String] = []
+        for day in tracker.timetable {
+            daysArray.append(day.rawValue)
+        }
+        cell.setDays(days: daysArray)
+        cell.setCategory(name: categoryName)
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? EmojiCells else {print(2)
+            return}
+        print(1)
+        cell.setEmoji(emoji: tracker.emoji)
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? ColorCells else {print(2)
+            return}
+        print(1)
+        cell.setColor(color: tracker.color)
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? CreateCancelButtonsCells else {print(2)
+            return}
+        print(1)
+        cell.makeEditingScreen()
+    }
 }
 
 extension CreateHabbitVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section{
         case 0:
+            print(indexPath)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
             cell.textFieldDelegate = self
+            if isEditVC {
+                cell.textField.text = tracker?.name
+            }
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as? ButtonCells else {return UICollectionViewCell()}
             cell.delegate = self
+            if isEditVC {
+                guard let tracker = tracker,
+                      let categoryName = categoryName else {return UICollectionViewCell()}
+                var daysArray: [String] = []
+                for day in tracker.timetable {
+                    daysArray.append(day.rawValue)
+                }
+                cell.setDays(days: daysArray)
+                cell.setCategory(name: categoryName)
+            }
             cell.setVM(vm: viewModel)
             return cell
         case 2:

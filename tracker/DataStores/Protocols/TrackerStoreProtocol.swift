@@ -12,5 +12,8 @@ protocol TrackerStoreProtocol: AnyObject{
     func object(at indexPath: IndexPath) -> Tracker?
     func addTracker(_ tracker: Tracker,category: String)
     func setDay(day: WeekDay)
+    func deleteTracker(id: UUID?)
+    func editTracker(id: UUID, categoryName: String)
+    func getTracker(id: UUID) -> Tracker?
     var isEmpty: Bool {get}
 }

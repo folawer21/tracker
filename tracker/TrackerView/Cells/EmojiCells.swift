@@ -66,6 +66,14 @@ final class EmojiCells: UICollectionViewCell{
     func getEmoji() -> String?{
         return selectedEmoji
     }
+    func setEmoji(emoji: String) {
+        guard let indexPathRow = emojes.firstIndex(of: emoji) else { return }
+        let indexPath = IndexPath(row: indexPathRow, section: 0)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else { return }
+        cell.showBlock()
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
+        selectedEmoji = emoji
+    }
 }
 
 extension EmojiCells:UICollectionViewDataSource{

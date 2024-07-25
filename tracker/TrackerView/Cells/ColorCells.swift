@@ -66,6 +66,14 @@ final class ColorCells: UICollectionViewCell{
     func getColor() -> UIColor?{
         return selectedColor
     }
+    func setColor(color: UIColor) {
+        guard let indexPathRow = colores.firstIndex(of: color) else { return }
+        let indexPath = IndexPath(row: indexPathRow, section: 0)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else { return }
+        cell.showBlock()
+        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
+        selectedColor = color
+    }
 }
 
 extension ColorCells:UICollectionViewDataSource{

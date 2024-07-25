@@ -92,6 +92,8 @@ final class TrackerCategoryStore: NSObject{
         }
     }
     
+
+    
     func newCategory(categoryName: String,trackers: [Tracker] = [] ){
         let category = TrackerCategoryCoreData(context: context)
         if trackers.isEmpty{
@@ -211,5 +213,12 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     
     func updateCategoriesWithSearch(searchText: String){
         self.searchText = searchText
+    }
+    
+    func getCategoryNameById(by trackerId: UUID) -> String? {
+        let firstCategory = categories.first(where: {
+            $0.trackerList.contains(where: {$0.id == trackerId})
+        })
+        return firstCategory?.title
     }
 }

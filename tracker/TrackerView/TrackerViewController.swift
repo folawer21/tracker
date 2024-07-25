@@ -265,6 +265,41 @@ extension TrackerViewController: TrackCellDelegateProtocol{
         trackerRecordStore?.makeNewRecord(id: id, timetable: currentDate)
     }
     
+    func deleteTracker(id: UUID?) {
+        let actionSheet = UIAlertController(title: nil, message: NSLocalizedString("confirm_delete", comment: ""), preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("delete_cell", comment: ""), style: .default, handler: {
+                [weak self ] (alert: UIAlertAction!) -> Void in
+            self?.trackerStore?.deleteTracker(id: id)
+            })
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel_action", comment: ""), style: .default, handler: {
+               (alert: UIAlertAction!) -> Void in
+            })
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        self.present(actionSheet,animated: true,completion: nil)
+    }
+    
+    func editTracker(id: UUID?) {
+        guard let id = id,
+              let tracker = trackerStore?.getTracker(id: id ),
+              let categoryName = categoriesStore?.getCategoryNameById(by: id) else {return }
+        if tracker.type == .single {
+            let vc = CreateEventVC()
+
+            
+        } else {
+            let vc = CreateHabbitVC()
+            let navVc = UINavigationController(rootViewController: vc)
+            vc.setData(tracker: tracker, categoryName: categoryName)
+            present(navVc,animated: true)
+        }
+//        trackerStore?.editTracker(id: id, categoryName: categoryName)
+    }
+    
+    func pinTracker(id: UUID) {
+    }
+    
+    
 }
 
 extension TrackerViewController: TrackerStoreDelegate{
@@ -297,3 +332,4 @@ extension TrackerViewController: UISearchResultsUpdating {
         }
     }
 }
+

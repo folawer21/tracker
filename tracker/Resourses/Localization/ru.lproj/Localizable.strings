@@ -54,3 +54,9 @@
 
 "statistics_navigation" = "Статистика";
 "statistics_stub_text" = "Анализировать пока нечего";
+"pin_cell" = "Закрепить";
+"delete_cell" = "Удалить";
+"edit_cell" = "Изменить";
+"confirm_delete" = "Удалить трекер?";
+"cancel_action" = "Отменить";
+"save_button" = "Сохранить";

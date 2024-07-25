@@ -47,7 +47,7 @@ final class ButtonCells: UICollectionViewCell {
             self?.delegate?.categoryWasChosen(category: categoryName)
             self?.setCategory(name: categoryName)}
     }
-    private func setCategory(name: String){
+    func setCategory(name: String){
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
         cell?.detailTextLabel?.text = name
     }

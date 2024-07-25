@@ -12,4 +12,5 @@ protocol TrackerCategoryStoreProtocol: AnyObject{
     func makeNewCategory(categoryName: String,trackers: [Tracker])
     func getCategoryName(section: Int) -> String
     func updateCategoriesWithSearch(searchText: String)
+    func getCategoryNameById(by trackerId: UUID) -> String?
 }

@@ -10,6 +10,9 @@ import UIKit
 protocol TrackCellDelegateProtocol: AnyObject{
     func deleteTrackerRecord(id: UUID)
     func addTrackerRecord(id: UUID)
+    func deleteTracker(id: UUID?)
+    func editTracker(id: UUID?)
+    func pinTracker(id: UUID)
 }
 
 final class TrackCell: UICollectionViewCell{
@@ -32,6 +35,7 @@ final class TrackCell: UICollectionViewCell{
     weak var delegate: TrackCellDelegateProtocol?
     
     func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool){
+        setupContextMenu()
         trackerId = track.id
         emodji.text = track.emoji
         nameLabel.text = track.name
@@ -45,6 +49,11 @@ final class TrackCell: UICollectionViewCell{
             configStateSingle(isDone: isDone, availible: availible)
         }
         changeText(daysCount: days)
+    }
+    
+    private func setupContextMenu() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        self.addInteraction(interaction)
     }
     
     private func configStateHabbit(isDone:Bool,availible:Bool){
@@ -203,5 +212,29 @@ extension TrackCell{
         plusButton.setImage(plusImage, for: .normal)
         plusButton.setImage(doneImage, for: .selected)
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+}
+
+extension TrackCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let action1 = UIAction(title: NSLocalizedString("pin_cell", comment: "")) { action in
+                print("")
+            }
+            let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] action in
+                self?.delegate?.editTracker(id: self?.trackerId)
+            }
+            let action3 = UIAction(title: "") { [weak self] action in
+                self?.delegate?.deleteTracker(id: self?.trackerId)
+            }
+            action3.setValue(NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red), forKey: "attributedTitle")
+            return UIMenu(title: "",children: [action1,action2,action3])
+        }
+    }
+}
+
+extension NSAttributedString {
+    static func coloredString(_ text: String, color: UIColor) -> NSAttributedString {
+        return NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: color])
     }
 }
