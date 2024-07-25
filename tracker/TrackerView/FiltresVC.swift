@@ -33,7 +33,6 @@ final class FiltresVC: UIViewController {
         navigationItem.titleView?.tintColor = Colors.addButtonColor
         super.viewDidLoad()
         view.addSubview(tableView)
-        print(view.subviews)
         tableView.backgroundColor = Colors.blackBackgroundColor
         tableView.dataSource = self
         tableView.delegate = self

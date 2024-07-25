@@ -20,6 +20,7 @@ final class TrackerCategoryStore: NSObject{
     private let manager = CDManager.shared
     weak var trackerStore: TrackerStore?
     private let context: NSManagedObjectContext
+    var filter: Filtres
     private var insertedIndexes : [IndexPath] = []
     private var updatedIndexes: [IndexPath] = []
     private var searchText: String = ""
