@@ -46,7 +46,7 @@ final class ColorCells: UICollectionViewCell{
     
     let colores: [UIColor] = [.cellSection1,.cellSection2,.cellSection3,.cellSection4,.cellSection5,.cellSection6,.cellSection7,.cellSection8,.cellSection9,.cellSection10,.cellSection11,.cellSection12,.cellSection13,.cellSection14,.cellSection15,.cellSection16,.cellSection17,.cellSection18]
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private var selectedColor: UIColor?
+    var selectedColor: UIColor?
     weak var delegate: ColorCellsDelegateProtocol?
     func setupView(){
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,14 +66,6 @@ final class ColorCells: UICollectionViewCell{
     func getColor() -> UIColor?{
         return selectedColor
     }
-    func setColor(color: UIColor) {
-        guard let indexPathRow = colores.firstIndex(of: color) else { return }
-        let indexPath = IndexPath(row: indexPathRow, section: 0)
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else { return }
-        cell.showBlock()
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
-        selectedColor = color
-    }
 }
 
 extension ColorCells:UICollectionViewDataSource{
@@ -83,7 +75,20 @@ extension ColorCells:UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "color", for: indexPath) as? ColorCell else {return UICollectionViewCell()}
-        cell.setupView(cellColor: colores[indexPath.row])
+        let color = colores[indexPath.row]
+        if let selectedColor = selectedColor {
+            if UIColorMarshalling.shared.hexString(from: color)  == UIColorMarshalling.shared.hexString(from: selectedColor) {
+                cell.setupView(cellColor: color)
+                collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+                cell.isSelected = true
+                cell.showBlock()
+                return cell
+            } else {
+                cell.setupView(cellColor: color )
+                return cell
+            }
+        }
+        cell.setupView(cellColor: color )
         return cell
     }
     

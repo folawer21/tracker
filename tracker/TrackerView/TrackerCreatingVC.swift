@@ -9,6 +9,7 @@ import UIKit
 
 protocol TrackerCreatingDelegateProtocol: AnyObject{
     func addNewTracker(tracker: Tracker, categoryName: String)
+    func deleteTracker(tracker: Tracker)
 }
 
 final class TrackerCreatingVC: UIViewController{
@@ -59,13 +60,13 @@ final class TrackerCreatingVC: UIViewController{
     
     //MARK: Objc func
     @objc private func showHabbitView(){
-        let vc = CreateHabbitVC()
+        let vc = CreateHabbitVC(isEditVC: false)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func showEventView(){
-        let vc = CreateEventVC()
+        let vc = CreateEventVC(isEditVC: false)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -87,6 +88,11 @@ final class TrackerCreatingVC: UIViewController{
 extension TrackerCreatingVC: CreateHabbitDelegateProtocol & CreateEventDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
+    }
+    
+    func deleteTracker(tracker: Tracker) {
+        delegate?.deleteTracker(tracker: tracker)
+        print("Все ок TrackerCreatingVC")
     }
     
 }

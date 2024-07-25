@@ -10,12 +10,13 @@ import UIKit
 protocol CreateCancelButtonsDelegateProtocol: AnyObject{
     func createButtonTappedDelegate()
     func cancelButtonTappedDelegate()
+    func editButtonTappedDelegate()
 }
 
 final class CreateCancelButtonsCells: UICollectionViewCell{
     let createButton = UIButton()
     let cancelButton = UIButton()
-    
+    var isEditing: Bool = false
     weak var delegate: CreateCancelButtonsDelegateProtocol?
     
     func setupView(){
@@ -41,11 +42,18 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(Colors.createButtonTextColorEnabled, for: .normal)
         createButton.setTitleColor(Colors.createButtonTextColorDisabled, for: .disabled)
-        let buttonText = NSLocalizedString("createcancel_button_create", comment: "")
-        createButton.setTitle(buttonText, for: .normal)
         createButton.isEnabled = false
         createButton.backgroundColor = createButton.isEnabled ? Colors.createButtonColor : .ypGray
-        createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+        if isEditing {
+            let buttonText = NSLocalizedString("save_button", comment: "")
+            createButton.setTitle(buttonText, for: .normal)
+            createButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        } else {
+            let buttonText = NSLocalizedString("createcancel_button_create", comment: "")
+            createButton.setTitle(buttonText, for: .normal)
+            createButton.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
+        }
+    
     }
     
     func makeEditingScreen(){
@@ -75,7 +83,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     }
     
     @objc func editButtonTapped(){
-        
+        delegate?.editButtonTappedDelegate()
     }
     
     func updateCreateButtonState(isEnabled: Bool){

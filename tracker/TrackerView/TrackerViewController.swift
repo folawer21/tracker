@@ -253,6 +253,11 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
     func addNewTracker(tracker: Tracker, categoryName: String) {
         trackerStore?.addTracker(tracker, category: categoryName)
     }
+    
+    func deleteTracker(tracker: Tracker) {
+        trackerStore?.deleteTracker(id: tracker.id)
+        print("Все ок TrackerViewController")
+    }
 }
 
 
@@ -284,16 +289,22 @@ extension TrackerViewController: TrackCellDelegateProtocol{
               let tracker = trackerStore?.getTracker(id: id ),
               let categoryName = categoriesStore?.getCategoryNameById(by: id) else {return }
         if tracker.type == .single {
-            let vc = CreateEventVC()
-
-            
+            let vc = CreateEventVC(isEditVC: true, tracker: tracker, categoryName: categoryName)
+            let trackCreating = TrackerCreatingVC()
+            trackCreating.delegate = self
+            vc.delegate = trackCreating
+            let navVc = UINavigationController(rootViewController: trackCreating)
+            navVc.pushViewController(vc, animated: true)
+            present(navVc,animated: true)
         } else {
-            let vc = CreateHabbitVC()
-            let navVc = UINavigationController(rootViewController: vc)
-            vc.setData(tracker: tracker, categoryName: categoryName)
+            let vc = CreateHabbitVC(isEditVC: true, tracker: tracker, categoryName: categoryName)
+            let trackCreating = TrackerCreatingVC()
+            trackCreating.delegate = self
+            vc.delegate = trackCreating
+            let navVc = UINavigationController(rootViewController: trackCreating)
+            navVc.pushViewController(vc, animated: true)
             present(navVc,animated: true)
         }
-//        trackerStore?.editTracker(id: id, categoryName: categoryName)
     }
     
     func pinTracker(id: UUID) {

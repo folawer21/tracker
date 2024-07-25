@@ -45,7 +45,7 @@ final class EmojiCell: UICollectionViewCell{
 
 final class EmojiCells: UICollectionViewCell{
     let emojes = ["🙂","😻","🌺","🐶","❤️","😱","😇","😡","🥶","🤔","🙌","🍔","🥦","🏓","🥇","🎸","🏝","😪"]
-    private var selectedEmoji: String?
+    var selectedEmoji: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     weak var delegate: EmojiCellsDelegateProtocol?
     func setupView(){
@@ -66,14 +66,6 @@ final class EmojiCells: UICollectionViewCell{
     func getEmoji() -> String?{
         return selectedEmoji
     }
-    func setEmoji(emoji: String) {
-        guard let indexPathRow = emojes.firstIndex(of: emoji) else { return }
-        let indexPath = IndexPath(row: indexPathRow, section: 0)
-        guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else { return }
-        cell.showBlock()
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
-        selectedEmoji = emoji
-    }
 }
 
 extension EmojiCells:UICollectionViewDataSource{
@@ -83,7 +75,17 @@ extension EmojiCells:UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emoji", for: indexPath) as? EmojiCell else {return UICollectionViewCell()}
-        cell.setupView(text: emojes[indexPath.row])
+        let emoji = emojes[indexPath.row]
+        if emoji == selectedEmoji {
+            cell.setupView(text: emoji)
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+            cell.isSelected = true
+            cell.showBlock()
+            
+        } else {
+            cell.setupView(text: emoji)
+        }
+        
         return cell
     }
     

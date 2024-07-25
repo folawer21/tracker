@@ -8,6 +8,7 @@
 import UIKit
 protocol CreateHabbitDelegateProtocol: AnyObject{
     func addNewTracker(tracker: Tracker,categoryName : String)
+    func deleteTracker(tracker: Tracker)
 }
 final class CreateHabbitVC: UIViewController{
     let viewModel = CategoriesViewModel()
@@ -116,40 +117,39 @@ final class CreateHabbitVC: UIViewController{
         selectedEmoji = emoji
         return emoji
     }
-    func setData(tracker: Tracker, categoryName: String) {
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell else { print(2)
-            return }
-        print(1)
-        cell.textField.text = tracker.name
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {print(2)
-            return}
-        print(1)
-        var daysArray: [String] = []
-        for day in tracker.timetable {
-            daysArray.append(day.rawValue)
-        }
-        cell.setDays(days: daysArray)
-        cell.setCategory(name: categoryName)
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? EmojiCells else {print(2)
-            return}
-        print(1)
-        cell.setEmoji(emoji: tracker.emoji)
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? ColorCells else {print(2)
-            return}
-        print(1)
-        cell.setColor(color: tracker.color)
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? CreateCancelButtonsCells else {print(2)
-            return}
-        print(1)
-        cell.makeEditingScreen()
-    }
+//    func setData(tracker: Tracker, categoryName: String) {
+//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell else { print(2)
+//            return }
+//        print(1)
+//        cell.textField.text = tracker.name
+//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {print(2)
+//            return}
+//        print(1)
+//        var daysArray: [String] = []
+//        for day in tracker.timetable {
+//            daysArray.append(day.rawValue)
+//        }
+//        cell.setDays(days: daysArray)
+//        cell.setCategory(name: categoryName)
+//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? EmojiCells else {print(2)
+//            return}
+//        print(1)
+//        cell.setEmoji(emoji: tracker.emoji)
+//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? ColorCells else {print(2)
+//            return}
+//        print(1)
+//        cell.setColor(color: tracker.color)
+//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? CreateCancelButtonsCells else {print(2)
+//            return}
+//        print(1)
+//        cell.makeEditingScreen()
+//    }
 }
 
 extension CreateHabbitVC: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section{
         case 0:
-            print(indexPath)
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
             cell.textFieldDelegate = self
             if isEditVC {
@@ -166,8 +166,8 @@ extension CreateHabbitVC: UICollectionViewDataSource{
                 for day in tracker.timetable {
                     daysArray.append(day.rawValue)
                 }
-                cell.setDays(days: daysArray)
-                cell.setCategory(name: categoryName)
+                cell.daysArr = daysArray
+                cell.selectedCategory = categoryName
             }
             cell.setVM(vm: viewModel)
             return cell
@@ -175,16 +175,28 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
             cell.delegate = self
             cell.setupView()
+            if isEditVC {
+                guard let tracker = tracker else {return UICollectionViewCell()}
+                cell.selectedEmoji = tracker.emoji
+            }
             return cell
         case 3:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
             cell.delegate = self
             cell.setupView()
+            if isEditVC {
+                guard let tracker = tracker else {return UICollectionViewCell()}
+                cell.selectedColor = tracker.color
+            }
             return cell
         case 4:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {return UICollectionViewCell()}
+            if isEditVC {
+                cell.isEditing = true
+            }
             cell.setupView()
             cell.delegate = self
+            
             return cell
         default:
             return UICollectionViewCell()
@@ -323,6 +335,26 @@ extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
     }
     
     func cancelButtonTappedDelegate(){
+        dismiss(animated: true)
+    }
+    
+    func editButtonTappedDelegate() {
+        guard let timetable = getTimetable(),
+              let name = getName(),
+              let emoji = getEmoji(),
+              let color = getColor(),
+              let newCategoryName = viewModel.getPickedCategory() else {return}
+        let createdAt = Date()
+        let id = UUID()
+        let type = TrackerType.habbit
+        let newTracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        guard let tracker = tracker else {
+            print("!@#!@#!@#!@#!@#")
+            return
+        }
+        delegate?.deleteTracker(tracker: tracker)
+        delegate?.addNewTracker(tracker: newTracker, categoryName: newCategoryName)
+        print("Все ок CreateHabbit",delegate)
         dismiss(animated: true)
     }
 }

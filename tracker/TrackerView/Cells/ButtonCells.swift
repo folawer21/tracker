@@ -18,6 +18,7 @@ final class ButtonCells: UICollectionViewCell {
     weak var viewModel: CategoriesViewModel?
     let tableView = UITableView()
     var daysArr: [String] = []
+    var selectedCategory: String?
     weak var delegate: ButtonCellDelegateProtocol?
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -60,12 +61,29 @@ extension ButtonCells: UITableViewDataSource{
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = Colors.createHabbitEventSecondaryColor
         if indexPath.row == 0{
+            if let selectedCategory = selectedCategory {
+                let cellText = NSLocalizedString("buttonCells_category", comment: "")
+                cell.textLabel?.text = cellText
+                cell.layer.cornerRadius = 16
+                cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+                cell.detailTextLabel?.text = selectedCategory
+                return cell
+            }
             let cellText = NSLocalizedString("buttonCells_category", comment: "")
             cell.textLabel?.text = cellText
             cell.layer.cornerRadius = 16
             cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
             return cell
         }else{
+            if !daysArr.isEmpty {
+                let cellText = NSLocalizedString("buttonCells_timetable", comment: "")
+                cell.textLabel?.text = cellText
+                cell.layer.cornerRadius = 16
+                cell.layer.maskedCorners = [.layerMaxXMaxYCorner,.layerMinXMaxYCorner]
+                let joinedDays = daysArr.joined(separator: ", ")
+                cell.detailTextLabel?.text = joinedDays
+                return cell
+            }
             let cellText = NSLocalizedString("buttonCells_timetable", comment: "")
             cell.textLabel?.text = cellText
             cell.layer.cornerRadius = 16
@@ -86,7 +104,12 @@ extension ButtonCells:UITableViewDelegate {
         if indexPath.row == 0{
             let vc = CategoriesVC(viewModel: viewModel)
             viewModel?.model.delegate = vc
-            delegate?.showCategoryVC(vc: vc)
+            if let selectedCategory = selectedCategory {
+                viewModel?.setPickedCategory(name: selectedCategory)
+                delegate?.showCategoryVC(vc: vc)
+            }else {
+                delegate?.showCategoryVC(vc: vc)
+            }
         }
         if indexPath.row == 1{
             let vc = TimeTableVC()
@@ -104,9 +127,8 @@ extension ButtonCells:TimeTableVcDelegateProtocol{
     func setDays(days: [String]) {
         let joinedDays = days.joined(separator: ", ")
         let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0))
-        cell?.detailTextLabel?.text = ""
         cell?.detailTextLabel?.text = joinedDays
-        daysArr = days
+
     }
     func getDaysArr() -> [String]{
         return daysArr

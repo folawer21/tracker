@@ -181,6 +181,7 @@ extension TrackerStore: TrackerStoreProtocol{
         catch{
             print(error)
         }
+        print("added")
     }
     
     func deleteTracker(id: UUID?){
@@ -197,20 +198,21 @@ extension TrackerStore: TrackerStoreProtocol{
         }catch{
             fatalError(error.localizedDescription)
         }
+        print("Deleted")
     }
     
     func editTracker(id: UUID, categoryName: String) {
-        guard let tracker = trackers.first(where: {$0.id == id}) else {
-            return
-        }
-        //        if tracker.type == .single {
-        //            let vc = CreateEventVC()
-        //
-        //
-        //        } else {
-        //            let vc = CreateHabbitVC()
-        //            vc.setData(tracker: tracker, categoryName: categoryName)
-        //        }
+//        guard let tracker = trackers.first(where: {$0.id == id}) else {
+//            return
+//        }
+//        //        if tracker.type == .single {
+//        //            let vc = CreateEventVC()
+//        //
+//        //
+//        //        } else {
+//        //            let vc = CreateHabbitVC()
+//        //            vc.setData(tracker: tracker, categoryName: categoryName)
+//        //        }
     }
     
     func setCategoryStore(categoryStore: TrackerCategoryStore){

@@ -17,7 +17,7 @@ final class EventCell: UICollectionViewCell {
     let tableView = UITableView()
     weak var viewModel: CategoriesViewModel?
     weak var delegate: EventCellDelegateProtocol?
-    var daysArr: [String] = []
+    var selectedCategory: String?
     override init(frame: CGRect){
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,13 @@ extension EventCell:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
             let vc = CategoriesVC(viewModel: viewModel)
-            delegate?.showCategoryVC(vc: vc)
+            viewModel?.model.delegate = vc
+            if let selectedCategory = selectedCategory {
+                viewModel?.setPickedCategory(name: selectedCategory)
+                delegate?.showCategoryVC(vc: vc)
+            }else {
+                delegate?.showCategoryVC(vc: vc)
+            }
         }
     }
 }
