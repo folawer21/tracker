@@ -13,7 +13,7 @@ class CategoriesViewModel{
     var onCreationAllowedStateChange: Binding<Bool>?
     var onPickedCategoryChanged: Binding<String>?
     private var pickedCategory: String?
-    let model = TrackerCategoryStore(day: .monday)
+    let model = TrackerCategoryStore(day: .monday,date: Date())
     func getCategoristCount() -> Int{
         return model.categoriesCount
     }

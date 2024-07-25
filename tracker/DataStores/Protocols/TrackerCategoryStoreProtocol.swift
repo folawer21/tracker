@@ -18,4 +18,6 @@ protocol TrackerCategoryStoreProtocol: AnyObject{
     func isPinnedById(trackerId: UUID) -> Bool
     func setFilter(filter: Filtres)
     func setDay(day: WeekDay)
+    func setDate(date: Date)
+    func setRecordStore(recordStore: TrackerRecordStore)
 }

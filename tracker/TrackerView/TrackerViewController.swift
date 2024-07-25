@@ -93,9 +93,10 @@ final class TrackerViewController: UIViewController{
         
         let trackerRecordStore = TrackerRecordStore()
         let trackerStore = TrackerStore(day: enumDay)
-        let categoryStore = TrackerCategoryStore(day:enumDay)
+        let categoryStore = TrackerCategoryStore(day:enumDay,date: currentDate)
         trackerStore.setCategoryStore(categoryStore: categoryStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
+        categoryStore.setRecordStore(recordStore: trackerRecordStore)
         trackerRecordStore.setTrackerStore(store: trackerStore)
         trackerStore.delegate = self
         categoryStore.delegate = self
@@ -174,6 +175,7 @@ final class TrackerViewController: UIViewController{
         let enumDay = dayEnumFromDay(day: day)
         trackerStore?.setDay(day: enumDay)
         categoriesStore?.setDay(day: enumDay)
+        categoriesStore?.setDate(date: currentDate)
         guard let flag = trackerStore?.isEmpty else {return }
         if !flag{
             if stubViewActive{
@@ -398,10 +400,13 @@ extension TrackerViewController: FiltresVCDelegateProtocol {
         case .today:
             datePicker.date = Date()
             datePickerChanged()
+            categoriesStore?.setFilter(filter: .today)
         case .completed:
-            print("completed")
+            categoriesStore?.setFilter(filter: .completed)
+            collectionView.reloadData()
         case .uncompleted:
-            print("uncompleted")
+            categoriesStore?.setFilter(filter: .uncompleted)
+            collectionView.reloadData()
         }
 //        categoriesStore?.setFilter(filter: filter)
     }

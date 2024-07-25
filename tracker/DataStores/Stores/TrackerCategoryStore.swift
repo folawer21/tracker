@@ -19,11 +19,13 @@ protocol TrackerCategoryStoreDelegate: AnyObject{
 final class TrackerCategoryStore: NSObject{
     private let manager = CDManager.shared
     weak var trackerStore: TrackerStore?
+    weak var trackerRecord: TrackerRecordStore?
     private let context: NSManagedObjectContext
     var filter: Filtres = .all
     private var insertedIndexes : [IndexPath] = []
     private var updatedIndexes: [IndexPath] = []
     private var searchText: String = ""
+    var date: Date
     var day: WeekDay
     var fetchedResultsController:NSFetchedResultsController<TrackerCategoryCoreData>
     
@@ -46,16 +48,17 @@ final class TrackerCategoryStore: NSObject{
             case .today:
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
             case .completed:
-                return categories
+                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})})
             case .uncompleted:
-                return categories
+                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})})
             }
         }
     }
     
-    init(day: WeekDay){
+    init(day: WeekDay,date: Date){
         self.context = manager.context
         self.day = day
+        self.date = date
         let fetchedRequest = TrackerCategoryCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCategoryCoreData.title, ascending: true)]
         
@@ -183,18 +186,18 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var numberOfSections: Int{
-//        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-//        return count
+        //        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+        //        return count
         filteredCategories.count
     }
     var categoriesCount: Int{
-//        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-//        return count
+        //        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
+        //        return count
         categories.count
     }
     var isEmpty: Bool{
-//        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
-//        return isEmpty
+        //        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
+        //        return isEmpty
         filteredCategories.isEmpty
     }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
@@ -205,22 +208,22 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         self.trackerStore = trackerStore
     }
     func getCategoryName(section: Int) -> String {
-//        return categories[section].title
+        //        return categories[section].title
         return filteredCategories[section].title
     }
     func getCategoryNameVC(section: Int) -> String {
-//        return categories[section].title
+        //        return categories[section].title
         return categories[section].title
     }
     
     
     func getCategoryCountByIndex(index: Int) -> Int{
-//        return categories[index].trackerList.count
+        //        return categories[index].trackerList.count
         return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
     }
     
     func getTrackerByIndexPath(index: IndexPath) -> Tracker{
-//        return categories[index.section].trackerList[index.row]
+        //        return categories[index.section].trackerList[index.row]
         return filteredCategories[index.section].trackerList.filter({$0.timetable.contains(self.day)}) [index.row]
     }
     
@@ -261,5 +264,12 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     }
     func setDay(day: WeekDay) {
         self.day = day
+    }
+    func setDate(date: Date) {
+        self.date = date
+    }
+    
+    func setRecordStore(recordStore: TrackerRecordStore) {
+        self.trackerRecord = recordStore
     }
 }
