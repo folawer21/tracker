@@ -21,7 +21,7 @@ final class TrackCell: UICollectionViewCell{
     private let emodji = UILabel()
     private let emodjiBlock = UIView()
     private let nameLabel = UILabel()
-
+    private let pinImage = UIImageView()
     //Белый блок
     private let infoBlock = UIView()
     let daysLabel = UILabel()
@@ -31,8 +31,6 @@ final class TrackCell: UICollectionViewCell{
     var pinned = false
     private let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
     private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
-    
-
     weak var delegate: TrackCellDelegateProtocol?
     
     func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool,isPinned: Bool){
@@ -142,6 +140,10 @@ extension TrackCell{
         applyConstraints()
         configButton()
         translateToFalse()
+        pinImage.image = UIImage(named: "pinImage")
+        pinImage.contentMode = .scaleAspectFit      
+        pinImage.translatesAutoresizingMaskIntoConstraints = false
+        pinImage.isHidden = !pinned
         emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
         emodjiBlock.layer.cornerRadius = 12
         emodjiBlock.layer.masksToBounds = true
@@ -170,6 +172,7 @@ extension TrackCell{
         contentView.addSubview(infoBlock)
         colorBlock.addSubview(emodjiBlock)
         colorBlock.addSubview(nameLabel)
+        colorBlock.addSubview(pinImage)
         infoBlock.addSubview(daysLabel)
         infoBlock.addSubview(plusButton)
         emodjiBlock.addSubview(emodji)
@@ -185,6 +188,10 @@ extension TrackCell{
             infoBlock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             infoBlock.topAnchor.constraint(equalTo: colorBlock.bottomAnchor),
             infoBlock.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            pinImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            pinImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            pinImage.widthAnchor.constraint(equalToConstant: 24),
+            pinImage.heightAnchor.constraint(equalToConstant: 24),
             
             emodjiBlock.leadingAnchor.constraint(equalTo: colorBlock.leadingAnchor, constant: 12),
             emodjiBlock.topAnchor.constraint(equalTo: colorBlock.topAnchor, constant: 12),
