@@ -12,7 +12,7 @@ protocol TrackCellDelegateProtocol: AnyObject{
     func addTrackerRecord(id: UUID)
     func deleteTracker(id: UUID?)
     func editTracker(id: UUID?)
-    func pinTracker(id: UUID)
+    func pinTracker(id: UUID?,pinned: Bool)
 }
 
 final class TrackCell: UICollectionViewCell{
@@ -28,13 +28,15 @@ final class TrackCell: UICollectionViewCell{
     let plusButton = UIButton()
     var buttonWasTapped = false
     var trackerId: UUID?
+    var pinned = false
     private let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
     private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
     
 
     weak var delegate: TrackCellDelegateProtocol?
     
-    func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool){
+    func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool,isPinned: Bool){
+        pinned = isPinned
         setupContextMenu()
         trackerId = track.id
         emodji.text = track.emoji
@@ -55,7 +57,9 @@ final class TrackCell: UICollectionViewCell{
         let interaction = UIContextMenuInteraction(delegate: self)
         self.addInteraction(interaction)
     }
-    
+    func togglePinned(){
+        self.pinned.toggle()
+    }
     private func configStateHabbit(isDone:Bool,availible:Bool){
         plusButton.layer.opacity = 1
         if isDone{
@@ -217,9 +221,17 @@ extension TrackCell{
 
 extension TrackCell: UIContextMenuInteractionDelegate {
     func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let action1 = UIAction(title: NSLocalizedString("pin_cell", comment: "")) { action in
-                print("")
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self ] _ in
+            var pinString = ""
+            if self?.pinned == false {
+                pinString = NSLocalizedString("pin_cell", comment: "")
+            } else {
+                pinString = NSLocalizedString("unpin_cell", comment: "")
+            }
+            let action1 = UIAction(title: pinString ) { [weak self] action in
+                guard let self = self else {return }
+                self.delegate?.pinTracker(id: self.trackerId, pinned: self.pinned)
+                self.togglePinned()
             }
             let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] action in
                 self?.delegate?.editTracker(id: self?.trackerId)

@@ -33,7 +33,7 @@ final class TrackerCategoryStore: NSObject{
             return []}
         return categories
     }
-    
+   
     var filteredCategories: [TrackerCategory]{
         if !searchText.isEmpty {
             return categories.filter { $0.title.lowercased().contains(searchText.lowercased()) }
@@ -220,5 +220,26 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
             $0.trackerList.contains(where: {$0.id == trackerId})
         })
         return firstCategory?.title
+    }
+    
+    func pin(trackerId: UUID) {
+        guard let tracker = trackerStore?.getTrackerById(id: trackerId),
+              let categoryName = getCategoryNameById(by: trackerId) else {return}
+        trackerStore?.deleteTracker(id: tracker.id)
+        UserDefaults.standard.setValue(categoryName, forKey: tracker.id.uuidString)
+        addTrackerToCategory(tracker: tracker, categoryName: NSLocalizedString("category_pinned", comment: ""))
+    }
+    
+    func unpin(trackerId: UUID) {
+        guard let tracker = trackerStore?.getTrackerById(id: trackerId) else {return}
+        trackerStore?.deleteTracker(id: tracker.id)
+        guard let category = UserDefaults.standard.string(forKey: tracker.id.uuidString) else {return }
+        addTrackerToCategory(tracker: tracker, categoryName: category)
+    }
+    
+    func isPinnedById(trackerId: UUID) -> Bool {
+        guard let category = categories.first(where: {$0.title == NSLocalizedString("category_pinned", comment: "")}) else { return false }
+        guard let firstIndex = category.trackerList.first(where: {$0.id == trackerId}) else { return false}
+        return true
     }
 }

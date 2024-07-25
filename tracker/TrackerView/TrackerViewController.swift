@@ -205,14 +205,16 @@ extension TrackerViewController: UICollectionViewDataSource{
         }
         if type == .habbit{
             guard let isDoneToday = trackerRecordStore?.isRecordedByDate(id: tracker.id, date: currentDate),
-                  let daysCount = trackerRecordStore?.getTrackerDoneCount(id: tracker.id) else{return UICollectionViewCell()}
-            cell.configCell(track: tracker, days: daysCount, isDone: isDoneToday, availible: available)
+                  let daysCount = trackerRecordStore?.getTrackerDoneCount(id: tracker.id),
+                  let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else {return UICollectionViewCell()}
+            cell.configCell(track: tracker, days: daysCount, isDone: isDoneToday, availible: available,isPinned: isPinned)
         }
         
         if type == .single {
-            guard let isDone = trackerRecordStore?.singleIsDone(id: tracker.id) else {return UICollectionViewCell()}
+            guard let isDone = trackerRecordStore?.singleIsDone(id: tracker.id),
+                  let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else {return UICollectionViewCell()}
             let daysCount = isDone ? 1 : 0
-            cell.configCell(track: tracker, days: daysCount, isDone: isDone, availible: available)
+            cell.configCell(track: tracker, days: daysCount, isDone: isDone, availible: available, isPinned: isPinned)
             
         }
         cell.delegate = self
@@ -307,7 +309,14 @@ extension TrackerViewController: TrackCellDelegateProtocol{
         }
     }
     
-    func pinTracker(id: UUID) {
+    func pinTracker(id: UUID?,pinned: Bool) {
+        guard let id = id else {return }
+        if pinned {
+            categoriesStore?.unpin(trackerId: id)
+        } else {
+            categoriesStore?.pin(trackerId: id)
+        }
+        collectionView.reloadData()
     }
     
     

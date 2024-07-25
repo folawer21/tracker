@@ -58,8 +58,10 @@
 "statistics_navigation" = "Statistics";
 "statistics_stub_text" = "Nothing for analyze";
 "pin_cell" = "Pin";
+"unpin_cell" = "Unpin";
 "delete_cell" = "Delete";
 "edit_cell" = "Edit";
 "confirm_delete" = "Delete tracker?";
 "cancel_action" = "Cancel";
 "save_button" = "Save";
+"category_pinned" = "Pinned";

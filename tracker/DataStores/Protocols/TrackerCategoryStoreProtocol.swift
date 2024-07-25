@@ -13,4 +13,7 @@ protocol TrackerCategoryStoreProtocol: AnyObject{
     func getCategoryName(section: Int) -> String
     func updateCategoriesWithSearch(searchText: String)
     func getCategoryNameById(by trackerId: UUID) -> String?
+    func pin(trackerId: UUID)
+    func unpin(trackerId: UUID)
+    func isPinnedById(trackerId: UUID) -> Bool
 }
