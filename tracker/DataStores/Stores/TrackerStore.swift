@@ -24,6 +24,7 @@ final class TrackerStore: NSObject{
     private let marshaling = UIColorMarshalling()
     private var insertedIndexes: IndexSet?
     weak var categoryStore: TrackerCategoryStore?
+    weak var recordStore: TrackerRecordStore?
     var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
     private var day : WeekDay
     weak var delegate: TrackerStoreDelegate?
@@ -200,6 +201,7 @@ extension TrackerStore: TrackerStoreProtocol{
             fatalError(error.localizedDescription)
         }
         print("Deleted")
+        recordStore?.deleteAllRecordsFor(id: id)
     }
     
     func editTracker(id: UUID, categoryName: String) {
@@ -217,4 +219,7 @@ extension TrackerStore: TrackerStoreProtocol{
         return self.getTrackerById(id: id)
     }
     
+    func setRecordStore(store: TrackerRecordStore) {
+        self.recordStore = store
+    }
 }

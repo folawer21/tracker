@@ -96,6 +96,7 @@ final class TrackerViewController: UIViewController{
         let trackerStore = TrackerStore(day: enumDay)
         let categoryStore = TrackerCategoryStore(day:enumDay,date: currentDate)
         trackerStore.setCategoryStore(categoryStore: categoryStore)
+        trackerStore.setRecordStore(store: trackerRecordStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
         categoryStore.setRecordStore(recordStore: trackerRecordStore)
         trackerRecordStore.setTrackerStore(store: trackerStore)

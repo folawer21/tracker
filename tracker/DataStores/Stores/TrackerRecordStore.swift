@@ -160,6 +160,19 @@ final class TrackerRecordStore: NSObject{
         }
         return Float(sum / daysCount.count)
     }
+    
+    func deleteAllRecordsFor(id: UUID) {
+        let request = TrackerRecordCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        do {
+            let records = try context.fetch(request)
+            for record in records {
+                context.delete(record)
+            }
+        }catch{
+            fatalError()
+        }
+    }
 }
 
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
