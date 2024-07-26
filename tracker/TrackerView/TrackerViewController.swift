@@ -6,7 +6,8 @@
 //
 
 import UIKit
-//не работает создание привычки
+import YandexMobileMetrica
+
 final class TrackerViewController: UIViewController{
     var categories: [TrackerCategory] = []
     var filteredCategories: [TrackerCategory] = []
@@ -115,11 +116,27 @@ final class TrackerViewController: UIViewController{
             buildWithTracks()
         }
     }
+    override func viewDidAppear(_ animated: Bool) {
+        let params : [AnyHashable : Any] = ["screen": "Main"]
+        YMMYandexMetrica.reportEvent("open", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        let params : [AnyHashable : Any] = ["screen": "Main"]
+        YMMYandexMetrica.reportEvent("close", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
+    }
 
     @objc func addButtonTapped(){
         let vc = TrackerCreatingVC()
         let navVc = UINavigationController(rootViewController: vc)
         vc.delegate = self
+        let params : [AnyHashable : Any] = ["screen": "Main","item": "add_track"]
+        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
         navigationController?.present(navVc, animated: true)
     }
     
@@ -128,6 +145,10 @@ final class TrackerViewController: UIViewController{
         vc.delegate = self
         vc.chosenFilter = chosenFilter
         let navVc = UINavigationController(rootViewController: vc)
+        let params : [AnyHashable : Any] = ["screen": "Main","item": "filter"]
+        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
         navigationController?.present(navVc,animated: true)
     }
 

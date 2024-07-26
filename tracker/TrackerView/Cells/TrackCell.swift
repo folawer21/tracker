@@ -6,6 +6,7 @@
 //
 //
 import UIKit
+import YandexMobileMetrica
 
 protocol TrackCellDelegateProtocol: AnyObject{
     func deleteTrackerRecord(id: UUID)
@@ -125,6 +126,10 @@ final class TrackCell: UICollectionViewCell{
    
     @objc func buttonTapped(){
         guard let id = trackerId else {return}
+        let params : [AnyHashable : Any] = ["screen": "Main","item": "track"]
+        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
         if buttonWasTapped{
             delegate?.deleteTrackerRecord(id: id)
         }else{
@@ -241,9 +246,17 @@ extension TrackCell: UIContextMenuInteractionDelegate {
                 self.togglePinned()
             }
             let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] action in
+                let params : [AnyHashable : Any] = ["screen": "Main","item": "edit"]
+                YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
+                    print("REPORT ERROR: %@", error.localizedDescription)
+                })
                 self?.delegate?.editTracker(id: self?.trackerId)
             }
             let action3 = UIAction(title: "") { [weak self] action in
+                let params : [AnyHashable : Any] = ["screen": "Main","item": "delete"]
+                YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
+                    print("REPORT ERROR: %@", error.localizedDescription)
+                })
                 self?.delegate?.deleteTracker(id: self?.trackerId)
             }
             action3.setValue(NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red), forKey: "attributedTitle")
