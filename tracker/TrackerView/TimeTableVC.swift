@@ -23,7 +23,6 @@ final class TimeTableVC: UIViewController{
     weak var delegate: TimeTableVcDelegateProtocol?
     
     @objc func doneButtonTapped(){
-        print("selectedDays",selectedDays)
         delegate?.setDays(days: selectedDays)
         delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)

@@ -51,11 +51,7 @@ final class CreateHabbitVC: UIViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//       
-//    }
+
     
     private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
         var result: [WeekDay] = []
@@ -118,33 +114,6 @@ final class CreateHabbitVC: UIViewController{
         selectedEmoji = emoji
         return emoji
     }
-//    func setData(tracker: Tracker, categoryName: String) {
-//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell else { print(2)
-//            return }
-//        print(1)
-//        cell.textField.text = tracker.name
-//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {print(2)
-//            return}
-//        print(1)
-//        var daysArray: [String] = []
-//        for day in tracker.timetable {
-//            daysArray.append(day.rawValue)
-//        }
-//        cell.setDays(days: daysArray)
-//        cell.setCategory(name: categoryName)
-//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? EmojiCells else {print(2)
-//            return}
-//        print(1)
-//        cell.setEmoji(emoji: tracker.emoji)
-//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3)) as? ColorCells else {print(2)
-//            return}
-//        print(1)
-//        cell.setColor(color: tracker.color)
-//        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 4)) as? CreateCancelButtonsCells else {print(2)
-//            return}
-//        print(1)
-//        cell.makeEditingScreen()
-//    }
 }
 
 extension CreateHabbitVC: UICollectionViewDataSource{
@@ -315,13 +284,6 @@ extension CreateHabbitVC{
         if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  && (getCategory() != nil) {
             updateCreateButtonState(isEnabled: true)
         }else{
-            print("____________")
-            print(getName())
-            print(getEmoji())
-            print(getColor())
-            print(getTimetable())
-            print(getCategory())
-            print("____________")
             updateCreateButtonState(isEnabled: false)
         }
     }

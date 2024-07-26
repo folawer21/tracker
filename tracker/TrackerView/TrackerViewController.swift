@@ -182,7 +182,6 @@ final class TrackerViewController: UIViewController{
         if chosenFilter == .today {
             chosenFilter = .all
         }
-        print("ASDASDASDASDASDASDASDASD")
         filterByDate()
     }
     
@@ -316,7 +315,6 @@ extension TrackerViewController: TrackerCreatingDelegateProtocol{
     
     func deleteTracker(tracker: Tracker) {
         trackerStore?.deleteTracker(id: tracker.id)
-        print("Все ок TrackerViewController")
     }
 }
 
@@ -418,7 +416,6 @@ extension TrackerViewController: FiltresVCDelegateProtocol {
         chosenFilter = filter
         switch chosenFilter {
         case .all:
-            print("all")
             categoriesStore?.setFilter(filter: .all)
             collectionView.reloadData()
         case .today:
@@ -433,6 +430,5 @@ extension TrackerViewController: FiltresVCDelegateProtocol {
             categoriesStore?.setFilter(filter: .uncompleted)
             collectionView.reloadData()
         }
-//        categoriesStore?.setFilter(filter: filter)
     }
 }

@@ -22,7 +22,6 @@ final class CreateCancelButtonsCells: UICollectionViewCell{
     func setupView(){
         contentView.addSubview(cancelButton)
         contentView.addSubview(createButton)
-//        contentView.backgroundColor = Colors.blackBackgroundColor
         configCancelButton()
         configCreateButton()
         NSLayoutConstraint.activate([

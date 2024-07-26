@@ -44,16 +44,12 @@ final class TrackerCategoryStore: NSObject{
         } else {
             switch filter {
             case .all:
-                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
             case .today:
-                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
             case .completed:
-                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})})
             case .uncompleted:
-                print("filter: ",filter)
                 return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})})
             }
         }
@@ -81,13 +77,13 @@ final class TrackerCategoryStore: NSObject{
     
     
     func category(from categoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory{
-        guard let title = categoryCoreData.title else { print(1)
+        guard let title = categoryCoreData.title else {
             fatalError()}
-        guard let trackerStore = self.trackerStore else { print(2)
+        guard let trackerStore = self.trackerStore else {
             fatalError()}
-        guard let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData] else {print(3)
+        guard let trackersCD = categoryCoreData.trackers?.allObjects as? [TrackerCoreData] else {
             fatalError()}
-        guard let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else { print(4)
+        guard let trackers = try? trackersCD.map({try trackerStore.tracker(from: $0)}) else {
             fatalError()
         }
         let category = TrackerCategory(title: title, trackerList: trackers)
@@ -190,18 +186,12 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
 
 extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     var numberOfSections: Int{
-        //        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-        //        return count
         filteredCategories.count
     }
     var categoriesCount: Int{
-        //        guard let count = fetchedResultsController.fetchedObjects?.count else {fatalError()}
-        //        return count
         categories.count
     }
     var isEmpty: Bool{
-        //        guard let isEmpty = fetchedResultsController.fetchedObjects?.isEmpty else {fatalError()}
-        //        return isEmpty
         filteredCategories.isEmpty
     }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
@@ -212,11 +202,9 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         self.trackerStore = trackerStore
     }
     func getCategoryName(section: Int) -> String {
-        //        return categories[section].title
         return filteredCategories[section].title
     }
     func getCategoryNameVC(section: Int) -> String {
-        //        return categories[section].title
         return categories[section].title
     }
     
@@ -224,24 +212,17 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
     func getCategoryCountByIndex(index: Int) -> Int{
         switch filter {
         case .all:
-            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
         case .today:
-            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
         case .completed:
-            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true && $0.timetable.contains(self.day)}).count
         case .uncompleted:
-            print("filter: ",filter,"day: ",day)
             return filteredCategories[index].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false && $0.timetable.contains(self.day)}).count
         }
-        //        return categories[index].trackerList.count
-//        return filteredCategories[index].trackerList.filter({$0.timetable.contains(self.day)}).count
     }
     
     func getTrackerByIndexPath(index: IndexPath) -> Tracker{
-        //        return categories[index.section].trackerList[index.row]
         switch filter {
         case .all:
             return filteredCategories[index.section].trackerList[index.row]
@@ -252,7 +233,6 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol{
         case .uncompleted:
             return filteredCategories[index.section].trackerList.filter({trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false })[index.row]
         }
-//        return filteredCategories[index.section].trackerList/*.filter({$0.timetable.contains(self.day)})*/ [index.row]
     }
     
     func updateCategoriesWithSearch(searchText: String){

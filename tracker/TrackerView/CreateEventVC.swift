@@ -55,10 +55,7 @@ final class CreateEventVC: UIViewController{
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//    }
+
     
     private func getName() -> String?{
         guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell,
@@ -119,7 +116,7 @@ extension CreateEventVC: UICollectionViewDataSource{
             cell.setVM(vm: viewModel)
             return cell
         case 2:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else { return UICollectionViewCell()}
             cell.delegate = self
             cell.setupView()
             if isEditVC {
@@ -128,7 +125,7 @@ extension CreateEventVC: UICollectionViewDataSource{
             }
             return cell
         case 3:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {return UICollectionViewCell()}
             cell.delegate = self
             cell.setupView()
             if isEditVC {
@@ -298,32 +295,3 @@ extension CreateEventVC: EventCellDelegateProtocol{
 }
 
 
-//        switch indexPath.section{
-//        case 0:
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
-//            cell.textFieldDelegate = self
-//
-//            return cell
-//        case 1:
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as? EventCell else {return UICollectionViewCell()}
-//            cell.delegate = self
-//            cell.setVM(vm: viewModel)
-//            return cell
-//        case 2:
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
-//            cell.delegate = self
-//            cell.setupView()
-//            return cell
-//        case 3:
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
-//            cell.delegate = self
-//            cell.setupView()
-//            return cell
-//        case 4:
-//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {print(2131231); return UICollectionViewCell()}
-//            cell.setupView()
-//            cell.delegate = self
-//            return cell
-//        default:
-//            return UICollectionViewCell()
-//        }

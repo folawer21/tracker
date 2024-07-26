@@ -26,7 +26,6 @@ final class StubView: UIView{
         let imageView = UIImageView()
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
-//        imageView.image = UIImage(named: "stubView")
         imageView.backgroundColor = Colors.blackBackgroundColor
         return imageView
     }()

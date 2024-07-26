@@ -84,7 +84,6 @@ final class TrackerStore: NSObject{
     
     func setDay(day: WeekDay){
         self.day = day
-//        categoryStore?.day = day
     }
     
     
@@ -183,7 +182,6 @@ extension TrackerStore: TrackerStoreProtocol{
         catch{
             print(error)
         }
-        print("added")
     }
     
     func deleteTracker(id: UUID?){
@@ -200,7 +198,6 @@ extension TrackerStore: TrackerStoreProtocol{
         }catch{
             fatalError(error.localizedDescription)
         }
-        print("Deleted")
         recordStore?.deleteAllRecordsFor(id: id)
     }
     

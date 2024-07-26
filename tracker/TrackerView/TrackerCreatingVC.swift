@@ -92,7 +92,6 @@ extension TrackerCreatingVC: CreateHabbitDelegateProtocol & CreateEventDelegateP
     
     func deleteTracker(tracker: Tracker) {
         delegate?.deleteTracker(tracker: tracker)
-        print("Все ок TrackerCreatingVC")
     }
     
 }

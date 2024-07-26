@@ -21,7 +21,6 @@ final class EventCell: UICollectionViewCell {
     override init(frame: CGRect){
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
         tableView.separatorStyle = .singleLine
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
