@@ -58,5 +58,5 @@ struct Colors {
     static let gradientGreen = UIColor(named: "gradientGreen")
     static let gradientRed = UIColor(named: "gradientRed")
     static let white = UIColor.white
-    static let filter_blue = UIColor.blue
+    static let filterBlue = UIColor.blue
 }

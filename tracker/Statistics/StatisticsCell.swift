@@ -22,7 +22,6 @@ final class StatisticsCell: UITableViewCell {
         view.layer.cornerRadius = 16
         return view
     }()
-    
     let numberLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +31,6 @@ final class StatisticsCell: UITableViewCell {
         label.textAlignment = .left
         return label
     }()
-    
     let statisticLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -42,9 +40,6 @@ final class StatisticsCell: UITableViewCell {
         label.textAlignment = .left
         return label
     }()
-   
-    
-
     func setupCell(number: Int, text: String) {
         gradientView.backgroundColor = Colors.blackBackgroundColor
         contentView.addSubview(gradientView)
@@ -55,18 +50,15 @@ final class StatisticsCell: UITableViewCell {
         contentView.layer.cornerRadius = 16
         numberLabel.text = "\(number)"
         statisticLabel.text = text
-   
         NSLayoutConstraint.activate([
             gradientView.topAnchor.constraint(equalTo: contentView.topAnchor),
             gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             gradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             gradientView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
-            
             blockView.topAnchor.constraint(equalTo: gradientView.topAnchor, constant: 1),
             blockView.leadingAnchor.constraint(equalTo: gradientView.leadingAnchor, constant: 1),
             blockView.trailingAnchor.constraint(equalTo: gradientView.trailingAnchor, constant: -1),
             blockView.bottomAnchor.constraint(equalTo: gradientView.bottomAnchor, constant: -1),
-            
             numberLabel.leadingAnchor.constraint(equalTo: blockView.leadingAnchor, constant: 12),
             numberLabel.topAnchor.constraint(equalTo: blockView.topAnchor, constant: 12),
             numberLabel.trailingAnchor.constraint(equalTo: blockView.trailingAnchor, constant: -12),
@@ -76,9 +68,5 @@ final class StatisticsCell: UITableViewCell {
             statisticLabel.bottomAnchor.constraint(equalTo: blockView.bottomAnchor, constant: -12),
             statisticLabel.topAnchor.constraint(equalTo: numberLabel.bottomAnchor, constant: 7)
         ])
-        
-        
     }
-
-    
 }

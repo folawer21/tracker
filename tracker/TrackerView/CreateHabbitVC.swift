@@ -51,13 +51,11 @@ final class CreateHabbitVC: UIViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    
     private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
         var result: [WeekDay] = []
         guard let arr = arr else {return nil}
-        for i in 0..<arr.count{
-            guard let day = WeekDay(rawValue: arr[i]) else { break}
+        for index in 0..<arr.count{
+            guard let day = WeekDay(rawValue: arr[index]) else { break}
             result.append(day)
         }
         if result == [] {
@@ -65,10 +63,8 @@ final class CreateHabbitVC: UIViewController{
         }
         return result
     }
-    
-    private func getTimetable() -> [WeekDay]?{
-        if selectedTimetable != nil{
-            
+    private func getTimetable() -> [WeekDay]? {
+        if selectedTimetable != nil {
             return selectedTimetable
         }
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? ButtonCells else {return nil}

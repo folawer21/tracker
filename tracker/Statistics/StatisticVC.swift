@@ -12,8 +12,11 @@ final class StatisticVC: UIViewController {
     var perfectDaysCount = 0
     var completedTrackersCount = 0
     var meanValue = 0
-    
-    lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("statistics_stub_text", comment: ""), imageName: "stubSmile")
+    lazy var stubView = StubView(
+        frame: CGRect.zero,
+        title: NSLocalizedString("statistics_stub_text", comment: ""),
+        imageName: "stubSmile"
+    )
     var isEmpty = false
     lazy var statisticsStore = StatisticsStore()
     let tableView = {
@@ -22,17 +25,13 @@ final class StatisticVC: UIViewController {
 
         return table
     }()
-    
     let statistics = ["Лучший период", "Идеальные дни", "Трекеров завершено", "Среднее значение"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let navItemText = NSLocalizedString("statistics_navigation", comment: "")
         navigationItem.title = navItemText
         navigationItem.titleView?.tintColor = Colors.addButtonColor
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         view.backgroundColor = Colors.blackBackgroundColor
         tableView.backgroundColor = Colors.blackBackgroundColor
         tableView.separatorStyle = .none
@@ -53,41 +52,34 @@ final class StatisticVC: UIViewController {
             tableView.reloadData()
         }
     }
-    
     private func getStatistics() {
         bestPeriod = statisticsStore.getBestPeriod()
         perfectDaysCount = statisticsStore.getPerfectDaysCount()
         completedTrackersCount = statisticsStore.getCompletedTrackersCount()
         meanValue = Int(statisticsStore.getMeanValue())
-    
     }
     private func buildWithStub(){
         removeTable()
         addSubViewsWithStub()
         applyConstraintsWithStub()
     }
-    
     private func buildWithCategories(){
         removeStub()
         addSubViewsWithCategories()
         applyConstraintsWithCategories()
     }
-    
     private func addSubViewsWithCategories() {
         view.addSubview(tableView)
     }
-    
     private func addSubViewsWithStub(){
         view.addSubview(stubView)
     }
-    
     private func applyConstraintsWithStub() {
         applyStubConstraints()
     }
     private func applyConstraintsWithCategories() {
         applyTableConstraints()
     }
-    
     private func applyTableConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -96,7 +88,6 @@ final class StatisticVC: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
     }
-    
     private func applyStubConstraints() {
         stubView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -106,7 +97,6 @@ final class StatisticVC: UIViewController {
             stubView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
     }
-    
     private func removeStub(){
         self.view.willRemoveSubview(stubView)
         stubView.removeFromSuperview()

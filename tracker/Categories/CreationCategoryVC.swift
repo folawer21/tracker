@@ -7,9 +7,8 @@
 
 import UIKit
 
-final class CreationCategoryVC: UIViewController{
+final class CreationCategoryVC: UIViewController {
     weak var viewModel: CategoriesViewModel?
-    
     let nameInput = {
         let field = UITextField()
         let inputName = NSLocalizedString("creation_categoty_field", comment: "")
@@ -20,7 +19,6 @@ final class CreationCategoryVC: UIViewController{
         field.indent(size: 16)
         return field
     }()
-    
     let completeButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +32,6 @@ final class CreationCategoryVC: UIViewController{
         button.backgroundColor = .ypGray
         return button
     }()
-    
     init(viewModel: CategoriesViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -42,26 +39,21 @@ final class CreationCategoryVC: UIViewController{
             self?.setCompleteButton(enabled: isCreationAllowed)
         }
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setCompleteButton(enabled: Bool){
+    private func setCompleteButton(enabled: Bool) {
         completeButton.isEnabled = enabled
         completeButton.backgroundColor = completeButton.isEnabled ? Colors.addButtonColor : .ypGray
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         let navigationTitleText = NSLocalizedString("creation_categoty_navtitle", comment: "")
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         navigationItem.title = navigationTitleText
         view.backgroundColor = Colors.blackBackgroundColor
-        
         view.addSubview(nameInput)
         view.addSubview(completeButton)
-        
         NSLayoutConstraint.activate([
             nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 24),
             nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),

@@ -44,7 +44,17 @@ final class ColorCell: UICollectionViewCell{
 
 final class ColorCells: UICollectionViewCell{
     
-    let colores: [UIColor] = [.cellSection1,.cellSection2,.cellSection3,.cellSection4,.cellSection5,.cellSection6,.cellSection7,.cellSection8,.cellSection9,.cellSection10,.cellSection11,.cellSection12,.cellSection13,.cellSection14,.cellSection15,.cellSection16,.cellSection17,.cellSection18]
+    let colores: [UIColor] = [
+        .cellSection1, .cellSection2,
+        .cellSection3, .cellSection4,
+        .cellSection5, .cellSection6,
+        .cellSection7, .cellSection8,
+        .cellSection9, .cellSection10,
+        .cellSection11, .cellSection12,
+        .cellSection13, .cellSection14,
+        .cellSection15, .cellSection16,
+        .cellSection17, .cellSection18
+    ]
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var selectedColor: UIColor?
     weak var delegate: ColorCellsDelegateProtocol?

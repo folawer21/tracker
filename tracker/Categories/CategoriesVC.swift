@@ -14,9 +14,11 @@ final class CategoriesVC: UIViewController {
         table.backgroundColor = Colors.blackBackgroundColor
         return table
     }()
-    
-    lazy var stubView = StubView(frame: CGRect.zero, title: NSLocalizedString("stubView_text", comment: ""), imageName: "stubView")
-    
+    lazy var stubView = StubView(
+        frame: CGRect.zero,
+        title: NSLocalizedString("stubView_text", comment: ""),
+        imageName: "stubView"
+    )
     let addButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +26,6 @@ final class CategoriesVC: UIViewController {
         button.backgroundColor = Colors.addButtonColor
         return button
     }()
-    
     init(viewModel: CategoriesViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -35,12 +36,9 @@ final class CategoriesVC: UIViewController {
         trackerStore.setCategoryStore(categoryStore: categoryStore)
         categoryStore.setTrackerStore(trackerStore: trackerStore)
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem()
@@ -49,21 +47,17 @@ final class CategoriesVC: UIViewController {
         navigationItem.titleView?.tintColor = Colors.stubTextLabelColor
         let navTitle = NSLocalizedString("categories_nav_title", comment: "")
         navigationItem.title = navTitle
-        let button_text = NSLocalizedString("stubView_button_text", comment: "")
-        addButton.setTitle(button_text, for: .normal)
-
+        let buttonText = NSLocalizedString("stubView_button_text", comment: "")
+        addButton.setTitle(buttonText, for: .normal)
         addButton.setTitleColor(Colors.blackBackgroundColor, for: .normal)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-      
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.cellIdentifier)
         tableView.allowsMultipleSelection = false
-
     }
     override func viewWillAppear(_ animated: Bool) {
         viewModel?.setTrackerStore()
-        
         guard let isEmpty = viewModel?.isEmpty() else {
             return
         }
@@ -73,29 +67,24 @@ final class CategoriesVC: UIViewController {
             buildWithCategories()
         }
     }
-    
-    private func buildWithStub(){
+    private func buildWithStub() {
         removeTable()
         addSubViewsWithStub()
         applyConstraintsWithStub()
     }
-    
-    private func buildWithCategories(){
+    private func buildWithCategories() {
         removeStub()
         addSubViewsWithCategories()
         applyConstraintsWithCategories()
     }
-    
     private func addSubViewsWithCategories() {
         view.addSubview(tableView)
         view.addSubview(addButton)
     }
-    
     private func addSubViewsWithStub(){
         view.addSubview(stubView)
         view.addSubview(addButton)
     }
-    
     private func applyConstraintsWithStub() {
         applyStubConstraints()
         applyButtonConstraintsStub()
@@ -104,7 +93,6 @@ final class CategoriesVC: UIViewController {
         applyTableConstraints()
         applyButtonConstraintsWithCategories()
     }
-    
     private func applyTableConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -113,7 +101,6 @@ final class CategoriesVC: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -15)
         ])
     }
-    
     private func applyButtonConstraintsWithCategories() {
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 15),
@@ -123,7 +110,6 @@ final class CategoriesVC: UIViewController {
             addButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
-    
     private func applyStubConstraints() {
         stubView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -133,7 +119,6 @@ final class CategoriesVC: UIViewController {
             stubView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -15)
         ])
     }
-    
     private func applyButtonConstraintsStub() {
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: stubView.bottomAnchor, constant: 15),
@@ -143,42 +128,38 @@ final class CategoriesVC: UIViewController {
             addButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
-    
-    private func removeStub(){
+    private func removeStub() {
         self.view.willRemoveSubview(stubView)
         stubView.removeFromSuperview()
     }
-    private func removeTable(){
+    private func removeTable() {
         self.view.willRemoveSubview(tableView)
         tableView.removeFromSuperview()
     }
-    
     @objc private func addButtonTapped() {
         let vc = CreationCategoryVC(viewModel: viewModel)
         show(vc, sender: self)
     }
-  
 }
 
 extension CategoriesVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.getCategoristCount() ?? 0
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryCell.cellIdentifier, for: indexPath) as? CategoryCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CategoryCell.cellIdentifier,
+            for: indexPath
+        ) as? CategoryCell else {
             return UITableViewCell()
         }
-        
         guard let name = viewModel?.getCategoryNameVC(index: indexPath.row) else {
             return UITableViewCell()
         }
         cell.setupCell(name: name)
-        
         guard let isChosenFlag = viewModel?.isCategoryChosen(index: indexPath.row) else {
             return UITableViewCell()
         }
@@ -193,7 +174,6 @@ extension CategoriesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CategoryCell,
               let chosenCategory = viewModel?.getCategoryNameVC(index: indexPath.row) else {
@@ -203,7 +183,6 @@ extension CategoriesVC: UITableViewDelegate {
         cell.makeChosen()
         navigationController?.popViewController(animated: true)
     }
-    
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? CategoryCell else {
             return
@@ -211,7 +190,7 @@ extension CategoriesVC: UITableViewDelegate {
         cell.makeUnChosen()
     }
 }
-extension CategoriesVC: TrackerCategoryStoreDelegate{
+extension CategoriesVC: TrackerCategoryStoreDelegate {
     func stote(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
         tableView.reloadData()
     }

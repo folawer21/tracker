@@ -19,7 +19,7 @@ final class TrackerViewController: UIViewController{
         let button = UIButton()
         button.setTitle(NSLocalizedString("filter_button", comment: ""), for: .normal)
         button.setTitleColor(Colors.white, for: .normal)
-        button.backgroundColor = Colors.filter_blue
+        button.backgroundColor = Colors.filterBlue
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
         return button

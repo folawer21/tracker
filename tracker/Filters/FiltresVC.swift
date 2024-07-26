@@ -27,7 +27,6 @@ final class FiltresVC: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-    
     override func viewDidLoad() {
         navigationItem.title = NSLocalizedString("filter_button", comment: "")
         navigationItem.titleView?.tintColor = Colors.addButtonColor
@@ -49,14 +48,17 @@ final class FiltresVC: UIViewController {
 
 extension FiltresVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? FilterCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: reuseIdentifier,
+            for: indexPath
+        ) as? FilterCell else { return UITableViewCell() }
         switch indexPath.row {
         case 0:
             cell.setupCell(isChosen: false, filterName: NSLocalizedString("all_filter", comment: ""))
             if chosenFilter == .all {
                 cell.showChosenImage()
             }
-            cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+            cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             cell.contentView.layer.cornerRadius = 16
             return cell
         case 1:
@@ -76,18 +78,16 @@ extension FiltresVC: UITableViewDataSource {
             if chosenFilter == .uncompleted {
                 cell.showChosenImage()
             }
-            cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+            cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             cell.contentView.layer.cornerRadius = 16
             return cell
         default:
             return UITableViewCell()
         }
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         4
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
     }
@@ -113,7 +113,6 @@ extension FiltresVC: UITableViewDelegate {
         cell.showChosenImage()
         dismiss(animated: true)
     }
-    
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FilterCell else {
             return

@@ -44,13 +44,21 @@ final class TrackerCategoryStore: NSObject{
         } else {
             switch filter {
             case .all:
-                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
+                return categories.filter({
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})
+                })
             case .today:
-                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})})
+                return categories.filter({
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day)})
+                })
             case .completed:
-                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})})
+                return categories.filter({
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})
+                })
             case .uncompleted:
-                return categories.filter({$0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})})
+                return categories.filter({
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})
+                })
             }
         }
     }
@@ -61,7 +69,6 @@ final class TrackerCategoryStore: NSObject{
         self.date = date
         let fetchedRequest = TrackerCategoryCoreData.fetchRequest()
         fetchedRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCategoryCoreData.title, ascending: true)]
-        
         let conroller = NSFetchedResultsController(fetchRequest: fetchedRequest, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
         
         self.fetchedResultsController = conroller
@@ -163,7 +170,13 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate{
         updatedIndexes = []
     }
     
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(
+        _ controller: NSFetchedResultsController<any NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
         if type == .insert{
             guard let insertedIndexPath = newIndexPath else {fatalError()}
             insertedIndexes.append(insertedIndexPath)

@@ -12,23 +12,18 @@ final class StatisticsStore {
     init() {
         trackerRecordStore = TrackerRecordStore()
     }
-     
     var isEmpty: Bool {
         trackerRecordStore.isEmptyRecords()
     }
-    
-    func getBestPeriod() -> Int{
+    func getBestPeriod() -> Int {
         return trackerRecordStore.maxSequenceOfPerfectDays()
     }
-    
     func getPerfectDaysCount() -> Int {
         return trackerRecordStore.countPerfectDays()
     }
-    
     func getCompletedTrackersCount() -> Int {
         return trackerRecordStore.getAllCompletedTrackers()
     }
-    
     func getMeanValue() -> Float {
         return trackerRecordStore.getMeanTrackersRecordCounts()
     }

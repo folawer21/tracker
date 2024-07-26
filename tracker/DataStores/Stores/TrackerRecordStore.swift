@@ -186,7 +186,13 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate{
         updatedIndexes = nil
     }
     
-    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(
+        _ controller: NSFetchedResultsController<any NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
         switch type{
         case .insert:
             if let insertedIndexPath = newIndexPath{
