@@ -6,11 +6,11 @@
 //
 
 import UIKit
-protocol CreateHabbitDelegateProtocol: AnyObject{
-    func addNewTracker(tracker: Tracker,categoryName : String)
+protocol CreateHabbitDelegateProtocol: AnyObject {
+    func addNewTracker(tracker: Tracker, categoryName: String)
     func deleteTracker(tracker: Tracker)
 }
-final class CreateHabbitVC: UIViewController{
+final class CreateHabbitVC: UIViewController {
     let viewModel = CategoriesViewModel()
     let isEditVC: Bool
     let tracker: Tracker?
@@ -21,7 +21,7 @@ final class CreateHabbitVC: UIViewController{
     private var selectedTimetable: [WeekDay]?
     var selectedCategory: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil){
+    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil ){
         self.isEditVC = isEditVC
         self.tracker = tracker
         self.categoryName = categoryName
@@ -36,10 +36,10 @@ final class CreateHabbitVC: UIViewController{
         collectionView.dataSource = self
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor,constant: 24),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -16)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
         collectionView.register(TrackNameCell.self, forCellWithReuseIdentifier: "TextField")
         collectionView.register(ButtonCells.self, forCellWithReuseIdentifier: "ButtonCell")
@@ -51,11 +51,11 @@ final class CreateHabbitVC: UIViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private func getEnumTimetable(arr: [String]?) -> [WeekDay]?{
+    private func getEnumTimetable(arr: [String]?) -> [WeekDay]? {
         var result: [WeekDay] = []
-        guard let arr = arr else {return nil}
-        for index in 0..<arr.count{
-            guard let day = WeekDay(rawValue: arr[index]) else { break}
+        guard let arr = arr else { return nil }
+        for index in 0..<arr.count {
+            guard let day = WeekDay(rawValue: arr[index]) else { break }
             result.append(day)
         }
         if result == [] {
@@ -73,24 +73,24 @@ final class CreateHabbitVC: UIViewController{
         selectedTimetable = enumDays
         return enumDays
     }
-    
-    private func getName() -> String?{
-        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 0)) as? TrackNameCell,
+
+    private func getName() -> String? {
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell,
               let name = cell.getName() else {return nil}
         return name
     }
-    
-    private func getColor() -> UIColor?{
+
+    private func getColor() -> UIColor? {
         if selectedColor != nil {
             return selectedColor
         }
-        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section:3 )) as? ColorCells,
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 3 )) as? ColorCells,
               let color = cell.getColor() else {print("Unable to get color");return nil}
         selectedColor = color
         return color
     }
-    
-    private func getCategory() -> String?{
+
+    private func getCategory() -> String? {
         if selectedCategory != nil {
             return selectedCategory
         }
@@ -100,21 +100,23 @@ final class CreateHabbitVC: UIViewController{
         selectedCategory = category
         return selectedCategory
     }
-    
-    private func getEmoji() -> String?{
-        if selectedEmoji != nil{
+    private func getEmoji() -> String? {
+        if selectedEmoji != nil {
             return selectedEmoji
         }
-        guard let cell = collectionView.cellForItem(at: IndexPath(row:0,section: 2)) as? EmojiCells,
+        guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 2)) as? EmojiCells,
               let emoji = cell.getEmoji() else {print("Unable to get emoji");return nil}
         selectedEmoji = emoji
         return emoji
     }
 }
 
-extension CreateHabbitVC: UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section{
+extension CreateHabbitVC: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        switch indexPath.section {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
             cell.textFieldDelegate = self
@@ -123,7 +125,10 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             }
             return cell
         case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonCell", for: indexPath) as? ButtonCells else {return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "ButtonCell",
+                for: indexPath
+            ) as? ButtonCells else {return UICollectionViewCell()}
             cell.delegate = self
             if isEditVC {
                 guard let tracker = tracker,
@@ -138,7 +143,10 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             cell.setVM(vm: viewModel)
             return cell
         case 2:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else {print(2131231); return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "EmojiCells",
+                for: indexPath
+            ) as? EmojiCells else { return UICollectionViewCell() }
             cell.delegate = self
             cell.setupView()
             if isEditVC {
@@ -147,107 +155,126 @@ extension CreateHabbitVC: UICollectionViewDataSource{
             }
             return cell
         case 3:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else {print(2131231); return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "ColorCells",
+                for: indexPath
+            ) as? ColorCells else { return UICollectionViewCell() }
             cell.delegate = self
             cell.setupView()
             if isEditVC {
-                guard let tracker = tracker else {return UICollectionViewCell()}
+                guard let tracker = tracker else { return UICollectionViewCell() }
                 cell.selectedColor = tracker.color
             }
             return cell
         case 4:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else {return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "CreateCancelButtons",
+                for: indexPath
+            ) as? CreateCancelButtonsCells else { return UICollectionViewCell() }
             if isEditVC {
                 cell.isEditing = true
             }
             cell.setupView()
             cell.delegate = self
-            
             return cell
         default:
             return UICollectionViewCell()
         }
     }
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 5
     }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
     }
 }
 
-extension CreateHabbitVC: UICollectionViewDelegateFlowLayout{
+extension CreateHabbitVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section == 1{
+        if indexPath.section ==  1{
             return CGSize(width: collectionView.bounds.width, height: 150)
-        }else if indexPath.section == 2 || indexPath.section == 3 {
+        } else if indexPath.section == 2 || indexPath.section == 3 {
             return CGSize(width: collectionView.bounds.width, height: 204)
-        }else if indexPath.section == 4{
+        } else if indexPath.section ==  4 {
             return CGSize(width: collectionView.bounds.width, height: 60)
-        }else{
+        } else {
             return CGSize(width: collectionView.bounds.width, height: 75)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return CGFloat.zero
     }
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section == 1{
+        if section ==  1 {
             let sectionInsets = UIEdgeInsets(top: 24, left: 0, bottom: 32, right: 0)
             return sectionInsets
-        }else if section == 2{
-            return UIEdgeInsets(top: 0    , left: 0, bottom: 0, right: 0)
+        } else if section ==  2 {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if indexPath.section == 2{
-            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if indexPath.section ==  2 {
+            guard let view = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath
+            ) as? SupplementaryView else {return UICollectionReusableView() }
             view.titleLabel.text = "Emoji"
             view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
-        }else if indexPath.section == 3{
-            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+        } else if indexPath.section ==  3 {
+            guard let view = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath
+            ) as? SupplementaryView else { return UICollectionReusableView() }
             view.titleLabel.text = "Цвет"
-            view.titleLabel.textColor = Colors.headerCollectionViewColor           
+            view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
         }
         return UICollectionReusableView()
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 2 || section == 3{
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        if section == 2 || section ==  3 {
             return CGSize(width: collectionView.frame.width, height: 18)
-            
-        }else{
+        } else {
             return CGSize.zero
         }
     }
 }
 
-extension CreateHabbitVC:ButtonCellDelegateProtocol{
+extension CreateHabbitVC: ButtonCellDelegateProtocol {
     func timetableSettedDelegate(flag: Bool) {
         updateButtonEnabling()
     }
-    func categoryWasChosen(category: String){
+    func categoryWasChosen(category: String ) {
         selectedCategory = category
         updateButtonEnabling()
     }
-    func showTimeTable(vc: TimeTableVC){
+    func showTimeTable(vc: TimeTableVC ) {
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func showCategoryVC(vc: CategoriesVC){
+
+    func showCategoryVC(vc: CategoriesVC ) {
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension CreateHabbitVC: TrackNameCellDelegateProtocol{
-    func updateCreateButtonState(isEnabled: Bool){
-        guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
+extension CreateHabbitVC: TrackNameCellDelegateProtocol {
+    func updateCreateButtonState(isEnabled: Bool ){
+        guard let cell = collectionView.cellForItem(
+            at: IndexPath(item: 0, section: 4)
+        ) as? CreateCancelButtonsCells else {
             return}
         cell.updateCreateButtonState(isEnabled: isEnabled)
     }
@@ -256,17 +283,16 @@ extension CreateHabbitVC: TrackNameCellDelegateProtocol{
     }
 }
 
-extension CreateHabbitVC: EmojiCellsDelegateProtocol{
+extension CreateHabbitVC: EmojiCellsDelegateProtocol {
     func emojiWasChosen() {
         updateButtonEnabling()
     }
-    
     func emojiWasUnchosen() {
         updateButtonEnabling()
     }
 }
 
-extension CreateHabbitVC: ColorCellsDelegateProtocol{
+extension CreateHabbitVC: ColorCellsDelegateProtocol {
     func colorWasChosen() {
         updateButtonEnabling()
     }
@@ -275,18 +301,18 @@ extension CreateHabbitVC: ColorCellsDelegateProtocol{
     }
 }
 
-extension CreateHabbitVC{
-    func updateButtonEnabling(){
+extension CreateHabbitVC {
+    func updateButtonEnabling( ){
         if (getName() != nil) &&  (getEmoji() != nil) && (getColor() != nil) && (getTimetable() != nil)  && (getCategory() != nil) {
             updateCreateButtonState(isEnabled: true)
-        }else{
+        } else {
             updateCreateButtonState(isEnabled: false)
         }
     }
 }
 
-extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
-    func createButtonTappedDelegate(){
+extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol {
+    func createButtonTappedDelegate() {
         guard let timetable = getTimetable(),
               let name = getName(),
               let emoji = getEmoji(),
@@ -295,15 +321,23 @@ extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
         let createdAt = Date()
         let id = UUID()
         let type = TrackerType.habbit
-        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let tracker = Tracker(
+            id: id,
+            type: type,
+            name: name,
+            emoji: emoji,
+            color: color,
+            createdAt: createdAt,
+            timetable: timetable
+        )
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
     }
-    
-    func cancelButtonTappedDelegate(){
+
+    func cancelButtonTappedDelegate() {
         dismiss(animated: true)
     }
-    
+
     func editButtonTappedDelegate() {
         guard let timetable = getTimetable(),
               let name = getName(),
@@ -313,16 +347,20 @@ extension CreateHabbitVC: CreateCancelButtonsDelegateProtocol{
         let createdAt = Date()
         let id = UUID()
         let type = TrackerType.habbit
-        let newTracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let newTracker = Tracker(
+            id: id,
+            type: type,
+            name: name,
+            emoji: emoji,
+            color: color,
+            createdAt: createdAt,
+            timetable: timetable
+        )
         guard let tracker = tracker else {
-            print("!@#!@#!@#!@#!@#")
             return
         }
         delegate?.deleteTracker(tracker: tracker)
         delegate?.addNewTracker(tracker: newTracker, categoryName: newCategoryName)
-        print("Все ок CreateHabbit",delegate)
         dismiss(animated: true)
     }
 }
-
-

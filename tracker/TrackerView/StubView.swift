@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class StubView: UIView{
+final class StubView: UIView {
 
-    init(frame: CGRect,title: String, imageName: String) {
+    init(frame: CGRect, title: String, imageName: String) {
         super.init(frame: frame)
         self.backgroundColor = Colors.blackBackgroundColor
         imageView.image = UIImage(named: imageName)
@@ -17,11 +17,11 @@ final class StubView: UIView{
         addViews()
         activateConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .white
@@ -39,21 +39,21 @@ final class StubView: UIView{
         textLabel.textColor = Colors.stubTextLabelColor
         return textLabel
     }()
-    
-    func addViews(){
+
+    func addViews( ){
         self.addSubview(imageView)
         self.addSubview(textLabel)
     }
-    
-    func activateConstraints(){
+
+    func activateConstraints( ){
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 220),
             imageView.widthAnchor.constraint(equalToConstant: 80),
             imageView.heightAnchor.constraint(equalToConstant: 80),
-            
+
             textLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor,constant: 8),
+            textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             textLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -220),
             textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             textLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16)
@@ -61,4 +61,3 @@ final class StubView: UIView{
         ])
     }
 }
-

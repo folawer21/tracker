@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainTabBar: UITabBarController {
-    
+
     override func viewDidLoad() {
         view.backgroundColor = Colors.blackBackgroundColor
         self.tabBar.backgroundColor = Colors.blackBackgroundColor
@@ -20,13 +20,11 @@ final class MainTabBar: UITabBarController {
         let statisticNavViewController = UINavigationController(rootViewController: StatisticVC())
         let statisticTitle = NSLocalizedString("tab_bar_statistics", comment: "")
         statisticNavViewController.tabBarItem = UITabBarItem(title: statisticTitle, image: UIImage(named: "statisticBarItem"), selectedImage: nil)
-    
+
         self.tabBar.layer.borderWidth = 1
         self.tabBar.layer.borderColor = Colors.tabBarBorderColor.cgColor
         self.viewControllers = [trackerNavViewController, statisticNavViewController]
-    
-        
+
     }
-    
-    
+
 }

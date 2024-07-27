@@ -8,32 +8,28 @@
 import Foundation
 import CoreData
 
+final class CDManager {
 
-final class CDManager{
-    
     static let shared = CDManager()
-    
-    var context: NSManagedObjectContext{
+
+    var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "TrackerDataModel")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError?{
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
                 fatalError()
             }
         })
         return container
     }()
-    
-    
-    func saveContext(){
-        if context.hasChanges{
-            do{
+    func saveContext() {
+        if context.hasChanges { 
+             do {
                 try context.save()
                 print("Context Saved")
-            }catch{
+            } catch {
                 context.rollback()
                 fatalError("Problems with context")
             }

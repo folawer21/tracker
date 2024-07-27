@@ -8,22 +8,22 @@
 import UIKit
 import YandexMobileMetrica
 
-protocol TrackCellDelegateProtocol: AnyObject{
+protocol TrackCellDelegateProtocol: AnyObject {
     func deleteTrackerRecord(id: UUID)
     func addTrackerRecord(id: UUID)
     func deleteTracker(id: UUID?)
     func editTracker(id: UUID?)
-    func pinTracker(id: UUID?,pinned: Bool)
+    func pinTracker(id: UUID?, pinned: Bool)
 }
 
-final class TrackCell: UICollectionViewCell{
-    //Цветной блок
+final class TrackCell: UICollectionViewCell {
+    // Цветной блок
     private let colorBlock = UIView()
     private let emodji = UILabel()
     private let emodjiBlock = UIView()
     private let nameLabel = UILabel()
     private let pinImage = UIImageView()
-    //Белый блок
+    // Белый блок
     private let infoBlock = UIView()
     let daysLabel = UILabel()
     let plusButton = UIButton()
@@ -33,8 +33,8 @@ final class TrackCell: UICollectionViewCell{
     private let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
     private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
     weak var delegate: TrackCellDelegateProtocol?
-    
-    func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool,isPinned: Bool){
+
+    func configCell(track: Tracker, days: Int, isDone: Bool, availible: Bool, isPinned: Bool ){
         pinned = isPinned
         setupContextMenu()
         trackerId = track.id
@@ -43,35 +43,35 @@ final class TrackCell: UICollectionViewCell{
         colorBlock.backgroundColor = track.color
         plusButton.tintColor = track.color
         configScreen()
-        if track.type == .habbit{
+        if track.type == .habbit {
             configStateHabbit(isDone: isDone, availible: availible)
         }
-        if track.type == .single{
+        if track.type == .single {
             configStateSingle(isDone: isDone, availible: availible)
         }
         changeText(daysCount: days)
     }
-    
+
     private func setupContextMenu() {
         let interaction = UIContextMenuInteraction(delegate: self)
         self.addInteraction(interaction)
     }
-    func togglePinned(){
+    func togglePinned() {
         self.pinned.toggle()
     }
-    private func configStateHabbit(isDone:Bool,availible:Bool){
+    private func configStateHabbit(isDone: Bool, availible: Bool ) {
         plusButton.layer.opacity = 1
-        if isDone{
+        if isDone {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             enableButton()
-        }else{
+        } else {
             if availible{
                 buttonWasTapped = false
                 plusButton.isSelected = false
                 enableButton()
-            }else{
+            } else {
                 buttonWasTapped = false
                 plusButton.isSelected = false
                 plusButton.layer.opacity = 0.3
@@ -79,8 +79,8 @@ final class TrackCell: UICollectionViewCell{
             }
         }
     }
-    
-    private func configStateSingle(isDone:Bool,availible:Bool){
+
+    private func configStateSingle(isDone: Bool, availible: Bool ){
         plusButton.layer.opacity = 1
         if isDone && availible{
             buttonWasTapped = true
@@ -107,46 +107,41 @@ final class TrackCell: UICollectionViewCell{
             disableButton()
         }
     }
-
-    private func changeText(daysCount: Int){
+    private func changeText(daysCount: Int) {
         let daysString = String.localizedStringWithFormat(
             NSLocalizedString("number_of_days", comment: ""),
             daysCount
         )
         daysLabel.text = daysString
     }
-    
-    func enableButton(){
+    func enableButton() {
         plusButton.isEnabled = true
     }
-    
-    func disableButton(){
+    func disableButton() {
         plusButton.isEnabled = false
     }
-   
-    @objc func buttonTapped(){
+    @objc func buttonTapped() {
         guard let id = trackerId else {return}
-        let params : [AnyHashable : Any] = ["screen": "Main","item": "track"]
+        let params: [AnyHashable: Any] = ["screen": "Main", "item": "track"]
         YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
             print("REPORT ERROR: %@", error.localizedDescription)
         })
-        if buttonWasTapped{
+        if buttonWasTapped {
             delegate?.deleteTrackerRecord(id: id)
-        }else{
+        } else {
             delegate?.addTrackerRecord(id: id)
         }
-        
     }
 }
 
-extension TrackCell{
-    func configScreen(){
+extension TrackCell {
+    func configScreen() {
         addSubViews()
         applyConstraints()
         configButton()
         translateToFalse()
         pinImage.image = UIImage(named: "pinImage")
-        pinImage.contentMode = .scaleAspectFit      
+        pinImage.contentMode = .scaleAspectFit
         pinImage.translatesAutoresizingMaskIntoConstraints = false
         pinImage.isHidden = !pinned
         emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
@@ -161,8 +156,8 @@ extension TrackCell{
         emodji.font =  UIFont.systemFont(ofSize: 14)
         emodji.textAlignment = .center
     }
-    
-    func translateToFalse(){
+
+    func translateToFalse( ){
         colorBlock.translatesAutoresizingMaskIntoConstraints = false
         emodji.translatesAutoresizingMaskIntoConstraints = false
         emodjiBlock.translatesAutoresizingMaskIntoConstraints = false
@@ -171,8 +166,8 @@ extension TrackCell{
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         plusButton.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    func addSubViews(){
+
+    func addSubViews( ){
         contentView.addSubview(colorBlock)
         contentView.addSubview(infoBlock)
         colorBlock.addSubview(emodjiBlock)
@@ -182,8 +177,8 @@ extension TrackCell{
         infoBlock.addSubview(plusButton)
         emodjiBlock.addSubview(emodji)
     }
-    
-    func applyConstraints(){
+
+    func applyConstraints( ){
         NSLayoutConstraint.activate([
             colorBlock.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             colorBlock.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -197,34 +192,34 @@ extension TrackCell{
             pinImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             pinImage.widthAnchor.constraint(equalToConstant: 24),
             pinImage.heightAnchor.constraint(equalToConstant: 24),
-            
+
             emodjiBlock.leadingAnchor.constraint(equalTo: colorBlock.leadingAnchor, constant: 12),
             emodjiBlock.topAnchor.constraint(equalTo: colorBlock.topAnchor, constant: 12),
             emodjiBlock.heightAnchor.constraint(equalToConstant: 24),
             emodjiBlock.widthAnchor.constraint(equalToConstant: 24),
-            
+
             emodji.centerXAnchor.constraint(equalTo: emodjiBlock.centerXAnchor),
             emodji.centerYAnchor.constraint(equalTo: emodjiBlock.centerYAnchor),
-            
+
             nameLabel.leadingAnchor.constraint(equalTo: colorBlock.leadingAnchor, constant: 12),
             nameLabel.bottomAnchor.constraint(equalTo: colorBlock.bottomAnchor, constant: -12),
             nameLabel.trailingAnchor.constraint(equalTo: colorBlock.trailingAnchor, constant: -12),
             nameLabel.topAnchor.constraint(equalTo: emodjiBlock.bottomAnchor, constant: 8),
-            
+
             daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 14),
             daysLabel.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -24),
             daysLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -8),
             daysLabel.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 16),
-            
+
             plusButton.leadingAnchor.constraint(equalTo: daysLabel.trailingAnchor, constant: 8),
             plusButton.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 8),
-            plusButton.trailingAnchor.constraint(equalTo: infoBlock.trailingAnchor,constant: -12),
+            plusButton.trailingAnchor.constraint(equalTo: infoBlock.trailingAnchor, constant: -12),
             plusButton.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -16),
             plusButton.widthAnchor.constraint(equalToConstant: 34),
             plusButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
-    func configButton(){
+    func configButton( ){
         plusButton.setImage(plusImage, for: .normal)
         plusButton.setImage(doneImage, for: .selected)
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -240,27 +235,27 @@ extension TrackCell: UIContextMenuInteractionDelegate {
             } else {
                 pinString = NSLocalizedString("unpin_cell", comment: "")
             }
-            let action1 = UIAction(title: pinString ) { [weak self] action in
+            let action1 = UIAction(title: pinString ) { [weak self] _ in
                 guard let self = self else {return }
                 self.delegate?.pinTracker(id: self.trackerId, pinned: self.pinned)
                 self.togglePinned()
             }
-            let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] action in
-                let params : [AnyHashable : Any] = ["screen": "Main","item": "edit"]
+            let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] _ in
+                let params: [AnyHashable: Any] = ["screen": "Main", "item": "edit"]
                 YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
                     print("REPORT ERROR: %@", error.localizedDescription)
                 })
                 self?.delegate?.editTracker(id: self?.trackerId)
             }
-            let action3 = UIAction(title: "") { [weak self] action in
-                let params : [AnyHashable : Any] = ["screen": "Main","item": "delete"]
+            let action3 = UIAction(title: "") { [weak self] _ in
+                let params: [AnyHashable: Any] = ["screen": "Main", "item": "delete"]
                 YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
                     print("REPORT ERROR: %@", error.localizedDescription)
                 })
                 self?.delegate?.deleteTracker(id: self?.trackerId)
             }
             action3.setValue(NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red), forKey: "attributedTitle")
-            return UIMenu(title: "",children: [action1,action2,action3])
+            return UIMenu(title: "", children: [action1, action2, action3])
         }
     }
 }

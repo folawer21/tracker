@@ -53,7 +53,7 @@ final class CategoryCell: UITableViewCell {
         cellView.addSubview(chosenImageView)
         NSLayoutConstraint.activate([
             cellView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -5),
+            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             cellView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cellView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             chosenImageView.widthAnchor.constraint(equalToConstant: 24),

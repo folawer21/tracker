@@ -18,7 +18,11 @@ final class GradientView: UIView {
         setupGradient()
     }
     private func setupGradient() {
-        gradientLayer.colors = [Colors.gradientRed?.cgColor, Colors.gradientBlue?.cgColor, Colors.gradientGreen?.cgColor]
+        gradientLayer.colors = [
+            Colors.gradientRed?.cgColor,
+            Colors.gradientBlue?.cgColor,
+            Colors.gradientGreen?.cgColor
+        ]
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         gradientLayer.cornerRadius = 16

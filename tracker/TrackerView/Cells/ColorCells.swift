@@ -7,18 +7,18 @@
 
 import UIKit
 
-protocol ColorCellsDelegateProtocol: AnyObject{
+protocol ColorCellsDelegateProtocol: AnyObject {
     func colorWasChosen()
     func colorWasUnchosen()
 }
 
-final class ColorCell: UICollectionViewCell{
+final class ColorCell: UICollectionViewCell {
     let color: UIView = UIView()
-    func setupView(cellColor: UIColor){
+    func setupView(cellColor: UIColor ){
         contentView.addSubview(color)
-        
+
         color.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([
             color.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             color.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -32,18 +32,18 @@ final class ColorCell: UICollectionViewCell{
         contentView.layer.cornerRadius = 8
         hideBlock()
     }
-    
-    func showBlock(){
+
+    func showBlock( ){
         contentView.layer.borderColor = color.backgroundColor?.withAlphaComponent(0.3).cgColor
     }
-    
-    func hideBlock(){
+
+    func hideBlock( ){
         contentView.layer.borderColor = Colors.blackBackgroundColor.cgColor
     }
 }
 
-final class ColorCells: UICollectionViewCell{
-    
+final class ColorCells: UICollectionViewCell {
+
     let colores: [UIColor] = [
         .cellSection1, .cellSection2,
         .cellSection3, .cellSection4,
@@ -58,7 +58,7 @@ final class ColorCells: UICollectionViewCell{
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var selectedColor: UIColor?
     weak var delegate: ColorCellsDelegateProtocol?
-    func setupView(){
+    func setupView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -68,28 +68,42 @@ final class ColorCells: UICollectionViewCell{
         contentView.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: topAnchor,constant: 24),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -24)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24)
         ])
     }
-    func getColor() -> UIColor?{
+    func getColor() -> UIColor? {
         return selectedColor
     }
 }
 
-extension ColorCells:UICollectionViewDataSource{
+extension ColorCells: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         colores.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "color", for: indexPath) as? ColorCell else {return UICollectionViewCell()}
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "color",
+            for: indexPath
+        ) as? ColorCell else { return UICollectionViewCell() }
         let color = colores[indexPath.row]
         if let selectedColor = selectedColor {
-            if UIColorMarshalling.shared.hexString(from: color)  == UIColorMarshalling.shared.hexString(from: selectedColor) {
+            if UIColorMarshalling.shared.hexString(
+                from: color
+            )  == UIColorMarshalling.shared.hexString(
+                from: selectedColor
+            ) {
                 cell.setupView(cellColor: color)
-                collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+                collectionView.selectItem(
+                    at: indexPath,
+                    animated: true,
+                    scrollPosition: .centeredHorizontally
+                )
                 cell.isSelected = true
                 cell.showBlock()
                 return cell
@@ -101,10 +115,9 @@ extension ColorCells:UICollectionViewDataSource{
         cell.setupView(cellColor: color )
         return cell
     }
-    
 }
 
-extension ColorCells: UICollectionViewDelegateFlowLayout{
+extension ColorCells: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCell else {return}
         selectedColor = cell.color.backgroundColor
@@ -117,12 +130,18 @@ extension ColorCells: UICollectionViewDelegateFlowLayout{
         delegate?.colorWasUnchosen()
         cell.hideBlock()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         CGSize(width: 52, height: 52)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

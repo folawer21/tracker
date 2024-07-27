@@ -21,7 +21,7 @@ final class OnboardingPageScreen: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    init(text: String){
+    init(text: String) {
         textLabel.text = text
         super.init(nibName: nil, bundle: nil)
     }

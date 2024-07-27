@@ -7,8 +7,7 @@
 
 import UIKit
 
-
-protocol EventCellDelegateProtocol: AnyObject{
+protocol EventCellDelegateProtocol: AnyObject {
     func showCategoryVC(vc: CategoriesVC)
     func categoryWasChosen(category: String)
 }
@@ -18,7 +17,7 @@ final class EventCell: UICollectionViewCell {
     weak var viewModel: CategoriesViewModel?
     weak var delegate: EventCellDelegateProtocol?
     var selectedCategory: String?
-    override init(frame: CGRect){
+    override init(frame: CGRect) {
         super.init(frame: frame)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .singleLine
@@ -26,8 +25,8 @@ final class EventCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
-            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 0),
-            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: 0)
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0)
         ])
         tableView.dataSource = self
         tableView.delegate = self
@@ -38,20 +37,20 @@ final class EventCell: UICollectionViewCell {
         super.init(coder: coder)
         assertionFailure("Blin")
     }
-    func setVM(vm: CategoriesViewModel?){
+    func setVM(vm: CategoriesViewModel?) {
         self.viewModel = vm
         self.viewModel?.setTrackerStore()
         self.viewModel?.onPickedCategoryChanged = {[weak self] categoryName in
             self?.delegate?.categoryWasChosen(category: categoryName)
             self?.setCategory(name: categoryName)}
     }
-    
-    private func setCategory(name: String){
+
+    private func setCategory(name: String) {
         let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))
         cell?.detailTextLabel?.text = name
     }
 }
-extension EventCell: UITableViewDataSource{
+extension EventCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         cell.accessoryType = .disclosureIndicator
@@ -60,28 +59,27 @@ extension EventCell: UITableViewDataSource{
         let cellText = NSLocalizedString("eventCell_category", comment: "")
         cell.textLabel?.text = cellText
         cell.layer.cornerRadius = 16
-        cell.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
 }
-extension EventCell:UITableViewDelegate {
+extension EventCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
+        if indexPath.row == 0 {
             let vc = CategoriesVC(viewModel: viewModel)
             viewModel?.model.delegate = vc
             if let selectedCategory = selectedCategory {
                 viewModel?.setPickedCategory(name: selectedCategory)
                 delegate?.showCategoryVC(vc: vc)
-            }else {
+            } else {
                 delegate?.showCategoryVC(vc: vc)
             }
         }
     }
 }
-

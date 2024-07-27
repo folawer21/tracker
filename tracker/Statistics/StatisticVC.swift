@@ -58,12 +58,12 @@ final class StatisticVC: UIViewController {
         completedTrackersCount = statisticsStore.getCompletedTrackersCount()
         meanValue = Int(statisticsStore.getMeanValue())
     }
-    private func buildWithStub(){
+    private func buildWithStub() {
         removeTable()
         addSubViewsWithStub()
         applyConstraintsWithStub()
     }
-    private func buildWithCategories(){
+    private func buildWithCategories() {
         removeStub()
         addSubViewsWithCategories()
         applyConstraintsWithCategories()
@@ -71,7 +71,7 @@ final class StatisticVC: UIViewController {
     private func addSubViewsWithCategories() {
         view.addSubview(tableView)
     }
-    private func addSubViewsWithStub(){
+    private func addSubViewsWithStub() {
         view.addSubview(stubView)
     }
     private func applyConstraintsWithStub() {
@@ -97,20 +97,23 @@ final class StatisticVC: UIViewController {
             stubView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
     }
-    private func removeStub(){
+    private func removeStub() {
         self.view.willRemoveSubview(stubView)
         stubView.removeFromSuperview()
     }
-    private func removeTable(){
+    private func removeTable() {
         self.view.willRemoveSubview(tableView)
         tableView.removeFromSuperview()
     }
-    
+
 }
 
 extension StatisticVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticsCell.reuseIdentifier, for: indexPath) as? StatisticsCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: StatisticsCell.reuseIdentifier,
+            for: indexPath
+        ) as? StatisticsCell else {
             return UITableViewCell()
         }
         var number = 0
@@ -126,11 +129,11 @@ extension StatisticVC: UITableViewDataSource {
         if indexPath.row == 3 {
             cell.setupCell(number: meanValue, text: statistics[indexPath.row])
         }
-        
+
         return cell
-                
+
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         4
     }
@@ -140,7 +143,7 @@ extension StatisticVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
             return 12
         }
-        
+
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
         footerView.backgroundColor = .clear

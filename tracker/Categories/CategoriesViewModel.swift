@@ -45,7 +45,7 @@ class CategoriesViewModel {
         pickedCategory
     }
     func textFieldDidChange(categoryName: String) {
-        if categoryName == ""{
+        if categoryName == "" {
             onCreationAllowedStateChange?(false)
         } else {
             onCreationAllowedStateChange?(true)

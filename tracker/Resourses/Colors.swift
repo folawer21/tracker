@@ -8,7 +8,7 @@
 import UIKit
 
 struct Colors {
-    //StubView
+    // StubView
     static let stubTextLabelColor = UIColor { (traits: UITraitCollection) -> UIColor in
         if traits.userInterfaceStyle == .light {
             return UIColor.black
@@ -16,14 +16,14 @@ struct Colors {
             return UIColor.white
         }
     }
-    
-    //TrackerVC
+
+    // TrackerVC
     static let blackBackgroundColor = UIColor.trackersVCBackground
     static let datePickerColor =  UIColor(named: "datePickerColor")
 
     static let addButtonColor =  UIColor(named: "addButtonColor")
     static let trackCellText = UIColor(named: "addButtonColor")
-    //TabBar
+    // TabBar
     static let tabBarBorderColor = UIColor { (traits: UITraitCollection) -> UIColor in
         if traits.userInterfaceStyle == .light {
             return UIColor.ypGray
@@ -31,29 +31,29 @@ struct Colors {
             return UIColor.trackersVCBackground
         }
     }
-    
-    //TrackerCreatingVC
+
+    // TrackerCreatingVC
     static let trackerCreatingVCbuttonsColors = UIColor(named: "trackerCreatingButtonsColors")
     static let trackerCreatingVCbuttonsTextColors = UIColor(named: "trackerCreatingVCbuttonsTextColors")
-    
-    //Create habbit/event VC
+
+    // Create habbit/event VC
     static let headerCollectionViewColor = UIColor(named: "headerCollectionColor")
     static let createHabbitEventSecondaryColor = UIColor(named: "createHabbitEventSecondaryColor")
-    
-    //EmojiCells
+
+    // EmojiCells
     static let emojiBlockColor = UIColor(named: "EmojiBlock")
     static let emojiColor = UIColor(named: "emojiColor")
-    
-    //CancelCreateButtonCell
+
+    // CancelCreateButtonCell
     static let createButtonColor = UIColor(named: "addButtonColor")
     static let cancelButtonTextAndBorder = UIColor(named: "RedForBottoms")
     static let createButtonTextColorEnabled = UIColor(named: "createCancelButtonTextColorEnabled")
     static let createButtonTextColorDisabled = UIColor(named: "createCancelButtonTextColorDisabled")
-    
-    //TimetableVC
-    
+
+    // TimetableVC
+
     static let separatorColor = UIColor(named: "separatorColor")
-    
+
     static let gradientBlue = UIColor(named: "gradientBlue")
     static let gradientGreen = UIColor(named: "gradientGreen")
     static let gradientRed = UIColor(named: "gradientRed")

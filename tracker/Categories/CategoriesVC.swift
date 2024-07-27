@@ -81,7 +81,7 @@ final class CategoriesVC: UIViewController {
         view.addSubview(tableView)
         view.addSubview(addButton)
     }
-    private func addSubViewsWithStub(){
+    private func addSubViewsWithStub() {
         view.addSubview(stubView)
         view.addSubview(addButton)
     }
@@ -137,8 +137,8 @@ final class CategoriesVC: UIViewController {
         tableView.removeFromSuperview()
     }
     @objc private func addButtonTapped() {
-        let vc = CreationCategoryVC(viewModel: viewModel)
-        show(vc, sender: self)
+        let viewC = CreationCategoryVC(viewModel: viewModel)
+        show(viewC, sender: self)
     }
 }
 

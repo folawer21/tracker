@@ -55,31 +55,31 @@ final class CreationCategoryVC: UIViewController {
         view.addSubview(nameInput)
         view.addSubview(completeButton)
         NSLayoutConstraint.activate([
-            nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 24),
-            nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
+            nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             nameInput.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameInput.heightAnchor.constraint(equalToConstant: 75),
-            
+
             completeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             completeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             completeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
             completeButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        
+
         nameInput.delegate = self
         nameInput.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func completeButtonTapped(){
+
+    @objc func completeButtonTapped() {
         guard let name = nameInput.text else {return}
         viewModel?.createNewCategory(categoryName: name)
         navigationController?.popViewController(animated: true)
     }
 }
 
-extension CreationCategoryVC: UITextFieldDelegate{
-    @objc private func textFieldDidChange(){
+extension CreationCategoryVC: UITextFieldDelegate {
+    @objc private func textFieldDidChange() {
         viewModel?.textFieldDidChange(categoryName: nameInput.text ?? "")
     }
 }

@@ -7,18 +7,17 @@
 
 import UIKit
 
-protocol EmojiCellsDelegateProtocol: AnyObject{
+protocol EmojiCellsDelegateProtocol: AnyObject {
     func emojiWasChosen()
     func emojiWasUnchosen()
 }
 
-final class EmojiCell: UICollectionViewCell{
+final class EmojiCell: UICollectionViewCell {
     let emoji: UILabel = UILabel()
-    func setupView(text: String){
+    func setupView(text: String) {
         contentView.addSubview(emoji)
         contentView.backgroundColor = Colors.blackBackgroundColor
         emoji.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             emoji.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             emoji.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -33,22 +32,19 @@ final class EmojiCell: UICollectionViewCell{
         emoji.layer.masksToBounds = true
         hideBlock()
     }
-    
-    func showBlock(){
+    func showBlock() {
         emoji.backgroundColor = Colors.emojiBlockColor
     }
-    
-    func hideBlock(){
+    func hideBlock() {
         emoji.backgroundColor = Colors.emojiColor
     }
 }
-
-final class EmojiCells: UICollectionViewCell{
-    let emojes = ["🙂","😻","🌺","🐶","❤️","😱","😇","😡","🥶","🤔","🙌","🍔","🥦","🏓","🥇","🎸","🏝","😪"]
+final class EmojiCells: UICollectionViewCell {
+    let emojes = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     var selectedEmoji: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     weak var delegate: EmojiCellsDelegateProtocol?
-    func setupView(){
+    func setupView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -58,40 +54,43 @@ final class EmojiCells: UICollectionViewCell{
         contentView.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.topAnchor.constraint(equalTo: topAnchor,constant: 24),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 24),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -24)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -24)
         ])
     }
-    func getEmoji() -> String?{
+    func getEmoji() -> String? {
         return selectedEmoji
     }
 }
 
-extension EmojiCells:UICollectionViewDataSource{
+extension EmojiCells: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         emojes.count
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emoji", for: indexPath) as? EmojiCell else {return UICollectionViewCell()}
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "emoji",
+            for: indexPath
+        ) as? EmojiCell else { return UICollectionViewCell() }
         let emoji = emojes[indexPath.row]
         if emoji == selectedEmoji {
             cell.setupView(text: emoji)
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
             cell.isSelected = true
             cell.showBlock()
-            
         } else {
             cell.setupView(text: emoji)
         }
-        
         return cell
     }
-    
 }
 
-extension EmojiCells: UICollectionViewDelegateFlowLayout{
+extension EmojiCells: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCell else {return}
         selectedEmoji = cell.emoji.text
@@ -104,19 +103,28 @@ extension EmojiCells: UICollectionViewDelegateFlowLayout{
         cell.hideBlock()
         delegate?.emojiWasUnchosen()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
         CGSize(width: 52, height: 52)
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         0
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         CGFloat.zero
     }
 }
-

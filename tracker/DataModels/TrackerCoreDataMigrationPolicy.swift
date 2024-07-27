@@ -16,7 +16,7 @@ class TrackerCoreDataMigrationPolicy: NSEntityMigrationPolicy {
                 destinationInstance.setValue(newType, forKey: "type")
             }
         }
-        
+
         if let oldTimetableData = sourceInstance.value(forKey: "timetable") as? NSData {
             if let oldTimetable = try? JSONDecoder().decode([WeekDay].self, from: oldTimetableData as Data) {
                 let newTimetable =  Tracker.timetableToJSON(fromTimetable: oldTimetable)
@@ -27,7 +27,7 @@ class TrackerCoreDataMigrationPolicy: NSEntityMigrationPolicy {
             if attribute.name! == "type" || attribute.name! == "timetable" {
                 continue
             }
-            
+
             if let value = sourceInstance.value(forKey: attribute.name! ) {
                 destinationInstance.setValue(value, forKey: attribute.name!)
             }

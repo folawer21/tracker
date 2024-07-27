@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TimetableCell: UITableViewCell{
+final class TimetableCell: UITableViewCell {
     let switcher = UISwitch()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

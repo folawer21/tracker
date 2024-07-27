@@ -26,7 +26,16 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         button.titleLabel?.textColor = .white
         return button
     }()
-    let texts = [NSLocalizedString("onboard_text_first", comment: ""), NSLocalizedString("onboard_text_second", comment: "")]
+    let texts = [
+        NSLocalizedString(
+            "onboard_text_first",
+            comment: ""
+        ),
+        NSLocalizedString(
+            "onboard_text_second",
+            comment: ""
+        )
+    ]
     let images = [UIImage(named: "1"), UIImage(named: "2")]
     lazy var pages: [UIViewController] = {
         let first = OnboardingPageScreen(text: texts[0])
@@ -66,7 +75,7 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         let tabBarController = MainTabBar()
         window.rootViewController = tabBarController
     }
-    @objc func nextButtonTapped(){
+    @objc func nextButtonTapped() {
         userDefGetter.setSkip(skip: true)
         switchToTabBar()
     }

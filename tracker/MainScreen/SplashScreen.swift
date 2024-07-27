@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class SplashScreen: UIViewController{
-    
+final class SplashScreen: UIViewController {
+
     let userDefaultsGetter = UserDefaultsGetter.shared
-    
-    func switchToTabBar(){
+
+    func switchToTabBar( ){
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid window configuration")
             return
@@ -19,8 +19,8 @@ final class SplashScreen: UIViewController{
         let tabBarController = MainTabBar()
         window.rootViewController = tabBarController
     }
-    
-    func switchToPageVC(){
+
+    func switchToPageVC() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid window configuration")
             return
@@ -28,7 +28,7 @@ final class SplashScreen: UIViewController{
         let pageController = OnboardingPageVC()
         window.rootViewController = pageController
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         if userDefaultsGetter.skip{
             switchToTabBar()
