@@ -39,7 +39,9 @@ final class TrackerCategoryStore: NSObject {
     }
     var filteredCategories: [TrackerCategory] {
         if !searchText.isEmpty {
-            return categories.filter { $0.title.lowercased().contains(searchText.lowercased()) && $0.trackerList.contains(where: { $0.timetable.contains(self.day) })}
+            return categories.filter {
+                $0.title.lowercased().contains(searchText.lowercased()) && $0.trackerList.contains(where: { $0.timetable.contains(self.day) })
+            }
         } else {
             switch filter {
             case .all:
@@ -52,11 +54,21 @@ final class TrackerCategoryStore: NSObject {
                 })
             case .completed:
                 return categories.filter({
-                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == true})
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {
+                        $0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(
+                            id: $0.id,
+                            date: date
+                        ) == true
+                    })
                 })
             case .uncompleted:
                 return categories.filter({
-                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {$0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(id: $0.id, date: date) == false})
+                    $0.trackerList.isEmpty == false && $0.trackerList.contains(where: {
+                        $0.timetable.contains(self.day) && trackerRecord?.isRecordedByDate(
+                            id: $0.id,
+                            date: date
+                        ) == false
+                    })
                 })
             }
         }
@@ -131,6 +143,8 @@ final class TrackerCategoryStore: NSObject {
                    print("Ошибка сохранения контекста: \(error)")
                }
         }
+        print("TrackerCategoryStore: newCategory")
+        print(categories, filteredCategories)
     }
      func getCategoryCoreData(categoryName: String) -> TrackerCategoryCoreData? {
         let request = TrackerCategoryCoreData.fetchRequest()
@@ -208,6 +222,9 @@ extension TrackerCategoryStore: TrackerCategoryStoreProtocol {
     }
     var isEmpty: Bool {
         filteredCategories.isEmpty
+    }
+    var isEmptyForCategories: Bool {
+        categories.isEmpty
     }
     func makeNewCategory(categoryName: String, trackers: [Tracker] = []) {
         self.newCategory(categoryName: categoryName, trackers: trackers)

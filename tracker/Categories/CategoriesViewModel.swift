@@ -30,6 +30,7 @@ class CategoriesViewModel {
         return model.getCategoryNameVC(section: index)
     }
     func createNewCategory(categoryName: String) {
+        print("CategoriesViewModel: createNewCategory")
         setTrackerStore()
         model.newCategory(categoryName: categoryName)
     }
@@ -52,6 +53,6 @@ class CategoriesViewModel {
         }
     }
     func isEmpty() -> Bool {
-        return model.isEmpty
+        return model.isEmptyForCategories
     }
 }

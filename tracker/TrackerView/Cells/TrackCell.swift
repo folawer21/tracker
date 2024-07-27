@@ -34,7 +34,7 @@ final class TrackCell: UICollectionViewCell {
     private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
     weak var delegate: TrackCellDelegateProtocol?
 
-    func configCell(track: Tracker, days: Int, isDone: Bool, availible: Bool, isPinned: Bool ){
+    func configCell(track: Tracker, days: Int, isDone: Bool, availible: Bool, isPinned: Bool ) {
         pinned = isPinned
         setupContextMenu()
         trackerId = track.id
@@ -67,7 +67,7 @@ final class TrackCell: UICollectionViewCell {
             plusButton.layer.opacity = 0.3
             enableButton()
         } else {
-            if availible{
+            if availible {
                 buttonWasTapped = false
                 plusButton.isSelected = false
                 enableButton()
@@ -80,27 +80,27 @@ final class TrackCell: UICollectionViewCell {
         }
     }
 
-    private func configStateSingle(isDone: Bool, availible: Bool ){
+    private func configStateSingle(isDone: Bool, availible: Bool) {
         plusButton.layer.opacity = 1
-        if isDone && availible{
+        if isDone && availible {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             enableButton()
         }
-        if isDone && !availible{
+        if isDone && !availible {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             disableButton()
             plusButton.imageView?.image = doneImage
         }
-        if !isDone && availible{
+        if !isDone && availible {
             buttonWasTapped = false
             plusButton.isSelected = false
             enableButton()
         }
-        if !isDone && !availible{
+        if !isDone && !availible {
             buttonWasTapped = false
             plusButton.isSelected = false
             plusButton.layer.opacity = 0.3
@@ -157,7 +157,7 @@ extension TrackCell {
         emodji.textAlignment = .center
     }
 
-    func translateToFalse( ){
+    func translateToFalse() {
         colorBlock.translatesAutoresizingMaskIntoConstraints = false
         emodji.translatesAutoresizingMaskIntoConstraints = false
         emodjiBlock.translatesAutoresizingMaskIntoConstraints = false
@@ -167,7 +167,7 @@ extension TrackCell {
         plusButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    func addSubViews( ){
+    func addSubViews() {
         contentView.addSubview(colorBlock)
         contentView.addSubview(infoBlock)
         colorBlock.addSubview(emodjiBlock)
@@ -178,7 +178,7 @@ extension TrackCell {
         emodjiBlock.addSubview(emodji)
     }
 
-    func applyConstraints( ){
+    func applyConstraints() {
         NSLayoutConstraint.activate([
             colorBlock.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             colorBlock.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -219,7 +219,7 @@ extension TrackCell {
             plusButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
-    func configButton( ){
+    func configButton() {
         plusButton.setImage(plusImage, for: .normal)
         plusButton.setImage(doneImage, for: .selected)
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -227,7 +227,10 @@ extension TrackCell {
 }
 
 extension TrackCell: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self ] _ in
             var pinString = ""
             if self?.pinned == false {
@@ -254,7 +257,10 @@ extension TrackCell: UIContextMenuInteractionDelegate {
                 })
                 self?.delegate?.deleteTracker(id: self?.trackerId)
             }
-            action3.setValue(NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red), forKey: "attributedTitle")
+            action3.setValue(
+                NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red),
+                forKey: "attributedTitle"
+            )
             return UIMenu(title: "", children: [action1, action2, action3])
         }
     }

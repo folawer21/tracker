@@ -17,7 +17,7 @@ final class TrackerCreatingVC: UIViewController {
     let eventButton: UIButton = UIButton()
     weak var delegate: TrackerCreatingDelegateProtocol?
 
-    private func configHabbitButton( ){
+    private func configHabbitButton() {
         let habbitButtonText = NSLocalizedString("tracker_creating_cell_habbitButton", comment: "")
         habbitButton.backgroundColor = Colors.trackerCreatingVCbuttonsColors
         habbitButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
@@ -28,7 +28,7 @@ final class TrackerCreatingVC: UIViewController {
         habbitButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func configEventButton( ){
+    private func configEventButton() {
         let eventButtonText = NSLocalizedString("tracker_creating_cell_eveneButton", comment: "")
         eventButton.backgroundColor = Colors.trackerCreatingVCbuttonsColors
         eventButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
@@ -39,12 +39,12 @@ final class TrackerCreatingVC: UIViewController {
         eventButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
-    private func addSubViews( ){
+    private func addSubViews() {
         view.addSubview(habbitButton)
         view.addSubview(eventButton)
     }
 
-    private func applyConstraints( ){
+    private func applyConstraints() {
         NSLayoutConstraint.activate([
             habbitButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 395),
             habbitButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
@@ -57,15 +57,14 @@ final class TrackerCreatingVC: UIViewController {
             eventButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
-
     // MARK: Objc func
-    @objc private func showHabbitView( ){
+    @objc private func showHabbitView() {
         let vc = CreateHabbitVC(isEditVC: false)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    @objc private func showEventView( ){
+    @objc private func showEventView() {
         let vc = CreateEventVC(isEditVC: false)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)

@@ -26,7 +26,7 @@ import Foundation
         return try? JSONDecoder().decode([WeekDay].self, from: data as Data)
     }
 
-    static func register( ){
+    static func register() {
         ValueTransformer.setValueTransformer(DaysValueTransformer(), forName: NSValueTransformerName(rawValue: "DaysValueTransformer"))
     }
 }

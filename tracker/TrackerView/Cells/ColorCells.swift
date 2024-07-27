@@ -14,7 +14,7 @@ protocol ColorCellsDelegateProtocol: AnyObject {
 
 final class ColorCell: UICollectionViewCell {
     let color: UIView = UIView()
-    func setupView(cellColor: UIColor ){
+    func setupView(cellColor: UIColor) {
         contentView.addSubview(color)
 
         color.translatesAutoresizingMaskIntoConstraints = false
@@ -33,11 +33,11 @@ final class ColorCell: UICollectionViewCell {
         hideBlock()
     }
 
-    func showBlock( ){
+    func showBlock() {
         contentView.layer.borderColor = color.backgroundColor?.withAlphaComponent(0.3).cgColor
     }
 
-    func hideBlock( ){
+    func hideBlock() {
         contentView.layer.borderColor = Colors.blackBackgroundColor.cgColor
     }
 }
@@ -144,10 +144,18 @@ extension ColorCells: UICollectionViewDelegateFlowLayout {
     ) -> CGFloat {
         0
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
         CGFloat.zero
     }
 }

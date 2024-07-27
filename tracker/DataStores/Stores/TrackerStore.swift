@@ -61,7 +61,7 @@ final class TrackerStore: NSObject {
             let objects = fetchedResultsController.fetchedObjects,
             let trackers = try? objects.map({try self.tracker(from: $0)}) else {
             return []}
-        let filteredTrackers = trackers.filter{ tracker in
+        let filteredTrackers = trackers.filter { tracker in
             tracker.timetable.first(where: {$0.rawValue == self.day.rawValue}) != nil
         }
         return filteredTrackers

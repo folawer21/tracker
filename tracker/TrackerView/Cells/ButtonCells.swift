@@ -60,7 +60,7 @@ extension ButtonCells: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         cell.textLabel?.font = .systemFont(ofSize: 17)
         cell.backgroundColor = Colors.createHabbitEventSecondaryColor
-        if indexPath.row ==  0{
+        if indexPath.row ==  0 {
             if let selectedCategory = selectedCategory {
                 let cellText = NSLocalizedString("buttonCells_category", comment: "")
                 cell.textLabel?.text = cellText

@@ -19,7 +19,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
     var isEditing: Bool = false
     weak var delegate: CreateCancelButtonsDelegateProtocol?
 
-    func setupView( ){
+    func setupView() {
         contentView.addSubview(cancelButton)
         contentView.addSubview(createButton)
         configCancelButton()
@@ -36,7 +36,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
         ])
     }
 
-    func configCreateButton( ){
+    func configCreateButton() {
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(Colors.createButtonTextColorEnabled, for: .normal)
@@ -55,13 +55,13 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
 
     }
 
-    func makeEditingScreen( ){
+    func makeEditingScreen() {
         createButton.titleLabel?.text = NSLocalizedString("save_button", comment: "")
         createButton.removeTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
 
-    func configCancelButton( ){
+    func configCancelButton() {
         cancelButton.backgroundColor = Colors.blackBackgroundColor
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16
@@ -73,19 +73,19 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
     }
 
-    @objc func createButtonTapped( ){
+    @objc func createButtonTapped() {
         delegate?.createButtonTappedDelegate()
     }
 
-    @objc func cancelButtonTapped( ){
+    @objc func cancelButtonTapped() {
         delegate?.cancelButtonTappedDelegate()
     }
 
-    @objc func editButtonTapped( ){
+    @objc func editButtonTapped() {
         delegate?.editButtonTappedDelegate()
     }
 
-    func updateCreateButtonState(isEnabled: Bool ){
+    func updateCreateButtonState(isEnabled: Bool ) {
         createButton.isEnabled = isEnabled
         createButton.backgroundColor = isEnabled ? Colors.createButtonColor : .ypGray
     }

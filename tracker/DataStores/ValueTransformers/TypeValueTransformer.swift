@@ -25,7 +25,10 @@ import Foundation
         return try? JSONDecoder().decode(TrackerType.self, from: data as Data)
     }
 
-    static func register( ){
-        ValueTransformer.setValueTransformer(TypeValueTransformer(), forName: NSValueTransformerName(rawValue: "TypeValueTransformer"))
+    static func register() {
+        ValueTransformer.setValueTransformer(
+            TypeValueTransformer(),
+            forName: NSValueTransformerName(rawValue: "TypeValueTransformer")
+        )
     }
 }

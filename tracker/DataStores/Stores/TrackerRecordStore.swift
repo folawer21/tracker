@@ -183,7 +183,7 @@ extension TrackerRecordStore: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
         updatedIndexes = IndexSet()
     }
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult> ){
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult> ) {
         guard let indexes = updatedIndexes else {fatalError()}
         delegate?.update(self, didUpdate: TrackerRecordStoreUpdate(updatedIndexed: indexes))
         updatedIndexes = nil

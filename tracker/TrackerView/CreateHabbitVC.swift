@@ -21,7 +21,7 @@ final class CreateHabbitVC: UIViewController {
     private var selectedTimetable: [WeekDay]?
     var selectedCategory: String?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil ){
+    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil ) {
         self.isEditVC = isEditVC
         self.tracker = tracker
         self.categoryName = categoryName
@@ -46,7 +46,11 @@ final class CreateHabbitVC: UIViewController {
         collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")
         collectionView.register(ColorCells.self, forCellWithReuseIdentifier: "ColorCells")
         collectionView.register(CreateCancelButtonsCells.self, forCellWithReuseIdentifier: "CreateCancelButtons")
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(
+            SupplementaryView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "header"
+        )
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -118,7 +122,10 @@ extension CreateHabbitVC: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else {return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "TextField",
+                for: indexPath
+            ) as? TrackNameCell else {return UICollectionViewCell()}
             cell.textFieldDelegate = self
             if isEditVC {
                 cell.textField.text = tracker?.name

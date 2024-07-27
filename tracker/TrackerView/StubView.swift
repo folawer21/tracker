@@ -40,12 +40,12 @@ final class StubView: UIView {
         return textLabel
     }()
 
-    func addViews( ){
+    func addViews() {
         self.addSubview(imageView)
         self.addSubview(textLabel)
     }
 
-    func activateConstraints( ){
+    func activateConstraints() {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 220),

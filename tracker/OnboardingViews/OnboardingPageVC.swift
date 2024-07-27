@@ -92,7 +92,10 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         }
         return pages[prevIndex]
     }
-    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+    func pageViewController(
+        _ pageViewController: UIPageViewController,
+        viewControllerAfter viewController: UIViewController
+    ) -> UIViewController? {
         guard let index = pages.firstIndex(of: viewController) else {
             return nil
         }

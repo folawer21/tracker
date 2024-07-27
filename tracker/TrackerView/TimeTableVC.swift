@@ -21,13 +21,13 @@ final class TimeTableVC: UIViewController {
     var switchersTappedIndexes: [Int] = []
     weak var delegate: TimeTableVcDelegateProtocol?
 
-    @objc func doneButtonTapped( ){
+    @objc func doneButtonTapped() {
         delegate?.setDays(days: selectedDays)
         delegate?.timetableSetted(flag: !selectedDays.isEmpty)
         navigationController?.popViewController(animated: true)
 }
 
-    func configTableView( ){
+    func configTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
@@ -37,7 +37,7 @@ final class TimeTableVC: UIViewController {
         tableView.layer.cornerRadius = 16
     }
 
-    func configButton( ){
+    func configButton() {
         doneButton.setTitle(NSLocalizedString("timetable_vc_button", comment: ""), for: .normal)
         doneButton.backgroundColor = Colors.addButtonColor
         doneButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)
@@ -69,10 +69,10 @@ final class TimeTableVC: UIViewController {
             doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
     }
-    func addDay(day: String ){
+    func addDay(day: String) {
         selectedDays.append(day)
     }
-    @objc func switcherTapped(sender: UISwitch ){
+    @objc func switcherTapped(sender: UISwitch) {
         guard let day = sender.userActivity?.userInfo?["day"] as? String else {
             return}
         switch day {
@@ -99,7 +99,10 @@ final class TimeTableVC: UIViewController {
 extension TimeTableVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "day", for: indexPath) as? TimetableCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "day",
+            for: indexPath
+        ) as? TimetableCell else {return UITableViewCell()}
         cell.textLabel?.text = days[indexPath.row]
         cell.backgroundColor = Colors.createHabbitEventSecondaryColor
         cell.textLabel?.textColor = Colors.stubTextLabelColor

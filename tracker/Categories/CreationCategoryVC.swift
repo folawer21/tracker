@@ -73,6 +73,7 @@ final class CreationCategoryVC: UIViewController {
 
     @objc func completeButtonTapped() {
         guard let name = nameInput.text else {return}
+        print("CreationCategoryVC: completeButtonTapped")
         viewModel?.createNewCategory(categoryName: name)
         navigationController?.popViewController(animated: true)
     }

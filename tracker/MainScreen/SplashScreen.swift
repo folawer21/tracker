@@ -11,7 +11,7 @@ final class SplashScreen: UIViewController {
 
     let userDefaultsGetter = UserDefaultsGetter.shared
 
-    func switchToTabBar( ){
+    func switchToTabBar() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid window configuration")
             return
@@ -30,7 +30,7 @@ final class SplashScreen: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if userDefaultsGetter.skip{
+        if userDefaultsGetter.skip {
             switchToTabBar()
         } else {
             switchToPageVC()

@@ -22,7 +22,7 @@ final class CreateEventVC: UIViewController {
     weak var delegate: CreateEventDelegateProtocol?
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
-    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil ){
+    init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil) {
         self.isEditVC = isEditVC
         self.tracker = tracker
         self.categoryName = categoryName
@@ -48,7 +48,11 @@ final class CreateEventVC: UIViewController {
         collectionView.register(EmojiCells.self, forCellWithReuseIdentifier: "EmojiCells")
         collectionView.register(ColorCells.self, forCellWithReuseIdentifier: "ColorCells")
         collectionView.register(CreateCancelButtonsCells.self, forCellWithReuseIdentifier: "CreateCancelButtons")
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(
+            SupplementaryView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "header"
+        )
     }
 
     required init?(coder: NSCoder) {
@@ -94,17 +98,26 @@ final class CreateEventVC: UIViewController {
 }
 
 extension CreateEventVC: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TextField", for: indexPath) as? TrackNameCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "TextField",
+                for: indexPath
+            ) as? TrackNameCell else { return UICollectionViewCell() }
             cell.textFieldDelegate = self
             if isEditVC {
                 cell.textField.text = tracker?.name
             }
             return cell
         case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EventCell", for: indexPath) as? EventCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "EventCell",
+                for: indexPath
+            ) as? EventCell else { return UICollectionViewCell() }
             cell.delegate = self
             if isEditVC {
                 guard let tracker = tracker,
@@ -114,7 +127,10 @@ extension CreateEventVC: UICollectionViewDataSource {
             cell.setVM(vm: viewModel)
             return cell
         case 2:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCells", for: indexPath) as? EmojiCells else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "EmojiCells",
+                for: indexPath
+            ) as? EmojiCells else { return UICollectionViewCell()}
             cell.delegate = self
             cell.setupView()
             if isEditVC {
@@ -123,7 +139,10 @@ extension CreateEventVC: UICollectionViewDataSource {
             }
             return cell
         case 3:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCells", for: indexPath) as? ColorCells else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "ColorCells",
+                for: indexPath
+            ) as? ColorCells else { return UICollectionViewCell() }
             cell.delegate = self
             cell.setupView()
             if isEditVC {
@@ -132,7 +151,10 @@ extension CreateEventVC: UICollectionViewDataSource {
             }
             return cell
         case 4:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CreateCancelButtons", for: indexPath) as? CreateCancelButtonsCells else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "CreateCancelButtons",
+                for: indexPath
+            ) as? CreateCancelButtonsCells else { return UICollectionViewCell() }
             if isEditVC {
                 cell.isEditing = true
             }
@@ -154,47 +176,75 @@ extension CreateEventVC: UICollectionViewDataSource {
 }
 
 extension CreateEventVC: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if indexPath.section ==  1{
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        if indexPath.section ==  1 {
             return CGSize(width: collectionView.bounds.width, height: 75)
         } else if indexPath.section == 2 || indexPath.section == 3 {
             return CGSize(width: collectionView.bounds.width, height: 204)
-        } else if indexPath.section ==  4{
+        } else if indexPath.section ==  4 {
             return CGSize(width: collectionView.bounds.width, height: 60)
         } else {
             return CGSize(width: collectionView.bounds.width, height: 75)
         }
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
         return CGFloat.zero
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if section ==  1{
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        if section ==  1 {
             let sectionInsets = UIEdgeInsets(top: 24, left: 0, bottom: 32, right: 0)
             return sectionInsets
-        } else if section ==  2{
+        } else if section ==  2 {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if indexPath.section ==  2{
-            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if indexPath.section ==  2 {
+            guard let view = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath
+            ) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Emoji"
             view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
-        } else if indexPath.section ==  3{
-            guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? SupplementaryView else {return UICollectionReusableView()}
+        } else if indexPath.section ==  3 {
+            guard let view = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: "header",
+                for: indexPath
+            ) as? SupplementaryView else {return UICollectionReusableView()}
             view.titleLabel.text = "Цвет"
             view.titleLabel.textColor = Colors.headerCollectionViewColor
             return view
         }
         return UICollectionReusableView()
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 2 || section ==  3{
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        if section == 2 || section ==  3 { 
             return CGSize(width: collectionView.frame.width, height: 18)
 
         } else {
@@ -204,7 +254,7 @@ extension CreateEventVC: UICollectionViewDelegateFlowLayout {
 }
 
 extension CreateEventVC: TrackNameCellDelegateProtocol {
-    func updateCreateButtonState(isEnabled: Bool ){
+    func updateCreateButtonState(isEnabled: Bool) {
         guard let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 4)) as? CreateCancelButtonsCells else {
             return}
         cell.updateCreateButtonState(isEnabled: isEnabled)
@@ -253,12 +303,20 @@ extension CreateEventVC: CreateCancelButtonsDelegateProtocol {
         let createdAt = Date()
         let id = UUID()
         let type = TrackerType.single
-        let tracker = Tracker(id: id, type: type, name: name, emoji: emoji, color: color, createdAt: createdAt, timetable: timetable)
+        let tracker = Tracker(
+            id: id,
+            type: type,
+            name: name,
+            emoji: emoji,
+            color: color,
+            createdAt: createdAt,
+            timetable: timetable
+        )
         delegate?.addNewTracker(tracker: tracker, categoryName: categoryName)
         dismiss(animated: true)
     }
 
-    func cancelButtonTappedDelegate( ){
+    func cancelButtonTappedDelegate() {
         dismiss(animated: true)
     }
     func editButtonTappedDelegate() {

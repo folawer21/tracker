@@ -8,8 +8,15 @@
 import CoreData
 
 class TrackerCoreDataMigrationPolicy: NSEntityMigrationPolicy {
-    override func createDestinationInstances(forSource sourceInstance: NSManagedObject, in mapping: NSEntityMapping, manager: NSMigrationManager) throws {
-        let destinationInstance = NSEntityDescription.insertNewObject(forEntityName: mapping.destinationEntityName!, into: manager.destinationContext)
+    override func createDestinationInstances(
+        forSource sourceInstance: NSManagedObject,
+        in mapping: NSEntityMapping,
+        manager: NSMigrationManager
+    ) throws {
+        let destinationInstance = NSEntityDescription.insertNewObject(
+            forEntityName: mapping.destinationEntityName!,
+            into: manager.destinationContext
+        )
         if let oldTypeData = sourceInstance.value(forKey: "type") as? NSData {
             if let oldType = try? JSONDecoder().decode(TrackerType.self, from: oldTypeData as Data) {
                 let newType = Tracker.typeToJSON(fromType: oldType)
