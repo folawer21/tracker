@@ -111,7 +111,10 @@ final class TrackerViewController: UIViewController {
         view.backgroundColor = Colors.blackBackgroundColor
     }
     override func viewWillAppear(_ animated: Bool) {
-        if trackerStore?.isEmpty == true {
+        checkIsEmpty()
+    }
+    private func checkIsEmpty() {
+        if categoriesStore?.numberOfSections == nil || categoriesStore?.numberOfSections == 0 {
             buildWithStub()
         } else {
             buildWithTracks()
@@ -209,11 +212,11 @@ final class TrackerViewController: UIViewController {
     }
 
     private func getDayOfWeek(from date: Date) -> String {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEEE"
-            let dayInWeek = dateFormatter.string(from: date)
-            return dayInWeek
-        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let dayInWeek = dateFormatter.string(from: date)
+        return dayInWeek
+    }
     private func dayEnumFromDay(day: String) -> WeekDay {
         switch day {
         case "понедельник":
@@ -272,7 +275,9 @@ extension TrackerViewController: UICollectionViewDataSource {
                 date: currentDate
             ),
                   let daysCount = trackerRecordStore?.getTrackerDoneCount(id: tracker.id),
-                  let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else { return UICollectionViewCell()}
+                  let isPinned = categoriesStore?.isPinnedById(
+                    trackerId: tracker.id
+                  ) else { return UICollectionViewCell()}
             cell.configCell(
                 track: tracker,
                 days: daysCount,
@@ -283,7 +288,9 @@ extension TrackerViewController: UICollectionViewDataSource {
         }
         if type == .single {
             guard let isDone = trackerRecordStore?.singleIsDone(id: tracker.id),
-                  let isPinned = categoriesStore?.isPinnedById(trackerId: tracker.id) else {return UICollectionViewCell()}
+                  let isPinned = categoriesStore?.isPinnedById(
+                    trackerId: tracker.id
+                  ) else {return UICollectionViewCell()}
             let daysCount = isDone ? 1 : 0
             cell.configCell(track: tracker, days: daysCount, isDone: isDone, availible: available, isPinned: isPinned)
         }
@@ -458,5 +465,6 @@ extension TrackerViewController: FiltresVCDelegateProtocol {
             categoriesStore?.setFilter(filter: .uncompleted)
             collectionView.reloadData()
         }
+        checkIsEmpty()
     }
 }
