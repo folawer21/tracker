@@ -29,13 +29,17 @@ enum EventItems: String {
 
 struct AnalyticsService {
     static func activate() {
-        guard let configuration = YMMYandexMetricaConfiguration(apiKey: "e97b0212-b480-487f-aa4b-c9684831b59f") else { return }
+        guard let configuration = YMMYandexMetricaConfiguration(
+            apiKey: "e97b0212-b480-487f-aa4b-c9684831b59f"
+        ) else { return }
         YMMYandexMetrica.activate(with: configuration)
     }
-
-    func report(event: Events, screen: Screens , item: EventItems? = nil) {
+    func report(event: Events, screen: Screens, item: EventItems? = nil) {
         let params = ["screen" : screen.rawValue , "item" : item?.rawValue]
-        YMMYandexMetrica.reportEvent(event.rawValue, parameters: params, onFailure: { error in
+        YMMYandexMetrica.reportEvent(event.rawValue,
+                                     parameters: params,
+                                     onFailure: {
+            error in
             print("REPORT ERROR: %@", error.localizedDescription)
         })
     }
