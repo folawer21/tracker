@@ -9,13 +9,12 @@ import UIKit
 import YandexMobileMetrica
 
 final class TrackerViewController: UIViewController {
-    var categories: [TrackerCategory] = []
-    var filteredCategories: [TrackerCategory] = []
+    private let analiticsService = AnalyticsService()
     var currentDate: Date = Date()
     var chosenFilter: Filtres = .all
-    let datePicker = UIDatePicker()
-    let imageView = UIImageView()
-    let filterButton = {
+    private let datePicker = UIDatePicker()
+    private let imageView = UIImageView()
+    private let filterButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("filter_button", comment: ""), for: .normal)
         button.setTitleColor(Colors.white, for: .normal)
@@ -24,9 +23,9 @@ final class TrackerViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    let calendar = Calendar.current
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    let stubView = StubView(
+    private let calendar = Calendar.current
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let stubView = StubView(
         frame: CGRect.zero,
         title: NSLocalizedString("emptyState.title", comment: ""),
         imageName: "stubView"
@@ -34,7 +33,7 @@ final class TrackerViewController: UIViewController {
     var trackerStore: TrackerStoreProtocol?
     var categoriesStore: TrackerCategoryStoreProtocol?
     var trackerRecordStore: TrackerRecordStoreProtocol?
-    var stubViewActive: Bool = true
+    private var stubViewActive: Bool = true
     private func buildWithStub() {
         removeCollection()
         stubView.frame = self.view.safeAreaLayoutGuide.layoutFrame
@@ -121,16 +120,10 @@ final class TrackerViewController: UIViewController {
         }
     }
     override func viewDidAppear(_ animated: Bool) {
-        let params: [AnyHashable: Any] = ["screen": "Main"]
-        YMMYandexMetrica.reportEvent("open", parameters: params, onFailure: { error in
-            print("REPORT ERROR: %@", error.localizedDescription)
-        })
+        analiticsService.report(event: .open, screen: .main)
     }
     override func viewDidDisappear(_ animated: Bool) {
-        let params: [AnyHashable: Any] = ["screen": "Main"]
-        YMMYandexMetrica.reportEvent("close", parameters: params, onFailure: { error in
-            print("REPORT ERROR: %@", error.localizedDescription)
-        })
+        analiticsService.report(event: .close, screen: .main)
     }
     @objc func addButtonTapped() {
         let viewc = TrackerCreatingVC()
@@ -147,10 +140,7 @@ final class TrackerViewController: UIViewController {
         viewc.delegate = self
         viewc.chosenFilter = chosenFilter
         let navVc = UINavigationController(rootViewController: viewc)
-        let params: [AnyHashable: Any] = ["screen": "Main", "item": "filter"]
-        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
-            print("REPORT ERROR: %@", error.localizedDescription)
-        })
+        analiticsService.report(event: .click, screen: .main, item: .filter)
         navigationController?.present(navVc, animated: true)
     }
     private func buildNavBar() {

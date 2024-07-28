@@ -17,6 +17,7 @@ protocol TrackCellDelegateProtocol: AnyObject {
 }
 
 final class TrackCell: UICollectionViewCell {
+    private let analyticService = AnalyticsService()
     // Цветной блок
     private let colorBlock = UIView()
     private let emodji = UILabel()
@@ -123,9 +124,7 @@ final class TrackCell: UICollectionViewCell {
     @objc func buttonTapped() {
         guard let id = trackerId else {return}
         let params: [AnyHashable: Any] = ["screen": "Main", "item": "track"]
-        YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
-            print("REPORT ERROR: %@", error.localizedDescription)
-        })
+        analyticService.report(event: .click, screen: .main, item: .track)
         if buttonWasTapped {
             delegate?.deleteTrackerRecord(id: id)
         } else {
@@ -238,30 +237,25 @@ extension TrackCell: UIContextMenuInteractionDelegate {
             } else {
                 pinString = NSLocalizedString("unpin_cell", comment: "")
             }
-            let action1 = UIAction(title: pinString ) { [weak self] _ in
+            let pinAction = UIAction(title: pinString ) { [weak self] _ in
                 guard let self = self else {return }
                 self.delegate?.pinTracker(id: self.trackerId, pinned: self.pinned)
                 self.togglePinned()
             }
-            let action2 = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] _ in
-                let params: [AnyHashable: Any] = ["screen": "Main", "item": "edit"]
-                YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
-                    print("REPORT ERROR: %@", error.localizedDescription)
-                })
+            let editAction = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] _ in
+                self?.analyticService.report(event: .click, screen: .main, item: .edit)
                 self?.delegate?.editTracker(id: self?.trackerId)
             }
-            let action3 = UIAction(title: "") { [weak self] _ in
+            let deleteAction = UIAction(title: "") { [weak self] _ in
                 let params: [AnyHashable: Any] = ["screen": "Main", "item": "delete"]
-                YMMYandexMetrica.reportEvent("click", parameters: params, onFailure: { error in
-                    print("REPORT ERROR: %@", error.localizedDescription)
-                })
+                self?.analyticService.report(event: .click, screen: .main, item: .delete)
                 self?.delegate?.deleteTracker(id: self?.trackerId)
             }
-            action3.setValue(
+            deleteAction.setValue(
                 NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red),
                 forKey: "attributedTitle"
             )
-            return UIMenu(title: "", children: [action1, action2, action3])
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
         }
     }
 }
