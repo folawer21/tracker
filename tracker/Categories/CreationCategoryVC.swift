@@ -7,29 +7,31 @@
 
 import UIKit
 
-final class CreationCategoryVC: UIViewController{
+final class CreationCategoryVC: UIViewController {
     weak var viewModel: CategoriesViewModel?
-    
-    let nameInput = {
+    private let nameInput = {
         let field = UITextField()
-        field.placeholder = "Введите название категории"
-        field.backgroundColor = UIColor(named: "greyForCollection")
+        let inputName = NSLocalizedString("creation_categoty_field", comment: "")
+        field.placeholder = inputName
+        field.backgroundColor = Colors.createHabbitEventSecondaryColor
         field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.cornerRadius = 16
         field.indent(size: 16)
         return field
     }()
-    
-    let completeButton = {
+    private let completeButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
         button.backgroundColor = UIColor(named: "greyForCollection")
-        button.isUserInteractionEnabled = false
-        button.setTitle("Готово", for: .normal)
+        let buttonText = NSLocalizedString("creation_categoty_button", comment: "")
+        button.isEnabled = false
+        button.setTitle(buttonText, for: .normal)
+        button.setTitleColor(.white, for: .disabled)
+        button.setTitleColor(Colors.blackBackgroundColor, for: .normal)
+        button.backgroundColor = .ypGray
         return button
     }()
-    
     init(viewModel: CategoriesViewModel?) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -37,51 +39,51 @@ final class CreationCategoryVC: UIViewController{
             self?.setCompleteButton(enabled: isCreationAllowed)
         }
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setCompleteButton(enabled: Bool){
-        completeButton.isUserInteractionEnabled = enabled
-        completeButton.backgroundColor = enabled ? .black : .lightGray
+    private func setCompleteButton(enabled: Bool) {
+        completeButton.isEnabled = enabled
+        completeButton.backgroundColor = completeButton.isEnabled ? Colors.addButtonColor : .ypGray
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        let navigationTitleText = NSLocalizedString("creation_categoty_navtitle", comment: "")
         navigationItem.leftBarButtonItem = UIBarButtonItem()
-        navigationItem.title = "Новая категория"
-        view.backgroundColor = .white
-        
+        navigationItem.title = navigationTitleText
+        view.backgroundColor = Colors.blackBackgroundColor
         view.addSubview(nameInput)
         view.addSubview(completeButton)
-        
         NSLayoutConstraint.activate([
-            nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 24),
-            nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 16),
+            nameInput.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             nameInput.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameInput.heightAnchor.constraint(equalToConstant: 75),
-            
             completeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             completeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             completeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
             completeButton.heightAnchor.constraint(equalToConstant: 60)
         ])
-        
+
         nameInput.delegate = self
         nameInput.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        nameInput.returnKeyType = .done
         completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func completeButtonTapped(){
+
+    @objc func completeButtonTapped() {
         guard let name = nameInput.text else {return}
         viewModel?.createNewCategory(categoryName: name)
         navigationController?.popViewController(animated: true)
     }
 }
 
-extension CreationCategoryVC: UITextFieldDelegate{
-    @objc private func textFieldDidChange(){
+extension CreationCategoryVC: UITextFieldDelegate {
+    @objc private func textFieldDidChange() {
         viewModel?.textFieldDidChange(categoryName: nameInput.text ?? "")
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        nameInput.resignFirstResponder()
+        return true
     }
 }

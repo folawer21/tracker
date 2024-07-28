@@ -6,70 +6,73 @@
 //
 //
 import UIKit
+import YandexMobileMetrica
 
-//enum ButtonStates{
-//    case doneToday
-//    case singleDone
-//    case unavailibleDateLateer
-//    case availible
-//}
-
-protocol TrackCellDelegateProtocol: AnyObject{
+protocol TrackCellDelegateProtocol: AnyObject {
     func deleteTrackerRecord(id: UUID)
     func addTrackerRecord(id: UUID)
-//    func buttonTapped(id:UUID)
+    func deleteTracker(id: UUID?)
+    func editTracker(id: UUID?)
+    func pinTracker(id: UUID?, pinned: Bool)
 }
 
-final class TrackCell: UICollectionViewCell{
-    //Цветной блок
+final class TrackCell: UICollectionViewCell {
+    private let analyticService = AnalyticsService()
+    // Цветной блок
     private let colorBlock = UIView()
     private let emodji = UILabel()
     private let emodjiBlock = UIView()
     private let nameLabel = UILabel()
-
-    //Белый блок
+    private let pinImage = UIImageView()
+    // Белый блок
     private let infoBlock = UIView()
-//    var daysCount: Int = 0
     let daysLabel = UILabel()
     let plusButton = UIButton()
     var buttonWasTapped = false
     var trackerId: UUID?
+    var pinned = false
     private let plusImage = UIImage(named: "plus")?.withRenderingMode(.alwaysTemplate)
     private let doneImage = UIImage(named: "Done")?.withRenderingMode(.alwaysTemplate)
-    
-
     weak var delegate: TrackCellDelegateProtocol?
-    
-    func configCell(track: Tracker,days: Int,isDone:Bool,availible:Bool){
+
+    func configCell(track: Tracker, days: Int, isDone: Bool, availible: Bool, isPinned: Bool ) {
+        pinned = isPinned
+        setupContextMenu()
         trackerId = track.id
         emodji.text = track.emoji
         nameLabel.text = track.name
-//        daysLabel.text = "0 дней"
         colorBlock.backgroundColor = track.color
         plusButton.tintColor = track.color
         configScreen()
-        if track.type == .habbit{
+        if track.type == .habbit {
             configStateHabbit(isDone: isDone, availible: availible)
         }
-        if track.type == .single{
+        if track.type == .single {
             configStateSingle(isDone: isDone, availible: availible)
         }
         changeText(daysCount: days)
     }
-    
-    private func configStateHabbit(isDone:Bool,availible:Bool){
+
+    private func setupContextMenu() {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        self.addInteraction(interaction)
+    }
+    func togglePinned() {
+        self.pinned.toggle()
+    }
+    private func configStateHabbit(isDone: Bool, availible: Bool ) {
         plusButton.layer.opacity = 1
-        if isDone{
+        if isDone {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             enableButton()
-        }else{
-            if availible{
+        } else {
+            if availible {
                 buttonWasTapped = false
                 plusButton.isSelected = false
                 enableButton()
-            }else{
+            } else {
                 buttonWasTapped = false
                 plusButton.isSelected = false
                 plusButton.layer.opacity = 0.3
@@ -77,135 +80,83 @@ final class TrackCell: UICollectionViewCell{
             }
         }
     }
-    
-    private func configStateSingle(isDone:Bool,availible:Bool){
+
+    private func configStateSingle(isDone: Bool, availible: Bool) {
         plusButton.layer.opacity = 1
-        
-        print(isDone,availible)
-        
-        
-        if isDone && availible{
-            print(1)
+        if isDone && availible {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             enableButton()
         }
-        if isDone && !availible{
-            print(2)
-
+        if isDone && !availible {
             buttonWasTapped = true
             plusButton.isSelected = true
             plusButton.layer.opacity = 0.3
             disableButton()
             plusButton.imageView?.image = doneImage
         }
-        if !isDone && availible{
-            print(3)
+        if !isDone && availible {
             buttonWasTapped = false
             plusButton.isSelected = false
             enableButton()
         }
-        if !isDone && !availible{
-            print(4)
+        if !isDone && !availible {
             buttonWasTapped = false
             plusButton.isSelected = false
             plusButton.layer.opacity = 0.3
             disableButton()
         }
     }
-
-  
-    
-    private func changeText(daysCount: Int){
-        let flag = daysCount % 10
-        switch flag{
-        case 1:
-            daysLabel.text = "\(daysCount) день"
-        case 2,3,4:
-            daysLabel.text = "\(daysCount) дня"
-        default:
-            daysLabel.text = "\(daysCount) дней"
-        }
+    private func changeText(daysCount: Int) {
+        let daysString = String.localizedStringWithFormat(
+            NSLocalizedString("number_of_days", comment: ""),
+            daysCount
+        )
+        daysLabel.text = daysString
     }
-    
-    
-    
-    
-//    func buttonAlreadyTapped(){
-//        plusButton.layer.opacity = 0.3
-//        plusButton.isSelected = true
-//        buttonWasTapped = true
-//    }
-//    func buttonDidntTapped(){
-//        buttonWasTapped = false
-//        plusButton.isSelected = false
-//        plusButton.layer.opacity = 1
-//    }
-//    
-    func enableButton(){
+    func enableButton() {
         plusButton.isEnabled = true
     }
-    
-    func disableButton(){
+    func disableButton() {
         plusButton.isEnabled = false
     }
-   
-    
-    @objc func buttonTapped(){
-//        if buttonWasTapped{
-//            daysCount -= 1
-//            changeText()
-//            plusButton.isSelected = false
-//            buttonWasTapped = false
-//            plusButton.layer.opacity = 1
-//            guard let id = tracker?.id else {
-//                print("[buttonTapped] TrackCell - unable to get Id ")
-//                return
-//            }
-//            delegate?.deleteTrackerRecord(id: id)
-//        }else{
-//            daysCount += 1
-//            changeText()
-//            plusButton.isSelected = true
-//            plusButton.layer.opacity = 0.3
-//            buttonWasTapped = true
-//            guard let id = tracker?.id else {
-//                print("[buttonTapped] TrackCell - unable to get Id ")
-//                return
-//            }
-//            delegate?.addTrackerRecord(id: id)
-//        }
+    @objc func buttonTapped() {
         guard let id = trackerId else {return}
-        if buttonWasTapped{
+        let params: [AnyHashable: Any] = ["screen": "Main", "item": "track"]
+        analyticService.report(event: .click, screen: .main, item: .track)
+        if buttonWasTapped {
             delegate?.deleteTrackerRecord(id: id)
-        }else{
+        } else {
             delegate?.addTrackerRecord(id: id)
         }
-        
     }
 }
 
-extension TrackCell{
-    func configScreen(){
+extension TrackCell {
+    func configScreen() {
         addSubViews()
         applyConstraints()
         configButton()
         translateToFalse()
+        pinImage.image = UIImage(named: "pinImage")
+        pinImage.contentMode = .scaleAspectFit
+        pinImage.translatesAutoresizingMaskIntoConstraints = false
+        pinImage.isHidden = !pinned
         emodjiBlock.backgroundColor = .white.withAlphaComponent(0.3)
         emodjiBlock.layer.cornerRadius = 12
         emodjiBlock.layer.masksToBounds = true
         colorBlock.layer.cornerRadius = 16
-        infoBlock.backgroundColor = .white
+        infoBlock.backgroundColor = Colors.blackBackgroundColor
         daysLabel.numberOfLines = 2
-        daysLabel.textColor = .black
+        daysLabel.textColor = Colors.trackCellText
         daysLabel.font = .systemFont(ofSize: 12)
         nameLabel.textColor = .white
         emodji.font =  UIFont.systemFont(ofSize: 14)
         emodji.textAlignment = .center
     }
-    
-    func translateToFalse(){
+
+    func translateToFalse() {
         colorBlock.translatesAutoresizingMaskIntoConstraints = false
         emodji.translatesAutoresizingMaskIntoConstraints = false
         emodjiBlock.translatesAutoresizingMaskIntoConstraints = false
@@ -214,18 +165,19 @@ extension TrackCell{
         daysLabel.translatesAutoresizingMaskIntoConstraints = false
         plusButton.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    func addSubViews(){
+
+    func addSubViews() {
         contentView.addSubview(colorBlock)
         contentView.addSubview(infoBlock)
         colorBlock.addSubview(emodjiBlock)
         colorBlock.addSubview(nameLabel)
+        colorBlock.addSubview(pinImage)
         infoBlock.addSubview(daysLabel)
         infoBlock.addSubview(plusButton)
         emodjiBlock.addSubview(emodji)
     }
-    
-    func applyConstraints(){
+
+    func applyConstraints() {
         NSLayoutConstraint.activate([
             colorBlock.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             colorBlock.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -235,36 +187,81 @@ extension TrackCell{
             infoBlock.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             infoBlock.topAnchor.constraint(equalTo: colorBlock.bottomAnchor),
             infoBlock.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            
+            pinImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            pinImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
+            pinImage.widthAnchor.constraint(equalToConstant: 24),
+            pinImage.heightAnchor.constraint(equalToConstant: 24),
+
             emodjiBlock.leadingAnchor.constraint(equalTo: colorBlock.leadingAnchor, constant: 12),
             emodjiBlock.topAnchor.constraint(equalTo: colorBlock.topAnchor, constant: 12),
             emodjiBlock.heightAnchor.constraint(equalToConstant: 24),
             emodjiBlock.widthAnchor.constraint(equalToConstant: 24),
-            
+
             emodji.centerXAnchor.constraint(equalTo: emodjiBlock.centerXAnchor),
             emodji.centerYAnchor.constraint(equalTo: emodjiBlock.centerYAnchor),
-            
+
             nameLabel.leadingAnchor.constraint(equalTo: colorBlock.leadingAnchor, constant: 12),
             nameLabel.bottomAnchor.constraint(equalTo: colorBlock.bottomAnchor, constant: -12),
             nameLabel.trailingAnchor.constraint(equalTo: colorBlock.trailingAnchor, constant: -12),
             nameLabel.topAnchor.constraint(equalTo: emodjiBlock.bottomAnchor, constant: 8),
-            
-            daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 12),
+
+            daysLabel.leadingAnchor.constraint(equalTo: infoBlock.leadingAnchor, constant: 14),
             daysLabel.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -24),
             daysLabel.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -8),
             daysLabel.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 16),
-            
+
             plusButton.leadingAnchor.constraint(equalTo: daysLabel.trailingAnchor, constant: 8),
             plusButton.topAnchor.constraint(equalTo: infoBlock.topAnchor, constant: 8),
-            plusButton.trailingAnchor.constraint(equalTo: infoBlock.trailingAnchor,constant: -12),
+            plusButton.trailingAnchor.constraint(equalTo: infoBlock.trailingAnchor, constant: -12),
             plusButton.bottomAnchor.constraint(equalTo: infoBlock.bottomAnchor, constant: -16),
             plusButton.widthAnchor.constraint(equalToConstant: 34),
             plusButton.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
-    func configButton(){
+    func configButton() {
         plusButton.setImage(plusImage, for: .normal)
         plusButton.setImage(doneImage, for: .selected)
         plusButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    }
+}
+
+extension TrackCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { [weak self ] _ in
+            var pinString = ""
+            if self?.pinned == false {
+                pinString = NSLocalizedString("pin_cell", comment: "")
+            } else {
+                pinString = NSLocalizedString("unpin_cell", comment: "")
+            }
+            let pinAction = UIAction(title: pinString ) { [weak self] _ in
+                guard let self = self else {return }
+                self.delegate?.pinTracker(id: self.trackerId, pinned: self.pinned)
+                self.togglePinned()
+            }
+            let editAction = UIAction(title: NSLocalizedString("edit_cell", comment: "")) { [weak self] _ in
+                self?.analyticService.report(event: .click, screen: .main, item: .edit)
+                self?.delegate?.editTracker(id: self?.trackerId)
+            }
+            let deleteAction = UIAction(title: "") { [weak self] _ in
+                let params: [AnyHashable: Any] = ["screen": "Main", "item": "delete"]
+                self?.analyticService.report(event: .click, screen: .main, item: .delete)
+                self?.delegate?.deleteTracker(id: self?.trackerId)
+            }
+            deleteAction.setValue(
+                NSAttributedString.coloredString(NSLocalizedString("delete_cell", comment: ""), color: .red),
+                forKey: "attributedTitle"
+            )
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        }
+    }
+}
+
+extension NSAttributedString {
+    static func coloredString(_ text: String, color: UIColor) -> NSAttributedString {
+        return NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: color])
     }
 }

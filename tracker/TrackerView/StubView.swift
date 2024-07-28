@@ -7,50 +7,53 @@
 
 import UIKit
 
-final class StubView: UIView{
+final class StubView: UIView {
 
-    init(frame: CGRect,title: String) {
+    init(frame: CGRect, title: String, imageName: String) {
         super.init(frame: frame)
+        self.backgroundColor = Colors.blackBackgroundColor
+        imageView.image = UIImage(named: imageName)
         textLabel.text = title
         addViews()
         activateConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    let imageView: UIImageView = {
+
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "stubView")
+        imageView.backgroundColor = Colors.blackBackgroundColor
         return imageView
     }()
 
-    let textLabel: UILabel = {
+    private let textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.numberOfLines = 2
         textLabel.textAlignment = .center
+        textLabel.textColor = Colors.stubTextLabelColor
         return textLabel
     }()
-    
-    func addViews(){
+
+    private func addViews() {
         self.addSubview(imageView)
         self.addSubview(textLabel)
     }
-    
-    func activateConstraints(){
+
+    private func activateConstraints() {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 220),
             imageView.widthAnchor.constraint(equalToConstant: 80),
             imageView.heightAnchor.constraint(equalToConstant: 80),
-            
+
             textLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor,constant: 8),
+            textLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 8),
             textLabel.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -220),
             textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             textLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16)
@@ -58,4 +61,3 @@ final class StubView: UIView{
         ])
     }
 }
-

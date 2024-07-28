@@ -7,16 +7,14 @@
 
 import Foundation
 
-final class UserDefaultsGetter{
+final class UserDefaultsGetter {
     static let shared = UserDefaultsGetter()
-    
+
     var skip: Bool {
-        get {
-            return UserDefaults.standard.bool(forKey: "skip")
-        }
+        return UserDefaults.standard.bool(forKey: "skip")
     }
-    
-    func setSkip(skip: Bool){
+
+    func setSkip(skip: Bool ) {
         UserDefaults.standard.setValue(skip, forKey: "skip")
     }
 }

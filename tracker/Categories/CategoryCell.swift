@@ -7,61 +7,55 @@
 
 import UIKit
 
-final class CategoryCell: UITableViewCell{
+final class CategoryCell: UITableViewCell {
     static let cellIdentifier = "CategoryCell"
-    let categoryNameLabel = {
+    private let categoryNameLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.backgroundColor = .clear
+        label.textColor = Colors.addButtonColor
         label.textAlignment = .left
         label.numberOfLines = 2
         return label
     }()
-    let cellView = {
+    private let cellView = {
         let view = UIView()
-        view.backgroundColor = UIColor(named: "greyForCollection")
+        view.backgroundColor = Colors.createHabbitEventSecondaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         return view
     }()
-    
-    var isChosen: Bool = false
-    
-    let chosenImageView = {
+    private var isChosen: Bool = false
+    private let chosenImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isHidden = true
         imageView.image = UIImage(named: "categoryChosenButton")
         return imageView
     }()
-    
-    func makeChosen(){
+    func makeChosen() {
         isChosen = true
         chosenImageView.isHidden = false
     }
-    
-    func makeUnChosen(){
+    func makeUnChosen() {
         isChosen = false
         chosenImageView.isHidden = true
     }
-    func setCategoryNameTitle(name: String){
+    func setCategoryNameTitle(name: String) {
         categoryNameLabel.text = name
     }
-    
-    func setupCell(name: String){
-        contentView.backgroundColor = .white
+    func setupCell(name: String) {
+        contentView.backgroundColor = Colors.blackBackgroundColor
         setCategoryNameTitle(name: name)
         contentView.addSubview(cellView)
         cellView.addSubview(categoryNameLabel)
         cellView.addSubview(chosenImageView)
-        
         NSLayoutConstraint.activate([
             cellView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor , constant: -5),
+            cellView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             cellView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cellView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
             chosenImageView.widthAnchor.constraint(equalToConstant: 24),
             chosenImageView.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
             chosenImageView.heightAnchor.constraint(equalToConstant: 24),
@@ -73,7 +67,6 @@ final class CategoryCell: UITableViewCell{
             categoryNameLabel.trailingAnchor.constraint(equalTo: chosenImageView.leadingAnchor)
         ])
     }
-    
     override func prepareForReuse() {
         isChosen = false
         chosenImageView.isHidden = true

@@ -1,0 +1,74 @@
+/* 
+  Localizable.strings
+  tracker
+
+  Created by Александр  Сухинин on 17.07.2024.
+  
+*/
+"onboard_text_first" = "Track only what you want";
+"onboard_text_second" = "Even if it's not liters of water and yoga";
+"onboard_button_text" = "What a cool technology!";
+
+"stubView_text" = "Habits and events can be \ncombined in meaning";
+"stubView_button_text" = "Add a category";
+
+"categories_nav_title" = "Category";
+
+"creation_categoty_field" = "Enter the category name";
+"creation_categoty_button" = "Done";
+"creation_categoty_navtitle" = "New category";
+
+"monday" = "Mon";
+"tuesday" = "Tue";
+"wednesday" = "Wed";
+"thursday" = "Thu";
+"friday" = "Fri";
+"saturday" = "Sat";
+"sunday" = "Sun";
+
+"trackname_cell_placeholder" = "Enter the tracker's name";
+
+"buttonCells_category" = "Category";
+"buttonCells_timetable" = "Timetable";
+
+"eventCell_category" = "Category";
+
+"createcancel_button_create" = "Create";
+"createcancel_button_cancel" = "Create";
+
+"emptyState.title" = "What we will track?";
+"trackerVc_nav_title" = "Trackers";
+
+"tracker_creating_cell_habbitButton" = "Habbit";
+"tracker_creating_cell_eveneButton" = "Event";
+"tracker_creating_nav_title" = "Creating a tracker";
+
+"create_habbit_vc_nav_title" = "New habbit";
+
+"create_event_vc_nav_title" = "New event";
+
+"timetable_vc_nav_title" = "Timetable";
+"timetable_vc_button" = "Done";
+
+"tab_bar_trackers" = "Trackers";
+"tab_bar_statistics" = "Statistics";
+
+"tracker_viewController_search" = "Search";
+
+"statistics_navigation" = "Statistics";
+"statistics_stub_text" = "Nothing for analyze";
+"pin_cell" = "Pin";
+"unpin_cell" = "Unpin";
+"delete_cell" = "Delete";
+"edit_cell" = "Edit";
+"confirm_delete" = "Delete tracker?";
+"cancel_action" = "Cancel";
+"save_button" = "Save";
+"category_pinned" = "Pinned";
+
+"filter_button" = "Filters";
+
+"all_filter" = "All trackers";
+"today_filter" = "Trackers for today";
+"completed_filter" = "Completed trackers";
+"uncompleted_filter" = "Uncompleted trackers";

@@ -7,9 +7,17 @@
 
 import Foundation
 
-protocol TrackerCategoryStoreProtocol: AnyObject{
+protocol TrackerCategoryStoreProtocol: AnyObject {
     var numberOfSections: Int {get}
-    func makeNewCategory(categoryName: String,trackers: [Tracker])
+    func makeNewCategory(categoryName: String, trackers: [Tracker])
     func getCategoryName(section: Int) -> String
-    
+    func updateCategoriesWithSearch(searchText: String)
+    func getCategoryNameById(by trackerId: UUID) -> String?
+    func pin(trackerId: UUID)
+    func unpin(trackerId: UUID)
+    func isPinnedById(trackerId: UUID) -> Bool
+    func setFilter(filter: Filtres)
+    func setDay(day: WeekDay)
+    func setDate(date: Date)
+    func setRecordStore(recordStore: TrackerRecordStore)
 }
