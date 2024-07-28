@@ -27,7 +27,7 @@ final class TimeTableVC: UIViewController {
         navigationController?.popViewController(animated: true)
 }
 
-    func configTableView() {
+    private func configTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = Colors.createHabbitEventSecondaryColor
@@ -37,7 +37,7 @@ final class TimeTableVC: UIViewController {
         tableView.layer.cornerRadius = 16
     }
 
-    func configButton() {
+    private func configButton() {
         doneButton.setTitle(NSLocalizedString("timetable_vc_button", comment: ""), for: .normal)
         doneButton.backgroundColor = Colors.addButtonColor
         doneButton.setTitleColor(Colors.trackerCreatingVCbuttonsTextColors, for: .normal)

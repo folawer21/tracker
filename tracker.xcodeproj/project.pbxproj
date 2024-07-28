@@ -30,7 +30,6 @@
 		3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */; };
 		3E97BF3B2BCE7FF500CF3A7F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */; };
 		3E97BF422BCE7FF600CF3A7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */; };
-		3E97BF4E2BCE8B4B00CF3A7F /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF4D2BCE8B4B00CF3A7F /* LaunchScreen.swift */; };
 		3E97BF512BCE8F6200CF3A7F /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF502BCE8F6200CF3A7F /* MainTabBar.swift */; };
 		3E97BF532BCE951D00CF3A7F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E97BF522BCE951D00CF3A7F /* Launch Screen.storyboard */; };
 		3E97BF562BCE975700CF3A7F /* TrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E97BF552BCE975700CF3A7F /* TrackerViewController.swift */; };
@@ -106,7 +105,6 @@
 		3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3E97BF412BCE7FF600CF3A7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E97BF462BCE7FF600CF3A7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E97BF4D2BCE8B4B00CF3A7F /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
 		3E97BF502BCE8F6200CF3A7F /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		3E97BF522BCE951D00CF3A7F /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		3E97BF552BCE975700CF3A7F /* TrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewController.swift; sourceTree = "<group>"; };
@@ -292,7 +290,6 @@
 				3E97BF9F2BD021F000CF3A7F /* Models */,
 				3E97BF542BCE96A700CF3A7F /* TrackerView */,
 				3E97BF4F2BCE8F0400CF3A7F /* MainScreen */,
-				3E97BF4C2BCE8B3400CF3A7F /* LaunchScreen */,
 				3E97BF382BCE7FF500CF3A7F /* AppDelegate.swift */,
 				3E97BF3A2BCE7FF500CF3A7F /* SceneDelegate.swift */,
 				3E4758DE2C4F1E5400919EA5 /* Resourses */,
@@ -300,14 +297,6 @@
 				3EA0AAFE2C0D3BF700317403 /* Extensions */,
 			);
 			path = tracker;
-			sourceTree = "<group>";
-		};
-		3E97BF4C2BCE8B3400CF3A7F /* LaunchScreen */ = {
-			isa = PBXGroup;
-			children = (
-				3E97BF4D2BCE8B4B00CF3A7F /* LaunchScreen.swift */,
-			);
-			path = LaunchScreen;
 			sourceTree = "<group>";
 		};
 		3E97BF4F2BCE8F0400CF3A7F /* MainScreen */ = {
@@ -590,7 +579,6 @@
 			files = (
 				3EED72D12C12639C00B55F2F /* TrackerStoreProtocol.swift in Sources */,
 				3E4758E02C4F1E7500919EA5 /* Colors.swift in Sources */,
-				3E97BF4E2BCE8B4B00CF3A7F /* LaunchScreen.swift in Sources */,
 				3EA0AA952C06978000317403 /* TrackNameCell.swift in Sources */,
 				3EED72CF2C12310300B55F2F /* ColorMarshalling.swift in Sources */,
 				3E97BF392BCE7FF500CF3A7F /* AppDelegate.swift in Sources */,

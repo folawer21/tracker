@@ -19,7 +19,7 @@ struct Colors {
 
     // TrackerVC
     static let blackBackgroundColor = UIColor.trackersVCBackground
-    static let datePickerColor =  UIColor(named: "datePickerColor")
+//    static let datePickerColor =  UIColor(named: "datePickerColor")
 
     static let addButtonColor =  UIColor(named: "addButtonColor")
     static let trackCellText = UIColor(named: "addButtonColor")
@@ -59,4 +59,5 @@ struct Colors {
     static let gradientRed = UIColor(named: "gradientRed")
     static let white = UIColor.white
     static let filterBlue = UIColor.blue
+    static let datePickerColor = UIColor(named: "datePicker")
 }

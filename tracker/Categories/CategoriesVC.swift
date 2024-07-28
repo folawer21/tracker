@@ -8,18 +8,18 @@ import UIKit
 final class CategoriesVC: UIViewController {
     weak var viewModel: CategoriesViewModel?
     var chosenCategory: String?
-    let tableView = {
+    private let tableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
         table.backgroundColor = Colors.blackBackgroundColor
         return table
     }()
-    lazy var stubView = StubView(
+    private lazy var stubView = StubView(
         frame: CGRect.zero,
         title: NSLocalizedString("stubView_text", comment: ""),
         imageName: "stubView"
     )
-    let addButton = {
+    private let addButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16

@@ -9,7 +9,7 @@ import UIKit
 
 final class CategoryCell: UITableViewCell {
     static let cellIdentifier = "CategoryCell"
-    let categoryNameLabel = {
+    private let categoryNameLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 17)
@@ -19,15 +19,15 @@ final class CategoryCell: UITableViewCell {
         label.numberOfLines = 2
         return label
     }()
-    let cellView = {
+    private let cellView = {
         let view = UIView()
         view.backgroundColor = Colors.createHabbitEventSecondaryColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         return view
     }()
-    var isChosen: Bool = false
-    let chosenImageView = {
+    private var isChosen: Bool = false
+    private let chosenImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isHidden = true

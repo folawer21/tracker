@@ -7,7 +7,7 @@
 
 import CoreData
 
-class TrackerCoreDataMigrationPolicy: NSEntityMigrationPolicy {
+final class TrackerCoreDataMigrationPolicy: NSEntityMigrationPolicy {
     override func createDestinationInstances(
         forSource sourceInstance: NSManagedObject,
         in mapping: NSEntityMapping,

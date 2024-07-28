@@ -27,17 +27,17 @@ final class TrackerCategoryStore: NSObject {
     private var searchText: String = ""
     var date: Date
     var day: WeekDay
-    var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>
+    private var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>
 
     weak var delegate: TrackerCategoryStoreDelegate?
 
-    var categories: [TrackerCategory] {
+    private var categories: [TrackerCategory] {
         guard let objects = self.fetchedResultsController.fetchedObjects,
               let categories = try? objects.map({try self.category(from: $0)}) else {
             return []}
         return categories
     }
-    var filteredCategories: [TrackerCategory] {
+    private var filteredCategories: [TrackerCategory] {
         if !searchText.isEmpty {
             return categories.filter {
                 $0.title.lowercased().contains(searchText.lowercased()) && $0.trackerList.contains(where: { $0.timetable.contains(self.day) })
@@ -143,8 +143,6 @@ final class TrackerCategoryStore: NSObject {
                    print("Ошибка сохранения контекста: \(error)")
                }
         }
-        print("TrackerCategoryStore: newCategory")
-        print(categories, filteredCategories)
     }
      func getCategoryCoreData(categoryName: String) -> TrackerCategoryCoreData? {
         let request = TrackerCategoryCoreData.fetchRequest()

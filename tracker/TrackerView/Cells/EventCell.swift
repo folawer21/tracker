@@ -13,7 +13,7 @@ protocol EventCellDelegateProtocol: AnyObject {
 }
 
 final class EventCell: UICollectionViewCell {
-    let tableView = UITableView()
+    private let tableView = UITableView()
     weak var viewModel: CategoriesViewModel?
     weak var delegate: EventCellDelegateProtocol?
     var selectedCategory: String?

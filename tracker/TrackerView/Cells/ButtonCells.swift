@@ -16,7 +16,7 @@ protocol ButtonCellDelegateProtocol: AnyObject {
 
 final class ButtonCells: UICollectionViewCell {
     weak var viewModel: CategoriesViewModel?
-    let tableView = UITableView()
+    private let tableView = UITableView()
     var daysArr: [String] = []
     var selectedCategory: String?
     weak var delegate: ButtonCellDelegateProtocol?

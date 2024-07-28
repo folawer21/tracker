@@ -9,7 +9,7 @@ import Foundation
 
 typealias Binding<T> = (T) -> Void
 
-class CategoriesViewModel {
+final class CategoriesViewModel {
     var onCreationAllowedStateChange: Binding<Bool>?
     var onPickedCategoryChanged: Binding<String>?
     private var pickedCategory: String?
@@ -30,7 +30,6 @@ class CategoriesViewModel {
         return model.getCategoryNameVC(section: index)
     }
     func createNewCategory(categoryName: String) {
-        print("CategoriesViewModel: createNewCategory")
         setTrackerStore()
         model.newCategory(categoryName: categoryName)
     }

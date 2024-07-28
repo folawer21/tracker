@@ -9,20 +9,20 @@ import UIKit
 
 final class StatisticsCell: UITableViewCell {
     static let reuseIdentifier = "StatisticsCellReuseIdentifier"
-    let gradientView = {
+    private let gradientView = {
         let view = GradientView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         return view
     }()
-    let blockView = {
+    private let blockView = {
         let view = UIView()
         view.backgroundColor = Colors.blackBackgroundColor
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 16
         return view
     }()
-    let numberLabel = {
+    private let numberLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 34)
@@ -31,7 +31,7 @@ final class StatisticsCell: UITableViewCell {
         label.textAlignment = .left
         return label
     }()
-    let statisticLabel = {
+    private let statisticLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 12)

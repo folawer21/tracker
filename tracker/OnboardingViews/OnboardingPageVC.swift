@@ -8,8 +8,8 @@
 import UIKit
 
 final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    let userDefGetter = UserDefaultsGetter()
-    lazy var pageControl: UIPageControl = {
+    private let userDefGetter = UserDefaultsGetter()
+    private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.numberOfPages = pages.count
         pageControl.currentPage = 0
@@ -18,7 +18,7 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
-    lazy var nextButton: UIButton = {
+    private lazy var nextButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
         button.titleLabel?.textColor = .white
         return button
     }()
-    let texts = [
+    private let texts = [
         NSLocalizedString(
             "onboard_text_first",
             comment: ""
@@ -36,8 +36,8 @@ final class OnboardingPageVC: UIPageViewController, UIPageViewControllerDataSour
             comment: ""
         )
     ]
-    let images = [UIImage(named: "1"), UIImage(named: "2")]
-    lazy var pages: [UIViewController] = {
+    private let images = [UIImage(named: "1"), UIImage(named: "2")]
+    private lazy var pages: [UIViewController] = {
         let first = OnboardingPageScreen(text: texts[0])
         first.backgroundImage.image = images[0]
         let second = OnboardingPageScreen(text: texts[1])

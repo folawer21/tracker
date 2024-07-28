@@ -14,8 +14,8 @@ protocol CreateCancelButtonsDelegateProtocol: AnyObject {
 }
 
 final class CreateCancelButtonsCells: UICollectionViewCell {
-    let createButton = UIButton()
-    let cancelButton = UIButton()
+    private let createButton = UIButton()
+    private let cancelButton = UIButton()
     var isEditing: Bool = false
     weak var delegate: CreateCancelButtonsDelegateProtocol?
 
@@ -36,7 +36,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
         ])
     }
 
-    func configCreateButton() {
+    private func configCreateButton() {
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(Colors.createButtonTextColorEnabled, for: .normal)
@@ -61,7 +61,7 @@ final class CreateCancelButtonsCells: UICollectionViewCell {
         createButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
     }
 
-    func configCancelButton() {
+    private func configCancelButton() {
         cancelButton.backgroundColor = Colors.blackBackgroundColor
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.layer.cornerRadius = 16

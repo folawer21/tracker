@@ -167,8 +167,8 @@ final class TrackerViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
-        datePicker.backgroundColor = Colors.datePickerColor
         datePicker.layer.cornerRadius = 20
+        datePicker.tintColor = Colors.addButtonColor
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self

@@ -20,7 +20,7 @@ final class CreateHabbitVC: UIViewController {
     private var selectedColor: UIColor?
     private var selectedTimetable: [WeekDay]?
     var selectedCategory: String?
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil ) {
         self.isEditVC = isEditVC
         self.tracker = tracker

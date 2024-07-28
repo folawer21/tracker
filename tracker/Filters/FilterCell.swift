@@ -9,15 +9,15 @@ import UIKit
 
 final class FilterCell: UITableViewCell {
     var isChosen: Bool = false
-    let imageName = "categoryChosenButton"
-    let filterNameLabel = {
+    private let imageName = "categoryChosenButton"
+    private let filterNameLabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Colors.addButtonColor
         label.backgroundColor = .clear
         return label
     }()
-    let chosenImageView = {
+    private let chosenImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false

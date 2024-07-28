@@ -8,24 +8,24 @@
 import UIKit
 
 final class StatisticVC: UIViewController {
-    var bestPeriod = 0
-    var perfectDaysCount = 0
-    var completedTrackersCount = 0
-    var meanValue = 0
-    lazy var stubView = StubView(
+    private var bestPeriod = 0
+    private var perfectDaysCount = 0
+    private var completedTrackersCount = 0
+    private var meanValue = 0
+    private lazy var stubView = StubView(
         frame: CGRect.zero,
         title: NSLocalizedString("statistics_stub_text", comment: ""),
         imageName: "stubSmile"
     )
-    var isEmpty = false
-    lazy var statisticsStore = StatisticsStore()
-    let tableView = {
+    private var isEmpty = false
+    private lazy var statisticsStore = StatisticsStore()
+    private let tableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
 
         return table
     }()
-    let statistics = ["Лучший период", "Идеальные дни", "Трекеров завершено", "Среднее значение"]
+    private let statistics = ["Лучший период", "Идеальные дни", "Трекеров завершено", "Среднее значение"]
     override func viewDidLoad() {
         super.viewDidLoad()
         let navItemText = NSLocalizedString("statistics_navigation", comment: "")

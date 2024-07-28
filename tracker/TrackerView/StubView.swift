@@ -22,7 +22,7 @@ final class StubView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .white
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,7 +30,7 @@ final class StubView: UIView {
         return imageView
     }()
 
-    let textLabel: UILabel = {
+    private let textLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = .systemFont(ofSize: 12)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -40,12 +40,12 @@ final class StubView: UIView {
         return textLabel
     }()
 
-    func addViews() {
+    private func addViews() {
         self.addSubview(imageView)
         self.addSubview(textLabel)
     }
 
-    func activateConstraints() {
+    private func activateConstraints() {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 220),

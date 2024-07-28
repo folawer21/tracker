@@ -7,7 +7,7 @@
 import UIKit
 
 final class OnboardingPageScreen: UIViewController {
-    let textLabel = {
+    private let textLabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .boldSystemFont(ofSize: 32)

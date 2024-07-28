@@ -9,7 +9,7 @@ import UIKit
 
 final class CreationCategoryVC: UIViewController {
     weak var viewModel: CategoriesViewModel?
-    let nameInput = {
+    private let nameInput = {
         let field = UITextField()
         let inputName = NSLocalizedString("creation_categoty_field", comment: "")
         field.placeholder = inputName
@@ -19,7 +19,7 @@ final class CreationCategoryVC: UIViewController {
         field.indent(size: 16)
         return field
     }()
-    let completeButton = {
+    private let completeButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
@@ -59,7 +59,6 @@ final class CreationCategoryVC: UIViewController {
             nameInput.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             nameInput.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameInput.heightAnchor.constraint(equalToConstant: 75),
-
             completeButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             completeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             completeButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
@@ -73,7 +72,6 @@ final class CreationCategoryVC: UIViewController {
 
     @objc func completeButtonTapped() {
         guard let name = nameInput.text else {return}
-        print("CreationCategoryVC: completeButtonTapped")
         viewModel?.createNewCategory(categoryName: name)
         navigationController?.popViewController(animated: true)
     }

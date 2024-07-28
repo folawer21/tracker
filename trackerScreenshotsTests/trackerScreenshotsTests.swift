@@ -13,7 +13,9 @@ final class trackerScreenshotsTests: XCTestCase {
 
     func test_MainViewWithStub() {
         let vc = TrackerViewController()
-        assertSnapshot(matching: vc, as: .image)
+        //Что скриншот упал надо менять не просто backgroundView у view, а backgroundView у stubView:
+        //stubView.backgroundColor = .black
+        assertSnapshot(matching: vc,  as: .image)
     }
     
     func test_MainViewWithTrackes() {

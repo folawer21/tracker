@@ -44,7 +44,7 @@ final class ColorCell: UICollectionViewCell {
 
 final class ColorCells: UICollectionViewCell {
 
-    let colores: [UIColor] = [
+    private let colores: [UIColor] = [
         .cellSection1, .cellSection2,
         .cellSection3, .cellSection4,
         .cellSection5, .cellSection6,
@@ -55,7 +55,7 @@ final class ColorCells: UICollectionViewCell {
         .cellSection15, .cellSection16,
         .cellSection17, .cellSection18
     ]
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     var selectedColor: UIColor?
     weak var delegate: ColorCellsDelegateProtocol?
     func setupView() {

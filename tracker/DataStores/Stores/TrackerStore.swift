@@ -25,7 +25,7 @@ final class TrackerStore: NSObject {
     private var insertedIndexes: IndexSet?
     weak var categoryStore: TrackerCategoryStore?
     weak var recordStore: TrackerRecordStore?
-    var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
+    private var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
     private var day: WeekDay
     weak var delegate: TrackerStoreDelegate?
 
@@ -56,7 +56,7 @@ final class TrackerStore: NSObject {
             return []}
        return trackers
     }
-    var trackers: [Tracker] {
+    private var trackers: [Tracker] {
         guard
             let objects = fetchedResultsController.fetchedObjects,
             let trackers = try? objects.map({try self.tracker(from: $0)}) else {
@@ -87,7 +87,7 @@ final class TrackerStore: NSObject {
     func setDay(day: WeekDay ) {
         self.day = day
     }
-    func addNewTracker(tracker: Tracker, category: String) throws {
+    private func addNewTracker(tracker: Tracker, category: String) throws {
         categoryStore?.addTrackerToCategory(tracker: tracker, categoryName: category)
     }
     func getTrackerById(id: UUID) -> Tracker? {

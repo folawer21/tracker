@@ -9,9 +9,7 @@ import Foundation
 import CoreData
 
 final class CDManager {
-
     static let shared = CDManager()
-
     var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }

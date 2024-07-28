@@ -10,9 +10,9 @@ protocol CreateEventDelegateProtocol: AnyObject {
     func deleteTracker(tracker: Tracker)
 }
 final class CreateEventVC: UIViewController {
-    let viewModel = CategoriesViewModel()
-    let cancelButton = UIButton()
-    let createButton = UIButton()
+    private let viewModel = CategoriesViewModel()
+    private let cancelButton = UIButton()
+    private let createButton = UIButton()
     let isEditVC: Bool
     let tracker: Tracker?
     let categoryName: String?
@@ -20,7 +20,7 @@ final class CreateEventVC: UIViewController {
     private var selectedColor: UIColor?
     var selectedCategory: String?
     weak var delegate: CreateEventDelegateProtocol?
-    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 
     init(isEditVC: Bool, tracker: Tracker? = nil, categoryName: String? = nil) {
         self.isEditVC = isEditVC

@@ -9,9 +9,9 @@ import UIKit
 
 final class SplashScreen: UIViewController {
 
-    let userDefaultsGetter = UserDefaultsGetter.shared
+    private let userDefaultsGetter = UserDefaultsGetter.shared
 
-    func switchToTabBar() {
+    private func switchToTabBar() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid window configuration")
             return
@@ -20,7 +20,7 @@ final class SplashScreen: UIViewController {
         window.rootViewController = tabBarController
     }
 
-    func switchToPageVC() {
+    private func switchToPageVC() {
         guard let window = UIApplication.shared.windows.first else {
             assertionFailure("Invalid window configuration")
             return
