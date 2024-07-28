@@ -278,7 +278,7 @@ extension CreateHabbitVC: ButtonCellDelegateProtocol {
 }
 
 extension CreateHabbitVC: TrackNameCellDelegateProtocol {
-    func updateCreateButtonState(isEnabled: Bool ){
+    func updateCreateButtonState(isEnabled: Bool ) {
         guard let cell = collectionView.cellForItem(
             at: IndexPath(item: 0, section: 4)
         ) as? CreateCancelButtonsCells else {
@@ -288,6 +288,9 @@ extension CreateHabbitVC: TrackNameCellDelegateProtocol {
     func textFieldDidChange(text: String) {
         updateButtonEnabling()
     }
+
+
+    
 }
 
 extension CreateHabbitVC: EmojiCellsDelegateProtocol {

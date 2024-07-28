@@ -23,6 +23,7 @@ final class TrackNameCell: UICollectionViewCell {
         textField.backgroundColor = UIColor(named: "TextFieldColor")
         textField.indent(size: 10)
         textField.delegate = self
+        textField.returnKeyType = .done
         textField.backgroundColor = Colors.createHabbitEventSecondaryColor
         contentView.addSubview(textField)
         NSLayoutConstraint.activate([
@@ -50,5 +51,9 @@ extension TrackNameCell: UITextFieldDelegate {
          let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
          textFieldDelegate?.textFieldDidChange(text: newText)
          return true
-     }
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

@@ -67,6 +67,7 @@ final class CreationCategoryVC: UIViewController {
 
         nameInput.delegate = self
         nameInput.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        nameInput.returnKeyType = .done
         completeButton.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
     }
 
@@ -80,5 +81,9 @@ final class CreationCategoryVC: UIViewController {
 extension CreationCategoryVC: UITextFieldDelegate {
     @objc private func textFieldDidChange() {
         viewModel?.textFieldDidChange(categoryName: nameInput.text ?? "")
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        nameInput.resignFirstResponder()
+        return true
     }
 }

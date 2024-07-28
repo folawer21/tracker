@@ -53,11 +53,12 @@ final class CreateEventVC: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "header"
         )
-    }
 
+    }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 
     private func getName() -> String? {
         guard let cell = collectionView.cellForItem(at: IndexPath(row: 0, section: 0)) as? TrackNameCell,
@@ -262,6 +263,7 @@ extension CreateEventVC: TrackNameCellDelegateProtocol {
     func textFieldDidChange(text: String) {
         updateButtonEnabling()
     }
+
 }
 
 extension CreateEventVC: EmojiCellsDelegateProtocol {
